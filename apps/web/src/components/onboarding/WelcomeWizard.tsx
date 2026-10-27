@@ -102,8 +102,8 @@ import { formatRelativeTime } from "../../timestampFormat";
 /**
  * First-run welcome wizard. Rendered over the workspace at `/welcome` on a
  * fresh install (no completed-onboarding flag, empty workspace). Flow per the
- * onboarding overhaul spec: connection choice → sign-in/pair (remote paths) →
- * managed Codex setup or an inline CLI terminal → project import → main screen.
+ * onboarding overhaul spec: connection choice â†’ sign-in/pair (remote paths) â†’
+ * managed Codex setup or an inline CLI terminal â†’ project import â†’ main screen.
  * Every step past the connection gate is skippable; the whole wizard is
  * re-runnable by clearing the flag.
  */
@@ -232,12 +232,12 @@ export function WelcomeWizard({
         initialFocus={() => document.getElementById("onboarding-pairing-url") ?? true}
       >
         <WizardHeader
-          title="Set up T3 Code"
+          title="Set up atQor AI Hub"
           identity={
-            <div className="flex items-baseline gap-1.5" role="img" aria-label="T3 Code">
-              <T3Wordmark className="h-4 w-auto shrink-0" aria-hidden />
+            <div className="flex flex-col items-center gap-1" role="img" aria-label="atQor AI Hub">
+              <T3Wordmark className="h-7 w-auto shrink-0" aria-hidden />
               <span className="text-2xl font-medium tracking-tight text-muted-foreground">
-                Code
+                AI Hub
               </span>
             </div>
           }
@@ -292,7 +292,7 @@ export function WelcomeWizard({
   );
 }
 
-// ── Step 1: connection choice ────────────────────────────────
+// â”€â”€ Step 1: connection choice â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function ConnectionStep({
   autoSelectedComputers,
@@ -338,7 +338,7 @@ function ConnectionStep({
         Connect your computers
       </h1>
       <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
-        Choose one or more computers. We’ll set up agents and projects on each.
+        Choose one or more computers. Weâ€™ll set up agents and projects on each.
       </p>
       {directEnvironments.length > 0 ? (
         <fieldset className="mt-5 space-y-2">
@@ -428,8 +428,8 @@ function ConnectionStep({
       ) : null}
       <div className="mt-6 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <p className="min-w-0 text-xs leading-relaxed text-muted-foreground">
-          T3 Code collects anonymous usage data to help us improve it. To read more about how your
-          data is used and how to opt out, see our{" "}
+          atQor AI Hub collects anonymous usage data to help us improve it. To read more about how
+          your data is used and how to opt out, see our{" "}
           <a
             className="underline underline-offset-2 hover:text-foreground"
             href={PRIVACY_POLICY_URL}
@@ -493,11 +493,11 @@ function ConnectAccountOption({
           <span className="flex-1 text-left">T3 Connect</span>
           <span className="text-xs text-muted-foreground">
             {!isLoaded
-              ? "Loading sign-in…"
+              ? "Loading sign-inâ€¦"
               : !isSignedIn
                 ? "Sign in"
                 : !discoveryReady
-                  ? "Loading computers…"
+                  ? "Loading computersâ€¦"
                   : null}
           </span>
           <ChevronRightIcon
@@ -526,7 +526,7 @@ function ConnectAccountOption({
             </p>
             <CommandBlock command="npx t3 connect" className="mt-3" />
             <p className="mt-3 text-xs text-muted-foreground">
-              Keep T3 Code running. Select the computers you want to set up above.
+              Keep atQor AI Hub running. Select the computers you want to set up above.
             </p>
           </div>
         </CollapsiblePanel>
@@ -535,7 +535,7 @@ function ConnectAccountOption({
   );
 }
 
-// ── Step 2′: Direct pairing ──────────────────────────────────
+// â”€â”€ Step 2â€²: Direct pairing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * Register a computer in this browser using a server-minted pairing link.
@@ -603,7 +603,7 @@ function PairingForm({
             spellCheck={false}
             nativeInput
             readOnly={isPairing}
-            placeholder="https://your-server:5230/pair#token=…"
+            placeholder="https://your-server:5230/pair#token=â€¦"
             value={pairingUrl}
             onChange={(event) => setPairingUrl(event.currentTarget.value)}
             onKeyDown={(event) => {
@@ -640,7 +640,7 @@ function PairingForm({
             </p>
             <CommandBlock command="npx t3 pair" className="mt-2" />
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-              Start T3 Code first, or run <code className="font-mono">npx t3 serve</code>. Add{" "}
+              Start atQor AI Hub first, or run <code className="font-mono">npx t3 serve</code>. Add{" "}
               <code className="font-mono">--tailscale</code> to use your tailnet.
             </p>
           </CollapsiblePanel>
@@ -650,7 +650,7 @@ function PairingForm({
   );
 }
 
-// ── Step 3: agents ───────────────────────────────────────────
+// â”€â”€ Step 3: agents â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const PRIMARY_AGENT_DRIVERS = ["codex", "claudeAgent"] as const;
 type OnboardingAgentDriver = (typeof PRIMARY_AGENT_DRIVERS)[number];
@@ -983,7 +983,7 @@ function AgentCard({
         <span className="block text-sm font-medium text-foreground">{displayName}</span>
         <p className="mt-0.5 text-xs leading-relaxed break-words whitespace-pre-wrap text-muted-foreground">
           {providerState === "ready" ? "Ready to code." : summary.headline}
-          {providerState !== "ready" && summary.detail ? ` · ${summary.detail}` : ""}
+          {providerState !== "ready" && summary.detail ? ` Â· ${summary.detail}` : ""}
         </p>
       </div>
       <div className="shrink-0">
@@ -1187,7 +1187,7 @@ function AgentInstallTerminal({
   );
 }
 
-// ── Step 4: import ───────────────────────────────────────────
+// â”€â”€ Step 4: import â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const IMPORT_PERMISSION_MESSAGE = "This connection cannot import projects or thread history.";
 
@@ -1318,8 +1318,8 @@ function ImportStep({
     const importGeneration = importGenerationRef.current;
     const importedProjects = importedProjectsRef.current;
     const projectAttempts = projectAttemptsRef.current;
-    // Interrupted imports are neither failures nor successes — the command was
-    // superseded or the environment dropped — but they still didn't land, so
+    // Interrupted imports are neither failures nor successes â€” the command was
+    // superseded or the environment dropped â€” but they still didn't land, so
     // they must not read as "imported everything". Retries skip paths that
     // already landed this session (re-creating them would only trip the
     // duplicate-root invariant and read as a failure).
@@ -1439,7 +1439,7 @@ function ImportStep({
         <div className="flex flex-1 flex-col items-center justify-center gap-3 py-6">
           <Spinner size="lg" tone="muted" />
           <p className="text-center text-sm text-muted-foreground">
-            Looking for projects from Claude Code and Codex…
+            Looking for projects from Claude Code and Codexâ€¦
           </p>
         </div>
         <div className="flex justify-end">
@@ -1502,7 +1502,7 @@ function ImportStep({
                 {scan.isPending && scan.data === null ? (
                   <div className="flex items-center gap-2 py-3 text-sm text-muted-foreground">
                     <Spinner size="md" />
-                    Looking for projects…
+                    Looking for projectsâ€¦
                   </div>
                 ) : scan.error !== null ? (
                   <div
@@ -1547,7 +1547,7 @@ function ImportStep({
           onClick={() => void runImport(selected)}
         >
           {isImporting
-            ? "Importing…"
+            ? "Importingâ€¦"
             : `Import ${selected.length} ${selected.length === 1 ? "project" : "projects"}`}
         </Button>
       </div>
@@ -1785,7 +1785,7 @@ function ImportRowMeta({
   );
 }
 
-// ── Shared bits ──────────────────────────────────────────────
+// â”€â”€ Shared bits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function StepShell({
   title,
