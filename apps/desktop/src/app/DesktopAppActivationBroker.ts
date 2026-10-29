@@ -29,7 +29,6 @@ function failure(
   };
 }
 
-/** Holds CLI requests until the real desktop renderer is ready to handle them. */
 export class DesktopAppActivationBroker {
   readonly #pending = new Map<string, PendingActivation>();
   readonly #requestTimeoutMs: number;
@@ -103,7 +102,11 @@ export class DesktopAppActivationBroker {
 
   cancel(requestId: string): void {
     this.#settle(
-      failure(requestId, "renderer-unavailable", "The command closed before atQor AI Hub was ready."),
+      failure(
+        requestId,
+        "renderer-unavailable",
+        "The command closed before atQor AI Hub was ready.",
+      ),
     );
   }
 
@@ -112,7 +115,11 @@ export class DesktopAppActivationBroker {
     this.#renderer = null;
     for (const pending of this.#pending.values()) {
       this.#settle(
-        failure(pending.request.requestId, "renderer-unavailable", "atQor AI Hub is shutting down."),
+        failure(
+          pending.request.requestId,
+          "renderer-unavailable",
+          "atQor AI Hub is shutting down.",
+        ),
       );
     }
   }
