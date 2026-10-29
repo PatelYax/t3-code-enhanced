@@ -141,6 +141,9 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
         to !== "/settings/access" &&
         to !== "/settings/source-control" &&
         to !== "/settings/archived" &&
+        to !== "/settings/devices" &&
+        to !== "/settings/labs" &&
+        to !== "/settings/about" &&
         to !== "/settings/scheduled-tasks",
     ),
   })).filter((group) => group.paths.length > 0);

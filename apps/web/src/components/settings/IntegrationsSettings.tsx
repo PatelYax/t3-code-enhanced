@@ -191,7 +191,10 @@ async function importBrowserCookiesIntoTarget(
   bridge: NonNullable<typeof previewBridge>,
   source: BrowserImportSource,
   environmentId: EnvironmentId,
-  input: { readonly sourceProfileDirectory: string; readonly target: WizardTarget },
+  input: {
+    readonly sourceProfileDirectory: string;
+    readonly target: WizardTarget;
+  },
 ): Promise<ImportOutcome> {
   try {
     const result = await bridge.importBrowserCookies({
@@ -230,7 +233,11 @@ async function importBrowserCookiesIntoTarget(
               ...current,
               browserProfiles: [
                 ...current.browserProfiles,
-                { id: input.target.profileId, name, kind: "persistent" as const },
+                {
+                  id: input.target.profileId,
+                  name,
+                  kind: "persistent" as const,
+                },
               ],
             };
           });
@@ -351,7 +358,11 @@ function BrowserViewportSetting({ disabled }: { readonly disabled: boolean }) {
         !disabled && viewport._tag !== DEFAULT_BROWSER_VIEWPORT._tag ? (
           <SettingResetButton
             label="default browser viewport"
-            onClick={() => updateSettings({ browserDefaultViewport: DEFAULT_BROWSER_VIEWPORT })}
+            onClick={() =>
+              updateSettings({
+                browserDefaultViewport: DEFAULT_BROWSER_VIEWPORT,
+              })
+            }
           />
         ) : null
       }
@@ -430,7 +441,9 @@ function BrowserViewportSetting({ disabled }: { readonly disabled: boolean }) {
                         presentedSize.height >= presentedSize.width ? "landscape" : "portrait"
                       }`}
                       onClick={() =>
-                        updateSettings({ browserDefaultViewport: rotateViewport(sized) })
+                        updateSettings({
+                          browserDefaultViewport: rotateViewport(sized),
+                        })
                       }
                     >
                       <ScreenRotationIcon />
@@ -460,7 +473,9 @@ function BrowserZoomSetting({ disabled }: { readonly disabled: boolean }) {
           <SettingResetButton
             label="default browser zoom"
             onClick={() =>
-              updateSettings({ browserDefaultZoomFactor: DEFAULT_PREVIEW_ZOOM_FACTOR })
+              updateSettings({
+                browserDefaultZoomFactor: DEFAULT_PREVIEW_ZOOM_FACTOR,
+              })
             }
           />
         ) : null
@@ -502,7 +517,11 @@ function BrowserAppearanceSetting({ disabled }: { readonly disabled: boolean }) 
         !disabled && appearance !== DEFAULT_PREVIEW_APPEARANCE ? (
           <SettingResetButton
             label="default browser appearance"
-            onClick={() => updateSettings({ browserDefaultAppearance: DEFAULT_PREVIEW_APPEARANCE })}
+            onClick={() =>
+              updateSettings({
+                browserDefaultAppearance: DEFAULT_PREVIEW_APPEARANCE,
+              })
+            }
           />
         ) : null
       }
@@ -551,7 +570,9 @@ function BrowserRecordingInputSettings({ disabled }: { readonly disabled: boolea
             checked={showKeys}
             aria-label="Show key presses in recordings"
             onCheckedChange={(checked) =>
-              updateSettings({ browserRecordingShowKeyPresses: Boolean(checked) })
+              updateSettings({
+                browserRecordingShowKeyPresses: Boolean(checked),
+              })
             }
           />
         }
@@ -565,7 +586,9 @@ function BrowserRecordingInputSettings({ disabled }: { readonly disabled: boolea
             checked={showMouse}
             aria-label="Show mouse presses in recordings"
             onCheckedChange={(checked) =>
-              updateSettings({ browserRecordingShowMousePresses: Boolean(checked) })
+              updateSettings({
+                browserRecordingShowMousePresses: Boolean(checked),
+              })
             }
           />
         }
@@ -587,7 +610,9 @@ function BrowserRecordingFrameRateSetting({ disabled }: { readonly disabled: boo
           <SettingResetButton
             label="browser recording frame rate"
             onClick={() =>
-              updateSettings({ browserRecordingFrameRate: DEFAULT_BROWSER_RECORDING_FRAME_RATE })
+              updateSettings({
+                browserRecordingFrameRate: DEFAULT_BROWSER_RECORDING_FRAME_RATE,
+              })
             }
           />
         ) : null
@@ -762,11 +787,11 @@ export function PullRequestLinksOpenInAppSetting() {
   return (
     <SettingsRow
       {...searchableSetting("pull-request-links-open-in-app")}
-      description="Clicking a pull request link opens it in atQor AI Hub. Turn off to open pull request links like any other link, on your git host."
+      description="Clicking a pull request link opens it in the app. Turn off to open pull request links like any other link, on your git host."
       resetAction={
         openInApp ? null : (
           <SettingResetButton
-            label="open pull requests in atQor AI Hub"
+            label="open pull requests in app"
             onClick={() => updateSettings({ pullRequestLinksOpenInApp: true })}
           />
         )
@@ -777,7 +802,7 @@ export function PullRequestLinksOpenInAppSetting() {
           onCheckedChange={(checked) =>
             updateSettings({ pullRequestLinksOpenInApp: Boolean(checked) })
           }
-          aria-label="Open pull requests in atQor AI Hub"
+          aria-label="Open pull requests in app"
         />
       }
     />
@@ -827,7 +852,9 @@ function DeviceIntegrationControls({
   const anyHubEnabled = connectedEnvironments.some(
     (environment) => environment.serverConfig?.settings.enableDeviceSupport,
   );
-  const configure = useAtomCommand(deviceEnvironment.configure, { reportFailure: false });
+  const configure = useAtomCommand(deviceEnvironment.configure, {
+    reportFailure: false,
+  });
   const list = useAtomCommand(deviceEnvironment.list, { reportFailure: false });
   const [pending, setPending] = useState<
     "hub" | "check" | "agent" | "update-hub" | "update-agent" | null
@@ -850,7 +877,10 @@ function DeviceIntegrationControls({
         }
         return configure({
           environmentId: environment.environmentId,
-          input: { ...input, ...(input.enabled ? { onboardingCompleted: true } : {}) },
+          input: {
+            ...input,
+            ...(input.enabled ? { onboardingCompleted: true } : {}),
+          },
         });
       }),
     );
@@ -868,9 +898,10 @@ function DeviceIntegrationControls({
     }
   };
 
-  const [updateError, setUpdateError] = useState<{ tool: "hub" | "agent"; message: string } | null>(
-    null,
-  );
+  const [updateError, setUpdateError] = useState<{
+    tool: "hub" | "agent";
+    message: string;
+  } | null>(null);
   const localTools = state.hosts.find((host) => host.kind === "local")?.tools;
   const versionActions = (tool: "hub" | "agent") => {
     const version = localTools?.[tool];
@@ -889,7 +920,10 @@ function DeviceIntegrationControls({
                 void list({ environmentId, input: { updateTool: tool } })
                   .then((result) => {
                     if (result._tag === "Failure")
-                      setUpdateError({ tool, message: formatEnvironmentQueryError(result.cause) });
+                      setUpdateError({
+                        tool,
+                        message: formatEnvironmentQueryError(result.cause),
+                      });
                   })
                   .finally(() => setPending(null));
               }}
@@ -905,9 +939,10 @@ function DeviceIntegrationControls({
               onClick={() => {
                 if (!environmentId) return;
                 setPending("check");
-                void list({ environmentId, input: { inspectOnly: true } }).finally(() =>
-                  setPending(null),
-                );
+                void list({
+                  environmentId,
+                  input: { inspectOnly: true },
+                }).finally(() => setPending(null));
               }}
             >
               {pending === "check" ? "Checking…" : "Check versions"}
@@ -993,8 +1028,12 @@ function DeviceIntegrationControls({
               aria-label="Agent device access"
               onCheckedChange={(checked) =>
                 projectScope
-                  ? updateSettings({ enableAgentDeviceAccess: Boolean(checked) })
-                  : void update("agent", { agentAccessEnabled: Boolean(checked) })
+                  ? updateSettings({
+                      enableAgentDeviceAccess: Boolean(checked),
+                    })
+                  : void update("agent", {
+                      agentAccessEnabled: Boolean(checked),
+                    })
               }
             />
           </>
@@ -1002,7 +1041,10 @@ function DeviceIntegrationControls({
       />
       {environmentId ? (
         <DeviceHostUpdates
-          state={{ ...state, hosts: state.hosts.filter((host) => host.kind === "local") }}
+          state={{
+            ...state,
+            hosts: state.hosts.filter((host) => host.kind === "local"),
+          }}
           environmentId={environmentId}
         />
       ) : null}
@@ -1113,7 +1155,10 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
           serverConfigs.get(environmentId)?.environment.capabilities.serverBrowser === true,
       ),
     clear: async (environmentId, profileId) => {
-      const result = await runClearServerProfile({ environmentId, input: { profileId } });
+      const result = await runClearServerProfile({
+        environmentId,
+        input: { profileId },
+      });
       if (result._tag === "Failure") throw squashAtomCommandFailure(result);
     },
   };
@@ -1141,7 +1186,11 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
     const taken = new Set(resolvedProfiles.map((profile) => profile.name));
     let name = baseName;
     for (let index = 2; taken.has(name); index += 1) name = `${baseName} ${index}`;
-    const profile = { id: `profile-${randomUUID()}`, name, kind: "persistent" as const };
+    const profile = {
+      id: `profile-${randomUUID()}`,
+      name,
+      kind: "persistent" as const,
+    };
     updateSettings({ browserProfiles: [...currentProfiles, profile] });
     return profile;
   };
@@ -1175,10 +1224,16 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
       serverProfileData,
     )
       .then(() => {
-        toastManager.add({ type: "success", title: `Cleared ${name}'s cookies and cache` });
+        toastManager.add({
+          type: "success",
+          title: `Cleared ${name}'s cookies and cache`,
+        });
       })
       .catch(() => {
-        toastManager.add({ type: "error", title: `Could not clear ${name}'s data` });
+        toastManager.add({
+          type: "error",
+          title: `Could not clear ${name}'s data`,
+        });
       });
   };
 
@@ -1229,7 +1284,10 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
   const runWizardImport = async (
     source: BrowserImportSource,
     environmentId: EnvironmentId,
-    input: { readonly sourceProfileDirectory: string; readonly target: WizardTarget },
+    input: {
+      readonly sourceProfileDirectory: string;
+      readonly target: WizardTarget;
+    },
   ): Promise<ImportOutcome> => {
     if (!previewBridge) return { kind: "blocked", reason: "sessionUnavailable" };
     if (!settingsHydrated) return { kind: "blocked", reason: "sessionUnavailable" };
@@ -1517,7 +1575,10 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
         <BrowserImportWizard
           source={importSession.source}
           destinationEnvironmentName={importSession.environmentName}
-          targetProfiles={listedProfiles.map((profile) => ({ id: profile.id, name: profile.name }))}
+          targetProfiles={listedProfiles.map((profile) => ({
+            id: profile.id,
+            name: profile.name,
+          }))}
           canCreateProfile={settingsHydrated && !atProfileLimit}
           onImport={(input) =>
             runWizardImport(importSession.source, importSession.environmentId, input)

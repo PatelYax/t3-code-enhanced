@@ -5,13 +5,13 @@ section whenever you need a Windows installer.
 
 ## 1. Install Workspace Dependencies
 
-Node.js must be version 24.13.1 or a newer Node 24 release. This repository uses
+Node.js must be version 26.12.1. This repository uses
 pnpm catalogs, so do not run `npm install` in the workspace.
 
 ```powershell
 Set-Location "$HOME\Documents\learning\t3"
 node --version
-npm install --global pnpm@11.10.0
+npm install --global pnpm@12.14.0
 pnpm --version
 pnpm install --frozen-lockfile
 ```
@@ -134,3 +134,55 @@ pnpm run dist:desktop:artifact --platform win --target nsis --arch x64 --skip-bu
 Keep `node-pty` pinned to `1.2.0-beta.15` in the server manifest: its workspace
 patch targets that exact version. Do not remove the patch to bypass an unused
 patch error.
+
+## 5. Publish Windows Updates
+
+Stable installers default to the GitHub Releases feed in
+`PatelYax/t3-code-enhanced`. `T3CODE_DESKTOP_UPDATE_REPOSITORY` overrides this;
+otherwise `GITHUB_REPOSITORY` is used when set, such as in GitHub Actions.
+Release assets must be publicly readable. Do not distribute a GitHub token to
+desktop users or embed one in the app.
+
+Install one newly built installer manually on machines running an older build
+without an update feed. From then on, the desktop checks at startup and
+periodically while running. Downloading and restarting to install remain
+user-controlled. Web and mobile clients do not use this Windows update feed.
+
+No CI/CD is required. Commit the release changes on `main`, then push them
+without saving credentials:
+
+```powershell
+git -c credential.helper= -c core.askPass= push origin main
+```
+
+Choose a version higher than the installed version and build locally. For
+example, use `0.0.46` only if all installed versions are lower:
+
+```powershell
+$version = "0.0.46"
+$env:T3CODE_DESKTOP_UPDATE_REPOSITORY = "PatelYax/t3-code-enhanced"
+Remove-Item Env:ATQOR_AZURE_PROFILE_PATH -ErrorAction SilentlyContinue
+$env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
+pnpm run dist:desktop:artifact --platform win --target nsis --arch x64 --build-version $version
+```
+
+After the build succeeds:
+
+1. Open `https://github.com/PatelYax/t3-code-enhanced/releases/new`.
+2. Create the tag matching the build, such as `v0.0.46`, targeting `main`.
+3. Upload all three files from the same build's `release` directory:
+   `atQor-AI-Hub-0.0.46-x64.exe`,
+   `atQor-AI-Hub-0.0.46-x64.exe.blockmap`, and `latest.yml`. Do not rename them
+   or combine files from different builds.
+4. Mark it as the latest release, leave the prerelease option off, and publish.
+5. In an older feed-enabled installation, check for updates, download, and
+   restart to install.
+
+Pushing a commit to `main` alone does not publish an update. Upload release
+assets through the browser, not Git commits. Never replace a successful
+release's installer with different bytes under the same version.
+
+The public-release build above omits the private Azure/OpenAI profile. Existing
+local provider configuration remains on installed machines. Never upload an
+installer containing a bundled API key to a public release. Unsigned Windows
+installers may show SmartScreen warnings.

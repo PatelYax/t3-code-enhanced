@@ -495,7 +495,18 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
     }),
   );
 
-  it.effect("omits update feeds for pull request preview builds", () =>
+  it.effect.each([
+    { env: {}, owner: "PatelYax", repo: "t3-code-enhanced" },
+    { env: { GITHUB_REPOSITORY: "example/custom-fork" }, owner: "example", repo: "custom-fork" },
+    {
+      env: {
+        GITHUB_REPOSITORY: "example/custom-fork",
+        T3CODE_DESKTOP_UPDATE_REPOSITORY: "PatelYax/t3-code-enhanced",
+      },
+      owner: "PatelYax",
+      repo: "t3-code-enhanced",
+    },
+  ])("resolves release feeds and omits preview feeds ($owner/$repo)", ({ env, owner, repo }) =>
     Effect.gen(function* () {
       const preview = yield* createBuildConfig(
         "mac",
@@ -528,21 +539,16 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
 
       assert.isNull(preview.publish);
       assert.isNull(previewChannel.publish);
+      assert.equal(release.productName, "atQor AI Hub");
       assert.deepStrictEqual(release.publish, [
         {
           provider: "github",
-          owner: "pingdotgg",
-          repo: "t3code",
+          owner,
+          repo,
           releaseType: "release",
         },
       ]);
-    }).pipe(
-      Effect.provide(
-        ConfigProvider.layer(
-          ConfigProvider.fromEnv({ env: { GITHUB_REPOSITORY: "pingdotgg/t3code" } }),
-        ),
-      ),
-    ),
+    }).pipe(Effect.provide(ConfigProvider.layer(ConfigProvider.fromEnv({ env })))),
   );
 
   // pnpm writes "set this to true or false" placeholders into allowBuilds when a

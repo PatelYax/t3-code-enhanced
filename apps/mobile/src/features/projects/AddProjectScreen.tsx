@@ -645,6 +645,7 @@ export function AddProjectSourceScreen(props: { readonly environmentId?: string 
                     source !== "github" &&
                     source !== "bitbucket" &&
                     source !== "forgejo" &&
+                    source !== "gitcafe" &&
                     source !== "gitlab",
                 ),
               ] as AddProjectRemoteSource[]
@@ -721,7 +722,9 @@ async function draftWithPrompt(
 function useCreateProject(environment: EnvironmentOption | null) {
   const openNewTaskDraft = useOpenNewTaskDraft();
   const navigation = useNavigation();
-  const createProject = useAtomCommand(projectEnvironment.create, { reportFailure: false });
+  const createProject = useAtomCommand(projectEnvironment.create, {
+    reportFailure: false,
+  });
   const projects = useProjects();
 
   return async (workspaceRoot: string, originRoute = getActiveRoute(navigation)) => {
@@ -1006,7 +1009,9 @@ export function AddProjectNewScreen(props: { readonly environmentId?: string | s
     () => stringParam(props.environmentId) as EnvironmentId | null,
   );
   const environment = resolveAddProjectEnvironment(environmentOptions, selectedEnvironmentId);
-  const createNew = useAtomCommand(projectEnvironment.createNew, { reportFailure: false });
+  const createNew = useAtomCommand(projectEnvironment.createNew, {
+    reportFailure: false,
+  });
   const checkPublishedAppAccess = useAtomCommand(sourceControlEnvironment.checkAppAccess, {
     reportFailure: false,
     reportDefect: false,
