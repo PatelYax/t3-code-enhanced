@@ -7,10 +7,41 @@ import * as NodePath from "node:path";
 import * as NodeUtil from "node:util";
 
 import { parseBundledCodexProfile } from "@t3tools/shared/bundledCodex";
+import { parseBundledMcpManifest } from "@t3tools/shared/bundledMcp";
 
 const execFile = NodeUtil.promisify(NodeChildProcess.execFile);
 const BUNDLED_CODEX_VERSION = "0.164.0";
 const BUNDLED_NODE_VERSION = "24.15.0";
+
+export async function stageBundledSkills(source: string, destination: string) {
+  try {
+    await NodeFSP.stat(source);
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") return;
+    throw error;
+  }
+  await NodeFSP.cp(source, destination, { recursive: true });
+}
+
+export async function stageBundledMcp(source: string, destination: string) {
+  let contents: string;
+  try {
+    contents = await NodeFSP.readFile(source, "utf8");
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") {
+      await NodeFSP.rm(destination, { force: true });
+      return;
+    }
+    throw error;
+  }
+  try {
+    parseBundledMcpManifest(JSON.parse(contents));
+  } catch {
+    throw new Error("Invalid bundled MCP manifest.");
+  }
+  await NodeFSP.mkdir(NodePath.dirname(destination), { recursive: true });
+  await NodeFSP.writeFile(destination, contents);
+}
 
 export async function readBundledAzureProfile(environment: NodeJS.ProcessEnv) {
   const profilePath = environment.ATQOR_AZURE_PROFILE_PATH;

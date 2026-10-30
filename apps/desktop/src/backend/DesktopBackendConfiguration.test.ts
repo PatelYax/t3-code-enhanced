@@ -237,6 +237,13 @@ describe("DesktopBackendConfiguration", () => {
         const tools = path.join(environment.resourcesPath, "tools");
         yield* fileSystem.makeDirectory(path.join(tools, "node"), { recursive: true });
         yield* fileSystem.makeDirectory(path.join(tools, "codex", "bin"), { recursive: true });
+        const bundledSkill = path.join(tools, "skills", "company-skill");
+        yield* fileSystem.makeDirectory(path.join(bundledSkill, "references"), { recursive: true });
+        yield* fileSystem.writeFileString(path.join(bundledSkill, "SKILL.md"), "bundled skill");
+        yield* fileSystem.writeFileString(
+          path.join(bundledSkill, "references", "guide.md"),
+          "supporting file",
+        );
         yield* fileSystem.writeFileString(path.join(tools, "node", "node.exe"), "fixture");
         yield* fileSystem.writeFileString(path.join(tools, "codex", "bin", "codex.exe"), "fixture");
         yield* fileSystem.writeFileString(
@@ -253,6 +260,7 @@ describe("DesktopBackendConfiguration", () => {
           ([key]) => key.toUpperCase() === "PATH",
         )?.[1];
         assert.isTrue(pathValue?.startsWith(path.join(tools, "node")));
+        assert.equal(start.env.ATQOR_BUNDLED_MCP_PATH, path.join(tools, "bundled-mcp.json"));
         const settings = JSON.parse(
           yield* fileSystem.readFileString(environment.serverSettingsPath),
         );
@@ -328,7 +336,35 @@ describe("DesktopBackendConfiguration", () => {
         assert.notInclude(upgradedConfig, "updated-proxy-key");
         const locallyEditedConfig = `${upgradedConfig}\n# local preference\n`;
         yield* fileSystem.writeFileString(upgradedConfigPath, locallyEditedConfig);
+        const skillsPath = path.join(upgraded.providerInstances.codex.config.homePath, "skills");
+        assert.equal(
+          yield* fileSystem.readFileString(path.join(skillsPath, "company-skill", "SKILL.md")),
+          "bundled skill",
+        );
+        assert.equal(
+          yield* fileSystem.readFileString(
+            path.join(skillsPath, "company-skill", "references", "guide.md"),
+          ),
+          "supporting file",
+        );
+        yield* fileSystem.makeDirectory(path.join(skillsPath, "user-skill"), { recursive: true });
+        yield* fileSystem.writeFileString(
+          path.join(skillsPath, "user-skill", "SKILL.md"),
+          "user skill",
+        );
+        yield* fileSystem.writeFileString(path.join(bundledSkill, "SKILL.md"), "updated skill");
+        const obsoletePath = path.join(skillsPath, "company-skill", "obsolete.md");
+        yield* fileSystem.writeFileString(obsoletePath, "old bundled content");
         yield* DesktopBundledTools.prepare();
+        assert.isFalse(yield* fileSystem.exists(obsoletePath));
+        assert.equal(
+          yield* fileSystem.readFileString(path.join(skillsPath, "company-skill", "SKILL.md")),
+          "updated skill",
+        );
+        assert.equal(
+          yield* fileSystem.readFileString(path.join(skillsPath, "user-skill", "SKILL.md")),
+          "user skill",
+        );
         assert.equal(yield* fileSystem.readFileString(upgradedConfigPath), locallyEditedConfig);
         assert.equal(
           yield* fileSystem.readFileString(historyPath),

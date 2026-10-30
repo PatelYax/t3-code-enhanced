@@ -1,0 +1,60 @@
+{
+  "source_file": "Proposal_AI Based MIS Insights_v3.0.pdf",
+  "original_path": "C:\\Users\\BhavyPatel\\Downloads\\OneDrive_2026-09-08\\Arvind - AI Based MIS Insights  Arvind Limited\\Planning\\Proposal_AI Based MIS Insights_v3.0.pdf",
+  "source_sha256": "db4c9543b623ecfe91c15430b69b50a6681c04f2c9af9c1b71a00c7029510ce4",
+  "page_count": 27,
+  "page_size_pt": [595.32, 841.92],
+  "reference_pages": [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 23, 24, 25, 27],
+  "assets": [
+    {
+      "asset": "assets/brand/atqor-logo.png",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p2-1-Image29.png",
+      "pixels": [175, 55],
+      "sha256": "e8c948a1dd79ee297f328897b96bab3926e21f123888118c6f52b2ad6513b434"
+    },
+    {
+      "asset": "assets/brand/atqor-logo-cover.jpg",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p1-3-Image24.jpg",
+      "pixels": [175, 55],
+      "sha256": "5e3ed5b07891743988eda86169b4f39ba5c2951b661a8183d1d5ef2b21fce774"
+    },
+    {
+      "asset": "assets/brand/microsoft-competencies.jpg",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p6-2-Image82.jpg",
+      "pixels": [1428, 777],
+      "sha256": "b72a35aa4fdd33e30d182ba9fd6a6a0fa969937a0021b880889ebd7d775e890f"
+    },
+    {
+      "asset": "assets/brand/architecture-reference.png",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p11-3-Image92.png",
+      "pixels": [1554, 530],
+      "sha256": "144824050c1c9cc08ce916f941a8b99d78857f98de98bcc12f7a11694929b3e2"
+    },
+    {
+      "asset": "assets/brand/cover-ribbon.png",
+      "method": "lossless crop of visible blue artwork from Poppler render at 300 dpi",
+      "source_page": 1,
+      "crop_pt_top_origin": [17.55, 20.4, 595.32, 122.1],
+      "pixels": [2408, 424],
+      "sha256": "c3fc0a0e01ef49368998eacae72f6ee64b8eba4701d8987a92e02d613084b6cd"
+    },
+    {
+      "asset": "assets/brand/cover-credentials.png",
+      "method": "lossless crop from Poppler page render at 150 dpi",
+      "source_page": 1,
+      "crop_pt_top_origin": [48, 552, 557, 640],
+      "pixels": [1060, 183],
+      "sha256": "313deb277020c08515d4ab94b8d8a839858139e4a7c603f3327bd771be073136"
+    }
+  ],
+  "notes": [
+    "reference.pdf is an unchanged copy; source text is extraction rather than layout authority.",
+    "Architecture images are historical project references; do not reuse for a changed solution.",
+    "No HRIPL or Arvind client logo appears in the sources; do not invent one.",
+    "An inactive legacy Bitscape logo and gray underlying ribbon exist in the PDF objects. Assets use the visibly rendered atQor branding instead."
+  ]
+}

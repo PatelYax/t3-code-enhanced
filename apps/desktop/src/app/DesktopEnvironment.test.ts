@@ -68,8 +68,10 @@ describe("DesktopEnvironment", () => {
       );
       const production = yield* makeEnvironment();
 
-      assert.equal(development.stateDir, "/Users/alice/.t3/dev");
-      assert.equal(production.stateDir, "/Users/alice/.t3/userdata");
+      assert.equal(development.stateDir, "/Users/alice/.atqor_ai_hub/dev");
+      assert.equal(production.stateDir, "/Users/alice/.atqor_ai_hub/userdata");
+      const overridden = yield* makeEnvironment({}, { T3CODE_HOME: "/custom/atqor" });
+      assert.equal(overridden.stateDir, "/custom/atqor/userdata");
     }),
   );
 });

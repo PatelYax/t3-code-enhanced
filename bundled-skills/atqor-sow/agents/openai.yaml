@@ -1,0 +1,6 @@
+interface:
+  display_name: "atQor SoW"
+  short_description: "Draft and review branded statements of work"
+
+policy:
+  allow_implicit_invocation: true

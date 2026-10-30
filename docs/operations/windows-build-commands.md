@@ -73,6 +73,60 @@ do not need Node, npm, WinGet, or a separate Codex installation. Node is install
 privately with the app and added to the local server's PATH; it does not replace
 or register a system-wide Node installation. npm is not included.
 
+The installed app and standalone server default to
+`%USERPROFILE%\.atqor_ai_hub`; production state lives in its `userdata` folder.
+Electron browser and sign-in state uses `%APPDATA%\atqor-ai-hub` (or
+`atqor-ai-hub-dev` in development). Old `.t3` data and T3 browser profiles are
+not imported or deleted. An explicit `T3CODE_HOME` or home-directory argument
+still overrides the default; clear an old override to start fresh.
+
+Windows builds use atQor AI Hub executable and company metadata. Windows derives
+the verified publisher in security dialogs from the executable's trusted signing
+certificate, not the package author. An unsigned build can still show an unknown
+publisher. Bundled Node and Codex executables retain their own vendor identities;
+a network prompt for one of those processes can show that identity instead.
+
+Place any skills to ship in the repository's `bundled-skills/` folder before
+building. Every Windows installer includes that folder's entire contents,
+including nested directories, scripts, references, and assets. On first launch
+after installation, the app copies them into `<stateDir>/bundled-codex/skills/`.
+Matching top-level folders and files are replaced entirely on startup, removing
+obsolete contents; unrelated installed skills are retained. Local edits inside a
+matching bundled skill are replaced too, so use company-specific folder names.
+An empty or absent source folder is allowed. This does not require an Azure profile.
+
+### Bundled MCP Servers
+
+Edit the repository's `bundled-mcp.json` before building. It uses an `mcpServers`
+object keyed by server name. HTTP servers support `url` and optional `headers`;
+local stdio servers support `command`, `args`, and `env`. Optional `type` accepts
+`http` or `stdio`; `enabled: false` disables an entry. Unsupported fields and
+invalid definitions fail validation rather than being silently ignored.
+Optional `startup_timeout_sec` sets a positive, finite startup timeout in seconds
+for either transport. Azure DevOps uses 120 seconds to allow more time for initialization.
+
+Each Windows installer includes the validated manifest. The Windows-native
+backend supplies these servers to Codex at thread start, resume, fork, and rollback
+reload without editing the user's Codex configuration. The app's automatic
+`t3-code` MCP server and its tool instructions are not injected into Codex.
+User-configured servers remain available. Bundled names receive an `atqor_`
+prefix and a numeric suffix if that name is already in the effective user,
+project, or launch configuration. Allocation is deterministic for the same
+manifest and configuration; a new collision can change the allocated name.
+
+Microsoft Learn and the local Azure DevOps server are enabled in the manifest.
+Set Azure DevOps's organization argument for the target installation and ensure
+Node.js 20+ and npm/npx are installed on the user's machine. The app's
+private Node runtime does not include npm/npx. Azure DevOps requires sign-in
+with an account authorized for the organization. If startup still times out,
+check package download access and the MCP startup logs before increasing the timeout further.
+
+To retire a bundled server, remove its entry and publish a new installer. An
+empty manifest or absent file injects no bundled servers. Restart the app after
+an update so existing provider sessions are recreated. These definitions apply
+only inside this app, not to an independently launched Codex CLI. Do not put
+private credentials in a manifest distributed to users.
+
 For an installer that is ready to use Azure OpenAI, create a private JSON file
 outside the repository, such as `$HOME\.atqor-azure.json`, with this structure:
 

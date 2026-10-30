@@ -43,7 +43,12 @@ import {
 import { loadRepoEnv } from "./lib/public-config.ts";
 import { selectDesktopRuntimeExternalDependencies } from "./lib/desktop-external-packages.ts";
 import { resolveCatalogDependencies } from "./lib/resolve-catalog.ts";
-import { readBundledAzureProfile, stageWindowsBundledTools } from "./lib/windows-bundled-tools.ts";
+import {
+  readBundledAzureProfile,
+  stageBundledMcp,
+  stageBundledSkills,
+  stageWindowsBundledTools,
+} from "./lib/windows-bundled-tools.ts";
 
 import * as NodeRuntime from "@effect/platform-node/NodeRuntime";
 import * as NodeServices from "@effect/platform-node/NodeServices";
@@ -2950,6 +2955,7 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
     };
     const winConfig: Record<string, unknown> = {
       target: [target],
+      executableName: resolveDesktopProductName(version),
       icon: "icon.ico",
       // Smart App Control validates unpacked native libraries independently; sign them too.
       signExts: [".node", ".dll"],
@@ -3528,13 +3534,22 @@ export const validateWindowsPackagedPayload = Effect.fn(
     }
   }
   const toolFileCount = hasBundledTools ? yield* countPayloadFiles(toolsDirectory) : 0;
+  const skillsDirectory = path.join(toolsDirectory, "skills");
+  const skillFileCount = (yield* fs.exists(skillsDirectory))
+    ? yield* countPayloadFiles(skillsDirectory)
+    : 0;
+  const runtimeFileCount = toolFileCount - skillFileCount;
   const fileCount = yield* countPayloadFiles(packagedAppDir);
-  if (toolFileCount > WINDOWS_BUNDLED_TOOLS_FILE_LIMIT || fileCount - toolFileCount > fileLimit) {
+  if (
+    runtimeFileCount > WINDOWS_BUNDLED_TOOLS_FILE_LIMIT ||
+    fileCount - toolFileCount > fileLimit
+  ) {
     return yield* new WindowsPackagedPayloadValidationError({
       reason: "file-limit-exceeded",
       packagedAppDir,
       fileCount,
-      fileLimit: fileLimit + Math.min(toolFileCount, WINDOWS_BUNDLED_TOOLS_FILE_LIMIT),
+      fileLimit:
+        fileLimit + skillFileCount + Math.min(runtimeFileCount, WINDOWS_BUNDLED_TOOLS_FILE_LIMIT),
     });
   }
 
@@ -3886,7 +3901,7 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
       ? path.join(stageAppDir, WINDOWS_SERVER_RESOURCE_SOURCE_DIR, WINDOWS_SERVER_ASAR_RESOURCE)
       : undefined;
   const stagePackageJson: StagePackageJson = {
-    name: "t3code",
+    name: "atqor-ai-hub",
     version: appVersion,
     buildVersion: appVersion,
     t3codeCommitHash: commitHash,
@@ -3897,8 +3912,8 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
     description:
       "atQor AI Hub is an open-source desktop app for coding agents. Work with your existing agent subscriptions, review code changes, and run commands in your projects. Connect from desktop, web, or mobile to continue working remotely.",
     license: "MIT",
-    homepage: "https://t3.codes",
-    author: "T3 Tools",
+    homepage: "https://github.com/PatelYax/t3-code-enhanced",
+    author: "atQor AI Hub",
     main: "apps/desktop/dist-electron/boot.cjs",
     build: yield* createBuildConfig(
       options.platform,
@@ -3964,6 +3979,18 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
         hostPlatform,
         profile: bundledAzureProfile,
       }),
+    );
+    yield* Effect.tryPromise(() =>
+      stageBundledSkills(
+        path.join(repoRoot, "bundled-skills"),
+        path.join(path.dirname(windowsServerAsarPath), "tools", "skills"),
+      ),
+    );
+    yield* Effect.tryPromise(() =>
+      stageBundledMcp(
+        path.join(repoRoot, "bundled-mcp.json"),
+        path.join(path.dirname(windowsServerAsarPath), "tools", "bundled-mcp.json"),
+      ),
     );
     yield* stageWindowsServerSidecar({
       stageRoot,

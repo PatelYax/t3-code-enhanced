@@ -11,6 +11,10 @@
       "types": "./src/bundledCodex.ts",
       "import": "./src/bundledCodex.ts"
     },
+    "./bundledMcp": {
+      "types": "./src/bundledMcp.ts",
+      "import": "./src/bundledMcp.ts"
+    },
     "./authScopeOptions": {
       "types": "./src/authScopeOptions.ts",
       "import": "./src/authScopeOptions.ts"

@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "azure-devops": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@azure-devops/mcp", "bitscapeinfotech"],
+      "startup_timeout_sec": 120
+    },
+    "microsoft-learn": {
+      "type": "http",
+      "url": "https://learn.microsoft.com/api/mcp"
+    },
+    "fabric-mcp-server": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@microsoft/fabric-mcp@latest", "server", "start", "--mode", "all"]
+    },
+    "azure-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "@azure/mcp@latest", "server", "start"]
+    }
+  }
+}

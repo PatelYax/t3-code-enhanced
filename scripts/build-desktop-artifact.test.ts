@@ -540,6 +540,16 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
       assert.isNull(preview.publish);
       assert.isNull(previewChannel.publish);
       assert.equal(release.productName, "atQor AI Hub");
+      const windows = yield* createBuildConfig(
+        "win",
+        "nsis",
+        "0.0.47",
+        false,
+        false,
+        undefined,
+        undefined,
+      );
+      assert.nestedPropertyVal(windows, "win.executableName", "atQor AI Hub");
       assert.deepStrictEqual(release.publish, [
         {
           provider: "github",
@@ -1291,6 +1301,11 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
         }
         for (let index = 0; index < 45; index += 1) {
           yield* fs.writeFileString(path.join(tools, `resource-${index}.json`), "{}");
+        }
+        const skills = path.join(tools, "skills", "company", "references");
+        yield* fs.makeDirectory(skills, { recursive: true });
+        for (let index = 0; index < 65; index += 1) {
+          yield* fs.writeFileString(path.join(skills, `reference-${index}.md`), "reference");
         }
         const result = yield* validateWindowsPackagedPayload({
           stageDistDir: fixture.stageDistDir,

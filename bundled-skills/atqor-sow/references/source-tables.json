@@ -1,0 +1,322 @@
+[
+  {
+    "page": 3,
+    "tables": [
+      [
+        ["", "Revision", "Date", "", "", "Record of Changes", "", "", "Prepared By", ""],
+        ["1", null, "30/01/2026", null, "Version 0.1", null, null, "Shreyash Kandarkar", null, null]
+      ],
+      [
+        [
+          "",
+          "Document\nRef.",
+          "atQor-01",
+          "Rev.",
+          "Draft",
+          "",
+          "Uncontrolled",
+          "",
+          "",
+          "",
+          "Controlled",
+          "",
+          "\u221a",
+          null
+        ],
+        [null, null, null, null, null, null, "Copy", null, null, null, "Copy", null, null, null],
+        [
+          "",
+          "This information is confidential and propriety to atQor and it is to be used only for the purpose for",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ""
+        ],
+        [
+          null,
+          "which it is provided. Reproduction by any means, electronics or mechanical, and distribution to",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "third parties without express written permission from atQor is not permitted.",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 5,
+    "tables": [
+      [
+        ["Aspect", "atQor\u2019s Strengths", "Value to Clients"],
+        [
+          "Microsoft\nExpertise",
+          "Designated Microsoft Solutions Partner for\nBusiness Applications with deep expertise in\nDynamics 365 and Power Platform.",
+          "Ensures seamless\nimplementation and alignment\nwith Microsoft\u2019s best practices\nand technology roadmap."
+        ],
+        [
+          "Proven Track\nRecord",
+          "Recognized as the 2024 Microsoft India and\nSouth Asia Partner of the Year for Business\nApplications.",
+          "Demonstrates a strong history\nof delivering high-impact\nbusiness solutions recognized\nby Microsoft."
+        ],
+        [
+          "Comprehensive\nCapabilities",
+          "Expertise across Dynamics 365 modules (Sales,\nCustomer Service, Marketing), Power BI, and\nPower Automate.",
+          "Offers a unified platform\napproach to streamline\noperations, improve insights,\nand automate workflows."
+        ],
+        [
+          "Global Delivery\nExcellence",
+          "Balanced delivery model with certified teams\nacross North America, India, and South Asia.",
+          "Ensures cost-effective solutions\nwithout compromising on\nquality or delivery timelines."
+        ],
+        [
+          "Industry\nExperience",
+          "Extensive experience in industries such as\nhospitality, financial services, manufacturing,\nand professional services.",
+          "Provides industry-specific\ninsights to tailor solutions for\nunique business challenges."
+        ],
+        [
+          "Data and AI\nLeadership",
+          "Specialized in implementing advanced\nanalytics and AI-driven insights within the\nDynamics 365 ecosystem.",
+          "Empowers decision-making\nwith actionable data and\npredictive intelligence."
+        ],
+        [
+          "Customization\nand Integration",
+          "Demonstrated expertise in migrating and\nintegrating Dynamics 365 with tools like,\nEmailtopia, LinkedIn Sales Navigator, and\nPandaDoc through completed POCs and\ntailored demonstrations",
+          "Ensures seamless data flow\nbetween systems for enhanced\nefficiency and visibility."
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 6,
+    "tables": [
+      [
+        ["Aspect", "atQor\u2019s Strengths", "Value to Clients"],
+        [
+          "Customer-Centric\nApproach",
+          "Focused on delivering measurable business\noutcomes and fostering long-term\npartnerships.",
+          "Drives client success through\ntailored solutions and\ncontinuous support."
+        ],
+        [
+          "Scalable Solutions",
+          "Solutions built for scalability, leveraging\nMicrosoft Azure and cloud-native\ntechnologies.",
+          "Future-proofs investments,\nensuring flexibility for evolving\nbusiness needs."
+        ],
+        [
+          "Recognition and\nCertifications",
+          "Teams certified across Dynamics 365, Power\nPlatform, and Azure, with accolades for\ninnovation and delivery quality.",
+          "Reflects credibility and ability to\nmeet complex project\nrequirements effectively."
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 23,
+    "tables": [
+      [
+        ["Phase", "Feature / Module", "Description"],
+        [
+          "Inception &\nRequirements",
+          "Requirement Gathering,\nPlanning & Infrastructure\nSetup",
+          "Requirement clarification (Margin\ndefinition, Business = Division,\nCustomer analysis priority),\nInfrastructure setup (Fabric workspace,\nAzure OpenAI, etc.)"
+        ],
+        [
+          "Solution Design",
+          "Metadata & Schema Setup",
+          "Create aggregated views, gold layer\nschema, table relationships, create\nbusiness glossary for agents."
+        ],
+        [
+          "Development",
+          "Refining Gold Layer",
+          "Implement and refine the Gold layer\nwith calculated metrics (sales actuals,\ntax breakdowns, pricing variance, and\nPlan/AOP targets)"
+        ],
+        [
+          "Development",
+          "AI Architecture",
+          "Define database schema and\nrelationships, document KPIs in a\nbusiness glossary, and generate vector\nembeddings for this metadata to store\nin Azure AI Search for semantic\nretrieval."
+        ],
+        ["Development", "Metadata & Functional Vector\nStore Setup", null],
+        [
+          "Development",
+          "Orchestrator & Intent Agent",
+          "Build the main orchestrator on Azure\nApp Service, enable intent routing\nacross 9 business domains, and\nimplement chain-of-thought flow\nbetween agents."
+        ],
+        [
+          "Development",
+          "NL-to-SQL & Logic Agents",
+          "Functional Agent: Logic to retrieve\nformulas/KPIs\nMetadata Agent: Logic to resolve\ntable/column names\nNLP-SQL Agent: Prompt engineering\nfor accurate T-SQL generation"
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 24,
+    "tables": [
+      [
+        [
+          "Development",
+          "Graph & Visualization Agent",
+          "Logic to auto-select Chart Type\n(Bar/Line/Pie) based on data shape"
+        ],
+        [
+          "Development",
+          "Context & Follow-up Agent",
+          "Implement conversational memory (3\u2013\n5 turns) and merge previous context\nwith the current query."
+        ],
+        [
+          "Development",
+          "Teams Bot Integration",
+          "Configure Teams bot with Azure\nOpenAI, implement bot framework,\nsecure API calls with managed identity,\nDownloadable Excel"
+        ],
+        [
+          "Functional Testing",
+          "UAT",
+          "End-to-end testing with business users\nacross all 9 domains, test\nconversational context, validate\ncalculations, performance testing"
+        ],
+        [
+          "Functional Testing",
+          "UAT Bug Fixing",
+          "Address issues identified during UAT,\nrefine query logic, improve response\nformatting"
+        ],
+        [
+          "Go-Live",
+          "Deployment &\nDocumentation",
+          "Production rollout, user guides (how to\nquery the bot), architecture\ndocumentation"
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 25,
+    "tables": [
+      [
+        [
+          "Service\ncategory",
+          "Service type",
+          "Region",
+          "Description",
+          "",
+          "Estimated",
+          "",
+          "Remarks"
+        ],
+        [null, null, null, null, null, "monthly", null, null],
+        [null, null, null, null, null, "cost", null, null],
+        [
+          "AI + Machine\nLearning",
+          "Azure OpenAI",
+          "South India",
+          "Language Models,\nGPT 4.1, Standard\n(On-Demand),\nGlobal, 5,500 x\n1,000 input\ntokens, 0 x 1,000\ncached input,\n137.5 x 1,000\noutput tokens",
+          "\u20b91,088.77",
+          null,
+          null,
+          "Below is the\nconsideration of\nIntent\nIdentification\nAgent\n50 queries/day \u00d7\n22 days = 1,100\nqueries/month\nConsidering 5\nusers\nInput Tokens=\n1,000 \u00d7 1,100 \u00d7 5\n= 5,500,000 input\ntokens / month\nOutput Tokens =\n25 \u00d7 1,100 \u00d7 5\n= 137,500 output\ntokens / month"
+        ],
+        [
+          "AI + Machine\nLearning",
+          "Azure OpenAI",
+          "Southeast\nAsia",
+          "Embedding\nModels, Text-\nEmbedding-3-\nLarge, 16,501 x\n1,000 Tokens",
+          "\u20b9255.38",
+          null,
+          null,
+          "Below is the\nconsideration of\nFollowup Agent\n50 queries/day \u00d7\n22 days = 1,100\nqueries/month\nConsidering 5\nusers\nConsidered input\nTotal =\n3000 * 1,100 * 5\n= 16,500,000"
+        ]
+      ],
+      [["Service"], ["category"]]
+    ]
+  },
+  {
+    "page": 26,
+    "tables": [
+      [
+        [
+          "AI + Machine\nLearning",
+          "Azure OpenAI",
+          "South India",
+          "Language Models,\nGPT 4.1, Standard\n(On-Demand),\nGlobal, 11,000 x\n1,000 input\ntokens, 0 x 1,000\ncached input,\n2,750 x 1,000\noutput tokens",
+          "\u20b93,959.18",
+          "Below is the\nconsideration of\nMetadata Logic\nAgent\n50 queries/day \u00d7\n22 days = 1,100\nqueries/month\nConsidering 5\nusers\nInput Tokens=\n2000 \u00d7 1,100 \u00d7 5\n= 11,000,000\ninput tokens /\nmonth\nOutput Tokens =\n500 \u00d7 1,100 \u00d7 5\n= 2,750,000\noutput tokens /\nmonth"
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 27,
+    "tables": [
+      [
+        [
+          "AI + Machine\nLearning",
+          "Azure OpenAI",
+          "East US",
+          "Language Models,\nGPT 4.1, Standard\n(On-Demand),\nGlobal, 2,744 x\n1,000 input\ntokens, 0 x 1,000\ncached input, 550\nx 1,000 output\ntokens",
+          "\u20b9889.73",
+          "Below is the\nconsideration of\nGraph Agent\n50 queries/day \u00d7\n22 days = 1,100\nqueries/month\nConsidering 5\nusers\nInput Tokens=\n500 \u00d7 1,100 \u00d7 5\n= 2,750,000 input\ntokens / month\nOutput Tokens =\n100 \u00d7 1,100 \u00d7 5\n= 550,000 output\ntokens / month"
+        ],
+        [
+          "Web",
+          "Azure AI\nSearch",
+          "South India",
+          "Basic, 2 Unit(s), 24\nHours",
+          "\u20b9574.44",
+          ""
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 28,
+    "tables": [
+      [
+        [
+          "Compute",
+          "App Service",
+          "Central\nIndia",
+          "Premium V3 Tier;\n1 P1V3 (2 vCPU(s),\n8 GB RAM, 250 GB\nStorage) x 730\nHours; Linux OS; 0\nSNI SSL\nConnections; 0 IP\nSSL Connections;\n0 Custom\nDomains; 0\nStandard SLL\nCertificates; 0\nWildcard SSL\nCertificates",
+          "\u20b910,772.56",
+          ""
+        ],
+        [
+          "Analytics",
+          "Azure AI Bot\nService",
+          "South India",
+          "S1 tier, 0\nmessages in\nPremium\nChannels",
+          "\u20b90.00",
+          "For Standard\nchannel, in S1 sku\nUnlimited\nmessages are\nincluded."
+        ],
+        ["", "", "", "Total", "\u20b939,127.28", ""]
+      ]
+    ]
+  }
+]

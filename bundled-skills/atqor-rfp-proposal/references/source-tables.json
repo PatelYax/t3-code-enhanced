@@ -1,0 +1,668 @@
+[
+  {
+    "page": 3,
+    "tables": [
+      [
+        ["", "Revision", "Date", "", "", "Record of Changes", "", "", "Prepared By", ""],
+        ["1", null, "11/06/2025", null, "Version 2.0", null, null, "Taher Ambawala", null, null]
+      ],
+      [
+        [
+          "",
+          "Document\nRef.",
+          "atQor-01",
+          "Rev.",
+          "01",
+          "",
+          "Uncontrolled",
+          "",
+          "",
+          "",
+          "Controlled",
+          "",
+          "\u221a",
+          null
+        ],
+        [null, null, null, null, null, null, "Copy", null, null, null, "Copy", null, null, null],
+        [
+          "",
+          "This information is confidential and propriety to atQor and it is to be used only for the purpose for",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          ""
+        ],
+        [
+          null,
+          "which it is provided. Reproduction by any means, electronics or mechanical, and distribution to",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          "third parties without express written permission from atQor is not permitted.",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 4,
+    "tables": [
+      [
+        ["PROJECT TITLE", "AI Based MIS Insights", null, null],
+        ["COMPANY NAME", "Arvind Limited", "CLIENT", "Arvind"],
+        ["ACCOUNT MANAGER", "Zil Patel", "DATE SUBMITTED", "11/06/2025"],
+        ["AUTHOR", "Taher Ambawala", "VERSION", "2.0"]
+      ],
+      [
+        ["", "", "", "", "Prepared by", "", "", "Approved by", ""],
+        ["Name", null, null, "Taher Ambawala", null, null, "Devi Sahoo", null, null],
+        [
+          "Designation/Role",
+          null,
+          null,
+          "Solution Sales",
+          null,
+          null,
+          "Director \u2013 Solutions Sales",
+          null,
+          null
+        ],
+        ["Signature", null, null, "-TA-", null, null, "-DS-", null, null]
+      ]
+    ]
+  },
+  {
+    "page": 7,
+    "tables": [
+      [
+        ["Aspect", "atQor\u2019s Strengths", "Value to Clients"],
+        [
+          "Microsoft\nExpertise",
+          "Designated Microsoft Solutions Partner for\nBusiness Applications with deep expertise in\nDynamics 365 and Power Platform.",
+          "Ensures seamless\nimplementation and alignment\nwith Microsoft\u2019s best practices\nand technology roadmap."
+        ],
+        [
+          "Proven Track\nRecord",
+          "Recognized as the 2024 Microsoft India and\nSouth Asia Partner of the Year for Business\nApplications.",
+          "Demonstrates a strong history\nof delivering high-impact\nbusiness solutions recognized\nby Microsoft."
+        ],
+        [
+          "Comprehensive\nCapabilities",
+          "Expertise across Dynamics 365 modules (Sales,\nCustomer Service, Marketing), Power BI, and\nPower Automate.",
+          "Offers a unified platform\napproach to streamline\noperations, improve insights,\nand automate workflows."
+        ],
+        [
+          "Global Delivery\nExcellence",
+          "Balanced delivery model with certified teams\nacross North America, India, and South Asia.",
+          "Ensures cost-effective solutions\nwithout compromising on\nquality or delivery timelines."
+        ],
+        [
+          "Industry\nExperience",
+          "Extensive experience in industries such as\nhospitality, financial services, manufacturing,\nand professional services.",
+          "Provides industry-specific\ninsights to tailor solutions for\nunique business challenges."
+        ],
+        [
+          "Data and AI\nLeadership",
+          "Specialized in implementing advanced\nanalytics and AI-driven insights within the\nDynamics 365 ecosystem.",
+          "Empowers decision-making\nwith actionable data and\npredictive intelligence."
+        ],
+        [
+          "Customization\nand Integration",
+          "Demonstrated expertise in migrating and\nintegrating Dynamics 365 with tools like,\nEmailtopia, LinkedIn Sales Navigator, and\nPandaDoc through completed POCs and\ntailored demonstrations",
+          "Ensures seamless data flow\nbetween systems for enhanced\nefficiency and visibility."
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 8,
+    "tables": [
+      [
+        ["Aspect", "atQor\u2019s Strengths", "Value to Clients"],
+        [
+          "Customer-Centric\nApproach",
+          "Focused on delivering measurable business\noutcomes and fostering long-term\npartnerships.",
+          "Drives client success through\ntailored solutions and\ncontinuous support."
+        ],
+        [
+          "Scalable Solutions",
+          "Solutions built for scalability, leveraging\nMicrosoft Azure and cloud-native\ntechnologies.",
+          "Future-proofs investments,\nensuring flexibility for evolving\nbusiness needs."
+        ],
+        [
+          "Recognition and\nCertifications",
+          "Teams certified across Dynamics 365, Power\nPlatform, and Azure, with accolades for\ninnovation and delivery quality.",
+          "Reflects credibility and ability to\nmeet complex project\nrequirements effectively."
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 12,
+    "tables": [
+      [
+        [
+          "\u2022 This solution is strictly read-only: it will only retrieve and visualize data from the SQL Data Warehouse"
+        ],
+        ["only."],
+        [
+          "\u2022 Only for Creating store procedure we would require write access to enhance the performance of result."
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 18,
+    "tables": [
+      [
+        [
+          "Phase",
+          null,
+          null,
+          "Feature / Module",
+          null,
+          null,
+          "Description",
+          null,
+          null,
+          "Timeline"
+        ],
+        [
+          "Inception",
+          null,
+          null,
+          "Requirement Gathering,\nPlanning & Infrastructure Setup",
+          null,
+          null,
+          "Gather requirements, scope definition, and\nenvironment strategy.\nInitial schema & table relationship analysis.",
+          null,
+          null,
+          "10"
+        ],
+        [
+          "Solution\nDesign",
+          null,
+          null,
+          "Solution Design & Architecture",
+          null,
+          null,
+          "",
+          "Design architecture for a single web interface",
+          "",
+          "5"
+        ],
+        [null, null, null, null, null, null, null, "powered by Azure OpenAI.", null, null],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Define data flow from user query \u2192 SQL \u2192",
+          null,
+          null
+        ],
+        [null, null, null, null, null, null, null, "Synapse \u2192 Response.", null, null],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "Create Synapse data models, performance,",
+          null,
+          null
+        ],
+        [null, null, null, null, null, null, null, "and scalability plans.", null, null],
+        ["UI/UX\nDevelopment", null, null, "", "Frontend", "", "", "", "", "20"],
+        [
+          null,
+          null,
+          null,
+          "",
+          "Web-Based Chat Development",
+          "",
+          "",
+          "Build web-based chat interface",
+          "",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "",
+          "Tabular Based Response",
+          "",
+          "",
+          "Tabular response handling.",
+          "",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "",
+          "Graph Based Response",
+          "",
+          "",
+          "Graph Based response handling",
+          "",
+          null
+        ],
+        [null, null, null, "", "Chat History Management", "", "", "Session management", "", null],
+        [null, null, null, "", "Backend & API", "", "", "", "", null],
+        [
+          null,
+          null,
+          null,
+          "Web-Based Chat Development",
+          null,
+          null,
+          "APIs and backend logic for chat interaction",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "",
+          "Tabular Based Response",
+          "",
+          "",
+          "Tabular response handling.",
+          "",
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "",
+          "Graph Based Response",
+          "",
+          "",
+          "Graph Based response handling.",
+          "",
+          null
+        ],
+        [null, null, null, "", "Chat History Management", "", "", "Session management", "", null],
+        [
+          "",
+          "",
+          "",
+          "",
+          "Voice-Based Input functionality",
+          "",
+          "",
+          "Voice-Based Input functionality",
+          "",
+          null
+        ],
+        ["AI Agent\nDevelopment", null, null, "", "AI Model & Integration", "", "", "", "", null],
+        [
+          null,
+          null,
+          null,
+          "Data Cleaning",
+          null,
+          null,
+          "Data Cleaning: Special characters are\nremoved and strings normalized to ensure\nconsistent formatting and safe SQL execution.\nSchema Profiling: Key metadata like column\ntypes, null counts, and uniqueness are\nextracted to support query generation and\nredundancy checks.",
+          null,
+          null,
+          null
+        ]
+      ],
+      [
+        ["Gather requirements, scope definition, and"],
+        ["environment strategy."],
+        ["Initial schema & table relationship analysis."]
+      ],
+      [["Requirement Gathering,"], ["Planning & Infrastructure Setup"]],
+      [["Solution"], ["Design"]],
+      [["UI/UX"], ["Development"]],
+      [[""], ["20"]],
+      [
+        ["Data Cleaning: Special characters are"],
+        ["removed and strings normalized to ensure"],
+        ["consistent formatting and safe SQL execution."],
+        ["Schema Profiling: Key metadata like column"],
+        ["types, null counts, and uniqueness are"],
+        ["extracted to support query generation and"],
+        ["redundancy checks."]
+      ],
+      [["AI Agent"], ["Development"]]
+    ]
+  },
+  {
+    "page": 19,
+    "tables": [
+      [
+        [
+          "",
+          null,
+          null,
+          "Data Modelling & Schema\nProfiling",
+          null,
+          null,
+          "Index Structure Based on Schema Elements.\nSemantic Search to Enhance Query\nUnderstanding.\nGenerate content embedding for\nimplementing Vector Search.\nEnrich Index with Metadata and Descriptions.\nPrioritize Key Schema Elements Using Custom\nScoring Profiles.\nUse Filters and Facets for Contextual Retrieval.\nStore Synonyms and Related Terms to\nEnhance Retrieval.\nFunctional Logic implementation",
+          null,
+          null,
+          "",
+          null,
+          null
+        ],
+        [
+          "",
+          null,
+          null,
+          "Building AI Agents",
+          null,
+          null,
+          "SQL Generator Agent,\nExecutor Agent,\nSummarizing Agent, Tabular response Agent,\nGraph Generator Agent,\nReviewer Agent,\nSQL View Creation based on Functional logic",
+          null,
+          null,
+          "15",
+          null,
+          null
+        ],
+        [
+          "",
+          null,
+          null,
+          "Orchestration Layer\nDevelopment",
+          null,
+          null,
+          "Central coordination of agent activities.\nTable identification and workflow\nmanagement.\nResource allocation and conflict resolution.",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "",
+          "",
+          "",
+          "",
+          "Voice-Based Input functionality",
+          "",
+          "",
+          "Voice-Based Input functionality",
+          "",
+          null,
+          null,
+          null
+        ],
+        [
+          "",
+          null,
+          null,
+          "Memory and State Management",
+          null,
+          null,
+          "Shared knowledge base for agents.\nPersistent storage of context and historical\ninformation.\nTransaction management across agent\ninteractions.",
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "",
+          "Functional",
+          "",
+          "Functional Testing",
+          null,
+          null,
+          "",
+          "Verification of clause detection, Q&A results,",
+          "",
+          "7",
+          null,
+          null
+        ],
+        [null, "Testing", null, null, null, null, null, "and user flows", null, null, null, null],
+        [
+          "",
+          "UAT & Bug",
+          "",
+          "Testing & Validation",
+          null,
+          null,
+          "Unit, integration, and SME acceptance tests",
+          null,
+          null,
+          "5",
+          null,
+          null
+        ],
+        [null, "Fixing", null, null, null, null, null, null, null, null, null, null],
+        [
+          "Go-Live",
+          null,
+          null,
+          "Deployment & Documentation",
+          null,
+          null,
+          "",
+          "Final deployment, user guides, and knowledge",
+          "",
+          "5",
+          null,
+          null
+        ],
+        [null, null, null, null, null, null, null, "transfer", null, null, null, null],
+        [
+          "",
+          "Hypercare",
+          "",
+          "Post Go-Live Support",
+          null,
+          null,
+          "",
+          "Support for 30 days post go-live for critical",
+          "",
+          "30",
+          null,
+          null
+        ],
+        [null, "Support", null, null, null, null, null, "fixes", null, null, null, null],
+        ["", "Total Estimated Timeline", null, null, null, null, null, null, "", "", "97", ""]
+      ],
+      [
+        ["Index Structure Based on Schema Elements."],
+        ["Semantic Search to Enhance Query"],
+        ["Understanding."],
+        ["Generate content embedding for"],
+        ["implementing Vector Search."],
+        ["Enrich Index with Metadata and Descriptions."],
+        ["Prioritize Key Schema Elements Using Custom"],
+        ["Scoring Profiles."],
+        ["Use Filters and Facets for Contextual Retrieval."],
+        ["Store Synonyms and Related Terms to"],
+        ["Enhance Retrieval."],
+        ["Functional Logic implementation"]
+      ],
+      [["Data Modelling & Schema"], ["Profiling"]],
+      [
+        ["SQL Generator Agent,"],
+        ["Executor Agent,"],
+        ["Summarizing Agent, Tabular response Agent,"],
+        ["Graph Generator Agent,"],
+        ["Reviewer Agent,"],
+        ["SQL View Creation based on Functional logic"]
+      ],
+      [
+        ["Central coordination of agent activities."],
+        ["Table identification and workflow"],
+        ["management."],
+        ["Resource allocation and conflict resolution."]
+      ],
+      [["Orchestration Layer"], ["Development"]],
+      [
+        ["Shared knowledge base for agents."],
+        ["Persistent storage of context and historical"],
+        ["information."],
+        ["Transaction management across agent"],
+        ["interactions."]
+      ]
+    ]
+  },
+  {
+    "page": 20,
+    "tables": [
+      [
+        [
+          "",
+          "Service",
+          "",
+          "Region",
+          "Description",
+          "Remarks",
+          "Role of Services",
+          "",
+          "Estimated",
+          ""
+        ],
+        [null, "type", null, null, null, null, null, null, "monthly cost", null],
+        [
+          "App\nService",
+          null,
+          null,
+          "Central\nIndia",
+          "Premium V3 Tier; 1\nP1MV3 (2 vCPU(s), 16\nGB RAM, 250 GB\nStorage) x 730 Hours;\nLinux OS; 0 SNI SSL\nConnections; 0 IP SSL\nConnections; 0 Custom\nDomains; 0 Standard\nSLL Certificates; 0\nWildcard SSL\nCertificates",
+          "considered 3\nconcurrent\nsessions & each\nwill be\nconsumed 0.6\nvCore 3 GB RAM",
+          "The entire\napplication will be\nhosted here. We\nhave opted for a\nPaaS solution, which\nmeans you won\u2019t\nhave to worry about\noperating system\nmaintenance, as all\nof that will be\nmanaged by\nMicrosoft.",
+          "\u20b912,262.80",
+          null,
+          null
+        ],
+        [
+          "Azure\nCosmos\nDB",
+          null,
+          null,
+          "Central\nIndia",
+          "Azure Cosmos DB for\nNoSQL (formerly Core),\nStandard provisioned\nthroughput (manual),\nAlways-free quantity\ndisabled, pay as you go,\nSingle Region Write\n(Single-Master) - East\nUS (Write Region), 800\nRU/s x 730 Hours, 0 GB\ntransactional storage,\nAnalytical storage\ndisabled, 2 copies of\nperiodic backup\nstorage, Dedicated\nGateway not enabled",
+          "Considered 1200\nRU",
+          "This will be\nnecessary for\nmaintaining user\nhistory and will also\nbe required during\nfollow-up\nquestioning with the\nLLM.",
+          "\u20b93,987.90",
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 21,
+    "tables": [
+      [
+        [
+          "Azure\nOpenAI\nService",
+          "South\nIndia",
+          "Language Models,\nStandard (On-Demand),\nGPT-4o-Global-\nDeployment-128K,\n4,950 x 1,000 input\ntokens, 990 x 1,000\noutput tokens",
+          "Below is the\nconsideration of\nAll the Domain\nAgent\nConsidered\ninput Total = 25\n(Number of\nQuery) * 1800\ntoken utilized\nper table * 5\n(Avg.\nInvolvement of\ntable for",
+          "",
+          "\u20b93,380.16"
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 22,
+    "tables": [
+      [
+        [
+          "Azure\nOpenAI\nService",
+          "South\nIndia",
+          "Language Models,\nStandard (On-Demand),\nGPT-4o-Global-\nDeployment-128K,\n19,250 x 1,000 input\ntokens, 1,485 x 1,000\noutput tokens",
+          "\"Below is the\nconsideration of\nGenerating\nResponse of AI\nAgents\nInput token = 25\n(user query) *\n50 tokens * 7\nAverage Column\n* 100 Average\nRows * 22 Days\nthen total would\nbe consume\ninput token =\n192,50,000\nOutput token =\n25 (user query)\n* (300 token\n(Text Response)\n+ 1200 tokens\n(Tabular\nResponse) +\n1200 tokens\n(graph\nresponse)) * 22\nDays then total\nwould be\nconsume Output\ntoken =\n14,85,000\"",
+          "",
+          "\u20b910,117.00"
+        ]
+      ]
+    ]
+  },
+  {
+    "page": 23,
+    "tables": [
+      [
+        [
+          "Azure AI\nservices",
+          "Central\nIndia",
+          "Azure AI Speech, Pay as\nyou go, Standard,\nSpeech to Text, 44\nStandard real-time\ntranscription audio\nhours, 0 Standard fast\ntranscription audio\nhours, 0 Standard\nbatch transcription\naudio hours, 0 Custom\nreal-time transcription\naudio hours, 0 Custom\nbatch transcription\naudio hours, 0 Custom\nendpoint hosting\nmodels x 0 Audio\nhours, 0 Custom\nspeech training\ncompute hours, 0\nEnhanced add-on real-\ntime features x 0 Audio\nhours, 0 Conversation\ntranscription\nmultichannel audio\nhours",
+          "considered 2\nhour per day\ntranscription, so\nfor 22 days it\nwill be 44 hours.",
+          "",
+          "\u20b93,755.73"
+        ],
+        ["Total", null, null, null, null, "\u20b952,269.43"]
+      ]
+    ]
+  },
+  {
+    "page": 24,
+    "tables": [
+      [
+        ["Description", "Total Value in INR"],
+        [
+          "Azure Consumption\n* This is estimated and actual will be as per the consumption.",
+          "INR 52,269/-"
+        ],
+        ["Service \u2013 Total resource cost", "INR 1,950,000/-"]
+      ],
+      [
+        ["", "Resource Type", "", "", "Count", ""],
+        ["AI Developer", null, null, "2", null, null],
+        ["Solutions Architect", null, null, "0.5", null, null],
+        ["Data Engineer", null, null, "0.5", null, null],
+        ["Project manager", null, null, "0.5", null, null],
+        ["Total resources", null, null, "3.5", null, null]
+      ],
+      [
+        ["", "Milestone", "", "", "Payment", ""],
+        ["Month 1 \u2013 Kickoff + Dev", null, null, "487500", null, null],
+        ["Month 2 - Dev", null, null, "487500", null, null],
+        ["Month 3 \u2013 Dev + UAT", null, null, "487500", null, null],
+        ["Month 4 - Support", null, null, "487500", null, null]
+      ]
+    ]
+  }
+]

@@ -1,0 +1,760 @@
+
+--- PAGE 1 ---
+AI Based MIS Insights
+Arvind Limited
+12th June 2025
+E: info@atqor.com
+An ISO 9001, ISO 27001 certified company* Microsoft - Managed Gold Competency Partner
+2017, 2015, 2014 and 2013 Microsoft Worldwide Partner Award Winner for Cloud Productivity, Data Platform
+and Business Intelligence
+
+--- PAGE 2 ---
+Table of Contents
+1. Document Control ........................................................................................................................................ 3
+2. Executive Summary ....................................................................................................................................... 5
+3. Project Objective ........................................................................................................................................... 9
+4. Proposed Scope ............................................................................................................................................. 9
+4. Hypercare Support ..................................................................................................................................... 17
+5. Timelines........................................................................................................................................................ 18
+6. Project Commercials ................................................................................................................................. 20
+7. Terms and Condition ................................................................................................................................ 25
+8. Sign-Off.......................................................................................................................................................... 27
+Confidential to atQor Page 2 of 27
+
+--- PAGE 3 ---
+1. Document Control
+Revision history
+Revision Date Record of Changes Prepared By
+1 11/06/2025 Version 2.0 Taher Ambawala
+Control of hardcopy versions
+The digital version of this document is the most recent version. It is the responsibility of the individual
+to ensure that any printed version is the most recent version. The printed version of this manual is
+uncontrolled, and cannot be relied upon, except when formally issued by the atQor and provided
+with a document reference number and revision in the fields below:
+Document Uncontrolled Controlled
+atQor-01 Rev. 01 √
+Ref. Copy Copy
+This information is confidential and propriety to atQor and it is to be used only for the purpose for
+which it is provided. Reproduction by any means, electronics or mechanical, and distribution to
+third parties without express written permission from atQor is not permitted.
+Confidential to atQor Page 3 of 27
+
+--- PAGE 4 ---
+PROJECT TITLE AI Based MIS Insights
+COMPANY NAME Arvind Limited CLIENT Arvind
+ACCOUNT MANAGER Zil Patel DATE SUBMITTED 11/06/2025
+AUTHOR Taher Ambawala VERSION 2.0
+Prepared by Approved by
+Name Taher Ambawala Devi Sahoo
+Designation/Role Solution Sales Director – Solutions Sales
+Signature -TA- -DS-
+Confidential to atQor Page 4 of 27
+
+--- PAGE 5 ---
+2. Executive Summary
+2.1 atQor Introduction
+atQor is a Microsoft Solutions Partner with a proven track record of delivering transformative
+business solutions using Microsoft technologies. With decades of experience in digital transformation
+and enterprise technology, atQor specializes in implementing comprehensive business application
+platforms that enable organizations to streamline operations, improve customer engagement, and
+drive growth.
+Key Strengths and Achievements:
+• Microsoft Business Applications Solutions Partner Designation: atQor has earned this
+prestigious designation under the Microsoft Partner Program, reflecting our deep expertise
+and proven success in deploying Dynamics 365 solutions across Sales, Customer Service, and
+Marketing.
+• 2024 Microsoft India and South Asia Partner of the Year for Business Applications: This
+recognition underscores our leadership in delivering innovative solutions that leverage
+Dynamics 365 and Power Platform to empower businesses.
+• Extensive Expertise in Dynamics 365: Our team of certified professionals brings extensive
+experience in implementing Dynamics 365 Sales, Marketing, and Customer Service modules,
+with a focus on seamless integration, data migration, and process optimization.
+• Global Delivery Excellence: Leveraging our robust onshore and offshore capabilities, atQor
+ensures efficient project delivery, comprehensive support, and cost-effective solutions
+tailored to each client’s unique needs.
+• Industry-Specific Insights: With experience across multiple industries, including hospitality,
+financial services, and professional services, atQor understands how to align technology with
+business goals to deliver measurable outcomes.
+By partnering with atQor, Arvind Limited will gain access to an HR Bot which will assist them in first
+level screening of candidates.
+Confidential to atQor Page 5 of 27
+
+--- PAGE 6 ---
+atQor’s commitment to excellence, paired with our alignment with Microsoft’s latest technologies
+and priorities, makes us an ideal partner to drive Arvind’s digital transformation journey.
+In Microsoft Cloud Partner Program (launched in Oct 2022 by retiring old gold and silver partnership),
+atQor has all six-solution area expertise and solution partner status and by virtue of it, also has over
+all Microsoft Cloud Partner solution badge awarded by Microsoft. Microsoft has also recognised
+atQor as one of the first partner in the world to achieve such competency in all Microsoft cloud
+technologies.
+We hold specialities in SharePoint Deployment, CoPilot AI, SharePoint Architect & Development,
+Business Intelligence, Collaboration, Private Cloud -Virtualization and Management, Application
+Lifecycle Management, Power BI, Microsoft Azure, Microsoft Power Platform, SharePoint Migration,
+Microsoft Teams, Microsoft Power Automate, Microsoft Teams Development, Application
+Development, Cloud Security, Microsoft 365, Intune, EMS, Microsoft Project, and Dynamics 365.
+Confidential to atQor Page 6 of 27
+
+--- PAGE 7 ---
+2.2 Why atQor?
+Aspect atQor’s Strengths Value to Clients
+Ensures seamless
+Designated Microsoft Solutions Partner for
+Microsoft implementation and alignment
+Business Applications with deep expertise in
+Expertise with Microsoft’s best practices
+Dynamics 365 and Power Platform.
+and technology roadmap.
+Demonstrates a strong history
+Recognized as the 2024 Microsoft India and
+Proven Track of delivering high-impact
+South Asia Partner of the Year for Business
+Record business solutions recognized
+Applications.
+by Microsoft.
+Offers a unified platform
+Expertise across Dynamics 365 modules (Sales,
+Comprehensive approach to streamline
+Customer Service, Marketing), Power BI, and
+Capabilities operations, improve insights,
+Power Automate.
+and automate workflows.
+Ensures cost-effective solutions
+Global Delivery Balanced delivery model with certified teams
+without compromising on
+Excellence across North America, India, and South Asia.
+quality or delivery timelines.
+Extensive experience in industries such as Provides industry-specific
+Industry
+hospitality, financial services, manufacturing, insights to tailor solutions for
+Experience
+and professional services. unique business challenges.
+Specialized in implementing advanced Empowers decision-making
+Data and AI
+analytics and AI-driven insights within the with actionable data and
+Leadership
+Dynamics 365 ecosystem. predictive intelligence.
+Demonstrated expertise in migrating and
+integrating Dynamics 365 with tools like, Ensures seamless data flow
+Customization
+Emailtopia, LinkedIn Sales Navigator, and between systems for enhanced
+and Integration
+PandaDoc through completed POCs and efficiency and visibility.
+tailored demonstrations
+Confidential to atQor Page 7 of 27
+
+--- PAGE 8 ---
+Aspect atQor’s Strengths Value to Clients
+Focused on delivering measurable business Drives client success through
+Customer-Centric
+outcomes and fostering long-term tailored solutions and
+Approach
+partnerships. continuous support.
+Solutions built for scalability, leveraging Future-proofs investments,
+Scalable Solutions Microsoft Azure and cloud-native ensuring flexibility for evolving
+technologies. business needs.
+Teams certified across Dynamics 365, Power Reflects credibility and ability to
+Recognition and
+Platform, and Azure, with accolades for meet complex project
+Certifications
+innovation and delivery quality. requirements effectively.
+Confidential to atQor Page 8 of 27
+
+--- PAGE 9 ---
+3. Project Objective
+To develop an intelligent, AI-powered chat bot that enables seamless interaction between user and
+their operational data by integrating production and profitability related data from SAP and worker
+data from HR app. The objective is to empower the management users with context-aware responses
+to their queries through a conversational AI agent such as profitability and the influence of various
+factors for any variation in profitability as compared to the budgeted values or in comparison with
+earlier months etc. This solution aims to enhance decision-making, improve operational
+transparency, and reduce the time and effort required to extract insights from complex datasets.
+4. Proposed Scope
+Functional Scope of work
+User Access and Security
+• Users will log in to the platform using their company credentials.
+• Access to different parts of the solution will be controlled based on the user's role.
+Data Structure and Organization
+• Design how data is organized and connected to reflect real business needs in areas like HR, Production,
+Machine Downtime, and Profitability.
+• Ensure the data setup supports fast and accurate information retrieval.
+• Make sure the data structure helps the AI understand and respond to user questions correctly.
+AI-Powered Assistance
+• Use AI to understand user questions and figure out which business area they relate to.
+• AI will use a mix of pre-built and custom rules to create accurate answers from the data.
+• Answers can be shown as plain text, tables, or charts, depending on what the user prefers.
+Chat-Based User Interface
+• Web-based platform with both chat and voice capabilities, allowing users to log in and ask questions
+through either interface.
+• The Solution will direct each question to the right AI helper based on the topic and preferred answer
+format.
+• Users will see answers in a clear and interactive way—either as text, tables, or visual charts.
+Confidential to atQor Page 9 of 27
+
+--- PAGE 10 ---
+Conversation and Session Tracking
+• Keep a record of all user chats to help personalize future interactions and improve the solution.
+• Store session details so users can continue where they left off, even if they return later.
+Technical Scope of work
+Platform Authentication via Entra ID:
+• Users sign in to the Azure Web App using Entra ID for secure authentication and RBAC enforcement.
+Data Modelling:
+• Define and optimize the logical and physical data models for on-premises SQL warehouse to ensure
+efficient query performance, high data integrity, and clear relationships among tables and entities.
+• Validate that schema designs align with business requirements for HRMS, Production, Spinning,
+Stoppages & Profitability modules.
+• Perform initial schema and table relationship analysis to support the AI Agents’ semantic understanding
+(e.g., for query generation).
+AI Agents & Orchestration: Use Semantic Kernel as an AI orchestrator to enable multi-agent
+solutions:
+• The Table Identification Agent and SQL to NLP Agent interpret user queries and map them to the correct
+domain (HRMS, Production, Spinning, Stoppages & Profitability), as well as functional logic.
+• Considered 30 views of SAP and that will store it as Physical table into synapse data warehouse and upon
+that generate SQL Query via AI.
+• Considered 40 custom functional logic (Arithmetic Logic).
+• The Text-Based, Tabular-Based, and Graph-Based Response Formation Agents finalize the user-facing
+answer in the requested format (e.g., text summary, interactive table, or chart-ready data).
+Chat Interaction & Web App:
+• Provide a web-based chat interface where Entra ID–authenticated users submit questions.
+• Route user queries to the appropriate AI Agent(s) based on domain (HRMS, Production, Spinning,
+Stoppages & Profitability) and requested response type (text, table, or graph).
+• Display chat results in multiple formats: text-based answers, tabular data, or graph-based visualizations.
+• Voice-based input needs to be developed as part of chat interaction.
+Chat History Management:
+• Maintain conversation logs in Cosmos DB for personalization, context retention, and analytics.
+• Implement session management using a persistent store called Cosmos DB.
+Confidential to atQor Page 10 of 27
+
+--- PAGE 11 ---
+Solution Design
+Assumptions
+Access of Data Warehouse
+• Required read-only access with appropriate database roles will be granted to access all required
+databases and tables.
+• The solution will not connect to SAP systems or interact with SAP APIs of any kind.
+Data Volume & Structure Assumption
+• It is expected to Arvind will have around 30 View on SAP and will store it that view as physical table into
+Synapse Data warehouse and that has an average of 20 columns per table.
+• 30 SQL View will be created by Arvind Team only.
+• 40 Functional Logic (Arithmetic Logic) will be created.
+• Output rows in tabular format will be limited up to 50 only on the UI and any further increase will have
+CSV option for user to download the data.
+Data Quality and Structure
+• The existing Views is already structured and clean.
+• The views from respective raw tables will be created by the Arvind’s team.
+• No additional data cleaning, transformation, or preprocessing will be required apart from standard data
+mapping and ingestion.
+• Tables and columns required for each business domain (HRMS, Production, Spinning, Stoppages &
+Profitability) are well-defined and finalized before development begins.
+Confidential to atQor Page 11 of 27
+
+--- PAGE 12 ---
+• Any unstructured Data will not be considered this engagement.
+Infrastructure & Azure Services
+• Customer already has or will provision:
+o An active Azure subscription with required access roles.
+o Azure OpenAI service enabled and available in the appropriate Azure region.
+o Azure Entra ID is set up with access and all users will be authenticated through it.
+• All Azure resource costs, quota allocation and management, and licenses are customer responsibilities.
+Authentication and User Context
+• All users accessing the chatbot will be authenticated using Microsoft Entra ID (M365) accounts.
+• Required user profile attributes for personalization or access logic will be pre-configured in Entra ID.
+Read-Only Query Access
+• This solution is strictly read-only: it will only retrieve and visualize data from the SQL Data Warehouse
+only.
+• Only for Creating store procedure we would require write access to enhance the performance of result.
+• It will not perform any INSERT, UPDATE, DELETE, or writeback operations to any database.
+• Generated responses include only text summaries, data tables, or charts based on existing data.
+Data Modeling & Domain Inputs
+• Customer will provide appropriate table and column descriptions, data types, and relationships.
+Sample Questions & Prompt Engineering
+• A list of representative queries and ideal responses will be shared by the customer to help guide prompt
+design, building functional logic and validation.
+• Any significant expansion beyond agreed use cases (e.g., new modules/domains) will be considered out
+of scope.
+SAP Integration
+• There will be no direct interaction with SAP systems.
+• Any SAP API integration, connectivity, or data access is explicitly excluded from this engagement.
+Chat History
+• Cosmos DB will be used to store chat history, Agents prompt, Manage user sessions.
+• Additional analytics dashboards or insights are not part of the base scope unless explicitly added.
+UI/UX:
+• Minimal Front-End Complexity: Web app focuses on intuitive chat-based interactions rather than
+advanced UI.
+• Solution will be hosted as an Application Website on Azure.
+Confidential to atQor Page 12 of 27
+
+--- PAGE 13 ---
+LLM Scope
+• Work only upon 30 Views of table.
+• Input queries will be provided in English language only as text and audio.
+• Only English Content & Response: Multi-lingual or non-English text is out of scope unless specified.
+• Role Based Access control upon AI response will not be considered in this engagement.
+• Domain experts’ collaboration is required to refine AI agent knowledge.
+Stakeholder Involvement
+• Client stakeholders, including Subject Matter Experts (SMEs), will be available for regular feedback,
+approvals, and decision-making throughout the project lifecycle.
+• Business stakeholders will provide timely feedback for model fine-tuning and performance
+improvements.
+Change Management
+• Any deviation in terms of scope, requirements, or timeline after initial sign-off will require formal
+approval through a Change Request (CR) process.
+• Support Post-Go-Live: 30 Days period of hyper-care support will be provided post-deployment of each
+Department to address critical issues. Long-term support and maintenance will require a separate
+agreement.
+Azure Cost Estimation
+• This estimate is provisional, as costs may fluctuate due to certain resources being dynamic. Therefore,
+the expense associated with these resources will depend on their utilization levels.
+Prerequisites
+• Azure Subscription: Active subscription with resource-group contributor access or subscription
+contributor access.
+• Azure OpenAI Service: The Azure OpenAI service must be enabled on the given Azure subscription.
+• Application Administrator Role: An Application Administrator role on Azure Active Directory (AD) is
+required to enable authentication on the web application.
+• SAP SQL View: Arvind Team will be provided 30 Views on SAP.
+• Access to the Synapse SQL Data warehouse: The account needs to have the correct database roles and
+permissions to read or view the necessary SQL Table View for solution development and integration.
+• User Authentication (Microsoft Entra ID): Users must be authenticated using Microsoft Entra ID
+(formerly Azure Active Directory). The user account should belong to the organization’s Microsoft 365
+Confidential to atQor Page 13 of 27
+
+--- PAGE 14 ---
+tenant. These attributes will be used by the AI Based Worker Agent for personalization, authorization
+checks.
+• Sample Questions and Answers: A list of frequently asked or expected sample questions and their ideal
+answers must be provided. These will help in fine-tuning the prompt design, building functional logic,
+testing the AI Based Worker Agent, and validating the response quality.
+• SQL View: Arvind’s team will provide SQL Views out of the raw data and the same views will be
+leveraged to pull the data into the DW.
+• Table and Column Descriptions: A detailed description of each table and its columns (including
+relationships and business context) must be documented. This is essential for building accurate,
+semantically meaningful queries through the AI agent.
+• Walkthrough of Tables and Data Understanding: A walkthrough session to explain the structure and
+business meaning of the tables, it is required to ensure accurate interpretation and effective integration
+with AI agent. Additionally, also require session for functional logic understanding.
+Service Components
+• Azure Web App – Hosts the chatbot interface accessible via Entra ID sign-in.
+• Azure Cosmos DB (NoSQL database) – Stores conversation history and user interactions and sessions.
+• Azure Speech Services: to enable voice-based input functionality to solution.
+• Azure OpenAI – Provides natural language processing capabilities using large language models like GPT-
+4o, essential for understanding user queries and generating meaningful responses.
+• Azure OpenAI for Agents – Powers AI-driven virtual assistants for domain-specific chatbot interactions.
+• Azure Entra ID – Manages identity and access control.
+• Azure Functions – Hosts serverless logic (e.g., event-driven triggers, transformations).
+Confidential to atQor Page 14 of 27
+
+--- PAGE 15 ---
+Deliverables
+Azure Resources Setup
+• Provisioning and configuration of necessary Azure services required for the solution, including:
+• Azure OpenAI Service.
+o Cosmos DB for storing user sessions, chat history.
+o Voice-based Input Chat interface.
+o Azure Web App for hosting the chatbot application.
+Microsoft Entra ID Integration
+• Setup and integration of Microsoft Entra ID for user authentication.
+Web-Based Application
+• Development of a web application with minimal UI complexity, focused solely on intuitive chat based.
+interactions (desktop-only, not mobile-responsive).
+Follow-Up Question Functionality
+• Implementation of AI-powered logic to handle follow-up questions by rephrasing unclear inputs using
+conversation context.
+Out of Scope
+Write Operations to Data Warehouse
+• This solution will not include any INSERT, UPDATE, DELETE, or other write operations. It is strictly a read-only
+solution.
+SAP Integration
+• No integration with SAP systems or interaction with SAP APIs is included. Any such requirement will be
+treated as a separate scope.
+Unstructured Data Handling
+• The project assumes all data is structured. Unstructured data (e.g., scanned documents, free-text fields
+without schema, or media files) is out of scope.
+Advanced UI/UX Development
+• The web application will have minimal front-end complexity focused on chat-based interaction only.
+Advanced UI features like dashboards, rich visualizations, multi-page navigation, or mobile optimization are
+not included.
+Multilingual Support
+• Only English language input and output are supported. Any multilingual interaction (input or response) is out
+of scope unless explicitly agreed upon.
+Real-Time or Streaming Data
+• This engagement does not include real-time data ingestion, streaming data, or live dashboards.
+Confidential to atQor Page 15 of 27
+
+--- PAGE 16 ---
+Role-Based Access Control (RBAC) for AI Responses
+• The chatbot will not implement RBAC logic to personalize or restrict AI-generated responses based on user
+roles or access levels.
+Advanced Analytics & Reporting
+• Generation of custom reports, predictive analytics, or BI dashboards is not part of the base scope.
+Mobile or Cross-Platform App Development
+• The solution is limited to a web-based application and does not include native mobile app development or
+integration with platforms like Microsoft Teams, Slack, etc.
+Change Management or Ongoing Enhancements
+• Post go-live change requests, enhancements, or extended support will be handled under a separate change
+control process or new agreement.
+Non-Textual Input Processing
+• The chatbot will only support text input. Voice, image, PDF uploads, or other file-based inputs are excluded
+from the scope.
+Authentication Customization or SSO Extensions
+• The solution will authenticate users via Microsoft Entra ID only. Integration with other identity providers or
+multi-tenant access setup is not included.
+Large-Scale Domain Expansion
+• Expansion to new business domains (beyond HRMS, Production, Spinning, Stoppages & Profitability) or
+modules not defined in the agreed dataset will be considered out of scope.
+Storing User Activity or Audit Trails
+• Tracking and storing detailed user activity logs or audit trails is not in scope for this solution.
+Custom Notifications or Alerts
+• Email, Teams, or other notification mechanisms are not included.
+Confidential to atQor Page 16 of 27
+
+--- PAGE 17 ---
+4. Hypercare Support
+The Hypercare support is provided from the go-live date until the next thirty calendar days. This phase, also
+known as "Post go-live support," aims to optimize solution usage by assisting end users with their queries.
+During this period, no development work will be carried out except for addressing production or data-related
+bugs. If any issues are identified during this time that were missed during user acceptance testing (UAT), they
+will be addressed through the change management process. The purpose of this support is to provide
+assistance in querying and troubleshooting production issues to stabilize the process. Following the
+Hypercare period, the project will transition into a regular support model or the Application Maintenance
+Service (AMS) – this is optional and not required to be purchased along with this proposal.
+Confidential to atQor Page 17 of 27
+
+--- PAGE 18 ---
+5. Timelines
+Phase Feature / Module Description Timeline
+Gather requirements, scope definition, and
+Requirement Gathering,
+Inception environment strategy. 10
+Planning & Infrastructure Setup
+Initial schema & table relationship analysis.
+Design architecture for a single web interface
+powered by Azure OpenAI.
+Solution Define data flow from user query → SQL →
+Solution Design & Architecture 5
+Design Synapse → Response.
+Create Synapse data models, performance,
+and scalability plans.
+Frontend
+Web-Based Chat Development Build web-based chat interface
+Tabular Based Response Tabular response handling.
+Graph Based Response Graph Based response handling
+Chat History Management Session management
+UI/UX
+Backend & API
+Development
+Web-Based Chat Development APIs and backend logic for chat interaction
+Tabular Based Response Tabular response handling.
+Graph Based Response Graph Based response handling.
+Chat History Management Session management
+Voice-Based Input functionality Voice-Based Input functionality
+20
+AI Model & Integration
+Data Cleaning: Special characters are
+removed and strings normalized to ensure
+AI Agent consistent formatting and safe SQL execution.
+Development Data Cleaning Schema Profiling: Key metadata like column
+types, null counts, and uniqueness are
+extracted to support query generation and
+redundancy checks.
+Confidential to atQor Page 18 of 27
+
+--- PAGE 19 ---
+Index Structure Based on Schema Elements.
+Semantic Search to Enhance Query
+Understanding.
+Generate content embedding for
+implementing Vector Search.
+Data Modelling & Schema Enrich Index with Metadata and Descriptions.
+Profiling Prioritize Key Schema Elements Using Custom
+Scoring Profiles.
+Use Filters and Facets for Contextual Retrieval.
+Store Synonyms and Related Terms to
+Enhance Retrieval.
+Functional Logic implementation
+SQL Generator Agent,
+Executor Agent,
+Summarizing Agent, Tabular response Agent,
+Building AI Agents
+Graph Generator Agent,
+Reviewer Agent,
+SQL View Creation based on Functional logic
+Central coordination of agent activities.
+15
+Orchestration Layer Table identification and workflow
+Development management.
+Resource allocation and conflict resolution.
+Voice-Based Input functionality Voice-Based Input functionality
+Shared knowledge base for agents.
+Persistent storage of context and historical
+Memory and State Management information.
+Transaction management across agent
+interactions.
+Functional Verification of clause detection, Q&A results,
+Functional Testing 7
+Testing and user flows
+UAT & Bug
+Testing & Validation Unit, integration, and SME acceptance tests 5
+Fixing
+Final deployment, user guides, and knowledge
+Go-Live Deployment & Documentation 5
+transfer
+Hypercare Support for 30 days post go-live for critical
+Post Go-Live Support 30
+Support fixes
+Total Estimated Timeline 97
+Confidential to atQor Page 19 of 27
+
+--- PAGE 20 ---
+6. Commercials
+Azure Estimations
+Service Region Description Remarks Role of Services Estimated
+type monthly cost
+App Central Premium V3 Tier; 1 ₹12,262.80
+The entire
+Service India P1MV3 (2 vCPU(s), 16
+application will be
+GB RAM, 250 GB
+hosted here. We
+Storage) x 730 Hours;
+considered 3 have opted for a
+Linux OS; 0 SNI SSL
+concurrent PaaS solution, which
+Connections; 0 IP SSL
+sessions & each means you won’t
+Connections; 0 Custom
+will be have to worry about
+Domains; 0 Standard
+consumed 0.6 operating system
+SLL Certificates; 0
+vCore 3 GB RAM maintenance, as all
+Wildcard SSL
+of that will be
+Certificates
+managed by
+Microsoft.
+Azure Central Azure Cosmos DB for ₹3,987.90
+Cosmos India NoSQL (formerly Core),
+DB Standard provisioned
+throughput (manual),
+Always-free quantity This will be
+disabled, pay as you go, necessary for
+Single Region Write maintaining user
+(Single-Master) - East Considered 1200 history and will also
+US (Write Region), 800 RU be required during
+RU/s x 730 Hours, 0 GB follow-up
+transactional storage, questioning with the
+Analytical storage LLM.
+disabled, 2 copies of
+periodic backup
+storage, Dedicated
+Gateway not enabled
+Confidential to atQor Page 20 of 27
+
+--- PAGE 21 ---
+Azure South Language Models, Below is the ₹17,604.98
+OpenAI India Standard (On-Demand), consideration of
+Service GPT-4o-2024-08-06 Table
+Global Deployment, Identification
+16,500 x 1,000 input Agent
+tokens, 16,500 x 1,000
+output tokens
+Considered
+input Total = 5
+(Number of
+Query) * 5
+(number of
+users) * 50
+token utilized
+per column * 30
+tables * 20
+column * 22
+Days =
+1,65,00,000
+Considered
+output Total = 5
+(Number of
+Query) * 5
+(number of
+users) * 50
+token utilized
+per column * 30
+tables * 20
+column * 22
+Days =
+1,65,00,000
+Azure South Language Models, Below is the ₹3,380.16
+OpenAI India Standard (On-Demand), consideration of
+Service GPT-4o-Global- All the Domain
+Deployment-128K, Agent
+4,950 x 1,000 input
+tokens, 990 x 1,000
+output tokens
+Considered
+input Total = 25
+(Number of
+Query) * 1800
+token utilized
+per table * 5
+(Avg.
+Involvement of
+table for
+Confidential to atQor Page 21 of 27
+
+--- PAGE 22 ---
+generating
+response) * 22
+Days =
+49,50,000
+Considered
+output Total =
+25 (Number of
+Query) * 1800
+token utilized
+per response *
+22 Days =
+9,90,000
+Azure South Language Models, ₹10,117.00
+OpenAI India Standard (On-Demand), "Below is the
+Service GPT-4o-Global- consideration of
+Deployment-128K, Generating
+19,250 x 1,000 input Response of AI
+tokens, 1,485 x 1,000 Agents
+output tokens
+Input token = 25
+(user query) *
+50 tokens * 7
+Average Column
+* 100 Average
+Rows * 22 Days
+then total would
+be consume
+input token =
+192,50,000
+Output token =
+25 (user query)
+* (300 token
+(Text Response)
++ 1200 tokens
+(Tabular
+Response) +
+1200 tokens
+(graph
+response)) * 22
+Days then total
+would be
+consume Output
+token =
+14,85,000"
+Confidential to atQor Page 22 of 27
+
+--- PAGE 23 ---
+Azure South Consumption tier, pay ₹1,160.86
+Functions India as you go, 128 MB
+memory, 1,00,000
+milliseconds execution
+time, 1,00,000
+executions/month
+Azure AI Central Azure AI Speech, Pay as ₹3,755.73
+services India you go, Standard,
+Speech to Text, 44
+Standard real-time
+transcription audio
+hours, 0 Standard fast
+transcription audio
+hours, 0 Standard
+batch transcription
+audio hours, 0 Custom
+real-time transcription
+audio hours, 0 Custom
+batch transcription
+audio hours, 0 Custom
+endpoint hosting
+models x 0 Audio
+hours, 0 Custom
+speech training
+compute hours, 0
+Enhanced add-on real-
+time features x 0 Audio considered 2
+hours, 0 Conversation hour per day
+transcription transcription, so
+multichannel audio for 22 days it
+hours will be 44 hours.
+Total ₹52,269.43
+Confidential to atQor Page 23 of 27
+
+--- PAGE 24 ---
+AtQor has worked out following commercial pricing.
+Service Estimation
+Description Total Value in INR
+Azure Consumption
+INR 52,269/-
+* This is estimated and actual will be as per the consumption.
+Service – Total resource cost INR 1,950,000/-
+Resource Type Count
+AI Developer 2
+Solutions Architect 0.5
+Data Engineer 0.5
+Project manager 0.5
+Total resources 3.5
+Timeline 4 months
+Milestone Payment
+Month 1 – Kickoff + Dev 487500
+Month 2 - Dev 487500
+Month 3 – Dev + UAT 487500
+Month 4 - Support 487500
+• Payment Terms
+o Billed on 1st of the month, invoice is payable within 7 days from the date of receipt of
+invoice.
+Confidential to atQor Page 24 of 27
+
+--- PAGE 25 ---
+7. Terms and Condition
+The scopes of work & deliverables in the proposal are the results from the meeting and shared
+business requirements. Actuals may vary depending on further information from ARVIND LIMITED
+not included in initial discussions and not included in above SOW. Should there be any major change,
+or any unforeseen circumstance arise, both ARVIND LIMITED and atQor will agree to address the
+resulting impacts on the project plan mutually.
+• The Purchase Order along with the signed contract to be released on the name of atQor
+Technologies Private Limited.
+• Any taxes, if applicable, are payable additionally.
+• atQor is not liable for the delays caused by circumstances that are not within atQor
+responsibility and control.
+• Azure Consumption Invoice is payable within 7 days from the date of receipt of invoice.
+• Any additional expenses like travel, instance, licenses etc. must be organized by the customer.
+• The project will be carried out virtually.
+• The estimated timeline and cost are based on the current understanding of the scope. Any
+deviations in terms of complexity and depth identified during the discovery sessions will
+impact both the timeline and estimates.
+• The project engagement will be conducted remotely and required travel expenses will be
+billed on actual.
+• Working days for the project are from Monday to Friday, excluding public holidays.
+• Any additional request that falls outside the defined scope will need to be requested through
+the change order process. Once approved, they will be included in the project and billed on a
+time and material basis.
+• Any consulting resources required after the go-live of this project will be available and billed
+on a time and material basis or under AMC.
+• The Project Owner from Customer will monitor the project progress and will serve as the
+decision-maker, ensuring a 48-hour turnaround time for policy decisions.
+Confidential to atQor Page 25 of 27
+
+--- PAGE 26 ---
+• Customer will provide a suitable working environment, including adequate IT and non-IT
+facilities, as well as a solid understanding of the business requirements for atQor's consultants
+to perform their assigned duties.
+• Customer will be responsible for any licensing/subscription costs associated with this project
+and licenses may vary depending on multiple factors.
+• The project will be carried out virtually.
+Confidential to atQor Page 26 of 27
+
+--- PAGE 27 ---
+8. Sign-Off
+The Project Scope and the commercials would be binding and final for the complete development
+under this contract. Any development/implementation/consultancy which is not covered under the
+Project Scope would be considered as a Change Request and extra charges would be levied as per
+actual.
+Signed for and on behalf of: Signed for and on behalf of:
+atQor Arvind Limited
+Signed: ..................................... Signed: .......................................
+Name: Taher Ambawala Name: .........................................
+Title: Solution Sales Title: ............................................
+Date: 11/06/2025 Date: ............................................
+Confidential to atQor Page 27 of 27

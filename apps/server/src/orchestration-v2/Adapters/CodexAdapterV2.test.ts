@@ -1086,6 +1086,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       Effect.void,
     onRequest: (method: string, params: unknown) => Effect.Effect<void> = () => Effect.void,
     readChildMetadata?: Parameters<typeof withCodexReplayChildMetadata>[2],
+    environment: NodeJS.ProcessEnv = {},
   ) =>
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
@@ -1130,7 +1131,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       const adapter = yield* CodexAdapterV2.makeCodexAdapterV2({
         instanceId: CodexAdapterV2.CODEX_DEFAULT_INSTANCE_ID,
         settings: DEFAULT_CODEX_SETTINGS,
-        environment: {},
+        environment,
         clientFactory,
         crypto: yield* Crypto.Crypto,
         fileSystem,
@@ -1319,7 +1320,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       ),
   );
 
-  it.effect("adds the session MCP server without replacing launch-argument servers", () =>
+  it.effect("does not inject the built-in session MCP server", () =>
     Effect.gen(function* () {
       const scenario = "launch-mcp-servers";
       yield* (yield* McpProviderSessions.McpProviderSessions).set({
@@ -1354,14 +1355,128 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           config: {
             "tools.update_plan.enabled": true,
             mcp_optional_startup_grace_ms: 10_000,
-            "mcp_servers.t3-code": {
-              url: "http://127.0.0.1:43123/mcp",
-              tool_timeout_sec: 3_900,
-              http_headers: { Authorization: "Bearer secret-codex-token" },
-            },
           },
         },
       ]);
+    }).pipe(
+      Effect.scoped,
+      Effect.provide(
+        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+      ),
+    ),
+  );
+
+  it.effect("injects bundled MCP JSON without overwriting user servers on start and resume", () =>
+    Effect.gen(function* () {
+      const fileSystem = yield* FileSystem.FileSystem;
+      const temporary = yield* fileSystem.makeTempDirectoryScoped({ prefix: "bundled-mcp-test-" });
+      const manifestPath = `${temporary}/bundled-mcp.json`;
+      yield* fileSystem.writeFileString(
+        manifestPath,
+        JSON.stringify({
+          mcpServers: {
+            "microsoft-learn": { type: "http", url: "https://learn.microsoft.com/api/mcp" },
+          },
+        }),
+      );
+      const preamble = codexReplayPreamble({
+        nativeThreadId: "bundled-mcp-thread",
+        nativeTurnId: "unused",
+        prompt: "unused",
+      });
+      const configRead = (requestId: number): Array<CodexReplay.CodexAppServerReplayEntry> => [
+        {
+          type: "expect_outbound",
+          label: "config/read",
+          frame: {
+            id: requestId,
+            method: "config/read",
+            params: { cwd: "/workspace", includeLayers: false },
+          },
+        },
+        {
+          type: "emit_inbound",
+          label: "config/read",
+          frame: {
+            id: requestId,
+            result: {
+              config: {
+                mcp_servers: { "atqor_microsoft-learn": { command: "user-server" } },
+              },
+              origins: {},
+            },
+          },
+        },
+      ];
+      const threadEntries = preamble
+        .slice(3, 5)
+        .map((entry) =>
+          "frame" in entry && Predicate.isObject(entry.frame)
+            ? { ...entry, frame: { ...entry.frame, id: 3 } }
+            : entry,
+        );
+      const startResponse = preamble[4]!;
+      assert.isTrue("frame" in startResponse);
+      const expectedConfig = {
+        ...CodexAdapterV2.CODEX_THREAD_CONFIG,
+        "mcp_servers.atqor_microsoft-learn_2": { url: "https://learn.microsoft.com/api/mcp" },
+      };
+      const requests: Array<unknown> = [];
+      const harness = yield* makeCodexReplayHarness(
+        makeCodexReplayTranscript({
+          scenario: "bundled-mcp",
+          entries: [
+            ...preamble.slice(0, 3),
+            ...configRead(2),
+            ...threadEntries,
+            ...configRead(4),
+            {
+              type: "expect_outbound",
+              label: "thread/resume",
+              frame: {
+                id: 5,
+                method: "thread/resume",
+                params: {
+                  threadId: "bundled-mcp-thread",
+                  excludeTurns: true,
+                  config: expectedConfig,
+                  cwd: "/workspace",
+                  model: "gpt-5.4",
+                },
+              },
+            },
+            ...("frame" in startResponse && Predicate.isObject(startResponse.frame)
+              ? [
+                  {
+                    ...startResponse,
+                    frame: { ...startResponse.frame, id: 5 },
+                  },
+                ]
+              : []),
+          ],
+        }),
+        () => Effect.void,
+        (method, params) =>
+          Effect.sync(() => {
+            if (method === "thread/start") requests.push(params);
+          }),
+        undefined,
+        { ATQOR_BUNDLED_MCP_PATH: manifestPath },
+      );
+      assert.deepEqual(requests, [{ cwd: "/workspace", model: "gpt-5.4", config: expectedConfig }]);
+      yield* harness.runtime.resumeThread({
+        providerThread: harness.providerThread,
+        modelSelection: CODEX_TEST_MODEL_SELECTION,
+        runtimePolicy: CODEX_TEST_RUNTIME_POLICY,
+      });
+      assert.equal(
+        yield* fileSystem.readFileString(manifestPath),
+        JSON.stringify({
+          mcpServers: {
+            "microsoft-learn": { type: "http", url: "https://learn.microsoft.com/api/mcp" },
+          },
+        }),
+      );
     }).pipe(
       Effect.scoped,
       Effect.provide(
@@ -1892,7 +2007,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     ),
   );
 
-  it.effect("preserves T3 context on the wire and restores it after compaction", () =>
+  it.effect("keeps built-in MCP instructions absent before and after compaction", () =>
     Effect.scoped(
       Effect.gen(function* () {
         const nativeThreadId = "context-thread";
@@ -1902,12 +2017,9 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           codexInput: [{ type: "text", text: "work" }],
           runtimePolicy: CODEX_TEST_RUNTIME_POLICY,
           modelSelection: CODEX_TEST_MODEL_SELECTION,
-          hasT3Mcp: true,
+          hasT3Mcp: false,
         });
-        assert.include(
-          params.additionalContext?.t3_code_orchestration_01?.value ?? "",
-          "delegate_task",
-        );
+        assert.isUndefined(params.additionalContext);
         const entries = codexReplayPreamble({ nativeThreadId, nativeTurnId, prompt: "work" });
         const transcript = makeCodexReplayTranscript({
           scenario: "restore-context",
@@ -1931,23 +2043,6 @@ describe("CodexAdapterV2 post-settle continuation", () => {
                 },
               },
             },
-            {
-              type: "expect_outbound",
-              label: "restore context",
-              frame: {
-                id: 4,
-                method: "thread/inject_items",
-                params: {
-                  threadId: nativeThreadId,
-                  items: Object.entries(params.additionalContext ?? {}).map(([key, entry]) => ({
-                    type: "message",
-                    role: "developer",
-                    content: [{ type: "input_text", text: `<${key}>${entry.value}</${key}>` }],
-                  })),
-                },
-              },
-            },
-            { type: "emit_inbound", label: "restored", frame: { id: 4, result: {} } },
             {
               type: "emit_inbound",
               label: "done",

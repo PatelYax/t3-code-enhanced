@@ -1,0 +1,59 @@
+{
+  "source_file": "SoW_Chatbot_POC_HRIPL_v0.2.pdf",
+  "original_path": "C:\\Users\\BhavyPatel\\Downloads\\SoW_Chatbot_POC_HRIPL_v0.2.pdf",
+  "source_sha256": "2a13133439b74c4670aec06d2480c4647a406585866e4cc50459537104d6c732",
+  "page_count": 29,
+  "page_size_pt": [595.32, 841.92],
+  "reference_pages": [1, 2, 3, 4, 5, 7, 9, 15, 17, 19, 21, 22, 23, 24, 25, 28, 29],
+  "assets": [
+    {
+      "asset": "assets/brand/atqor-logo.png",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p2-1-Image28.png",
+      "pixels": [175, 55],
+      "sha256": "e8c948a1dd79ee297f328897b96bab3926e21f123888118c6f52b2ad6513b434"
+    },
+    {
+      "asset": "assets/brand/atqor-logo-cover.jpg",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p1-4-Image23.jpg",
+      "pixels": [175, 55],
+      "sha256": "5e3ed5b07891743988eda86169b4f39ba5c2951b661a8183d1d5ef2b21fce774"
+    },
+    {
+      "asset": "assets/brand/cover-credentials.png",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p1-2-Image16.png",
+      "pixels": [1404, 356],
+      "sha256": "d9fc954d25e327944c4738d3aa1ae3ac7e6505e7f825da053ef977e87f0e8abd"
+    },
+    {
+      "asset": "assets/brand/microsoft-competencies.jpg",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p4-2-Image71.jpg",
+      "pixels": [1428, 777],
+      "sha256": "b72a35aa4fdd33e30d182ba9fd6a6a0fa969937a0021b880889ebd7d775e890f"
+    },
+    {
+      "asset": "assets/brand/architecture-reference.jpg",
+      "method": "unchanged decoded embedded image",
+      "source_image": "embedded-p21-3-Image116.jpg",
+      "pixels": [800, 398],
+      "sha256": "f3ba03a019c543a37db720513c66f493337f9949c18dbd43d5f10fcd59340696"
+    },
+    {
+      "asset": "assets/brand/cover-ribbon.png",
+      "method": "lossless crop of visible blue artwork from Poppler render at 300 dpi",
+      "source_page": 1,
+      "crop_pt_top_origin": [17.55, 20.4, 595.32, 122.1],
+      "pixels": [2408, 424],
+      "sha256": "c3fc0a0e01ef49368998eacae72f6ee64b8eba4701d8987a92e02d613084b6cd"
+    }
+  ],
+  "notes": [
+    "reference.pdf is an unchanged copy; source text is extraction rather than layout authority.",
+    "Architecture images are historical project references; do not reuse for a changed solution.",
+    "No HRIPL or Arvind client logo appears in the sources; do not invent one.",
+    "An inactive legacy Bitscape logo and gray underlying ribbon exist in the PDF objects. Assets use the visibly rendered atQor branding instead."
+  ]
+}

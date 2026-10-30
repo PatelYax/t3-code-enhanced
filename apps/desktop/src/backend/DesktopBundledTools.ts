@@ -54,6 +54,48 @@ export const prepare = Effect.fn("desktop.bundledTools.prepare")(function* () {
     process.env[pathVariable] ?? "",
   ].join(";");
 
+  patch.ATQOR_BUNDLED_MCP_PATH = path.join(toolsDirectory, "bundled-mcp.json");
+  const homePath = path.join(environment.stateDir, "bundled-codex");
+  const bundledSkills = path.join(toolsDirectory, "skills");
+  if (yield* fileSystem.exists(bundledSkills)) {
+    const skillsPath = path.join(homePath, "skills");
+    yield* fileSystem.makeDirectory(skillsPath, { recursive: true });
+    for (const entry of yield* fileSystem.readDirectory(bundledSkills)) {
+      yield* Effect.acquireUseRelease(
+        fileSystem.makeTempDirectory({ directory: homePath, prefix: ".bundled-skill-" }),
+        (temporary) =>
+          Effect.gen(function* () {
+            const staged = path.join(temporary, "incoming");
+            const previous = path.join(temporary, "previous");
+            const destination = path.join(skillsPath, entry);
+            yield* fileSystem.copy(path.join(bundledSkills, entry), staged);
+            yield* Effect.uninterruptible(
+              Effect.gen(function* () {
+                const existed = yield* fileSystem.exists(destination);
+                if (existed) yield* fileSystem.rename(destination, previous);
+                yield* fileSystem
+                  .rename(staged, destination)
+                  .pipe(
+                    Effect.onError(() =>
+                      existed
+                        ? fileSystem.rename(previous, destination).pipe(Effect.orDie)
+                        : Effect.void,
+                    ),
+                  );
+                if (existed) yield* fileSystem.remove(previous, { recursive: true });
+              }),
+            );
+          }),
+        (temporary) =>
+          Effect.gen(function* () {
+            if (!(yield* fileSystem.exists(path.join(temporary, "previous")))) {
+              yield* fileSystem.remove(temporary, { recursive: true });
+            }
+          }).pipe(Effect.orDie),
+      );
+    }
+  }
+
   const profilePath = path.join(toolsDirectory, "azure.json");
   if (!(yield* fileSystem.exists(profilePath))) return patch;
   const document = yield* decodeUnknownJson(yield* fileSystem.readFileString(profilePath)).pipe(
@@ -78,7 +120,6 @@ export const prepare = Effect.fn("desktop.bundledTools.prepare")(function* () {
   if (instances !== undefined && !isRecord(instances)) {
     return yield* Effect.die(new DesktopBundledToolsConfigurationError({ operation: "settings" }));
   }
-  const homePath = path.join(environment.stateDir, "bundled-codex");
   const existing = instances?.codex;
   const existingConfig = isRecord(existing) && isRecord(existing.config) ? existing.config : {};
   if (

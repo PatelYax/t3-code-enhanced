@@ -1,0 +1,6 @@
+interface:
+  display_name: "atQor RFP and Proposal"
+  short_description: "Draft branded proposals and RFP documents"
+
+policy:
+  allow_implicit_invocation: true

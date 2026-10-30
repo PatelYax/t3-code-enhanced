@@ -3,14 +3,34 @@ import { it as effectIt } from "@effect/vitest";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import { CommandAvailability, WindowsShellEnvironment } from "@t3tools/shared/shell";
 import * as Effect from "effect/Effect";
+import * as Path from "effect/Path";
 // @effect-diagnostics-next-line nodeBuiltinImport:off -- Observe the existing synchronous shell probe without launching the user's login shell.
 import * as NodeChildProcess from "node:child_process";
 import * as NodeOS from "node:os";
 import { assert, it, vi } from "vite-plus/test";
 
-import { fixPath, hydratePosixHome } from "./os-jank.ts";
+import { fixPath, hydratePosixHome, resolveBaseDir } from "./os-jank.ts";
 
 vi.mock("node:child_process", { spy: true });
+
+effectIt.effect("uses a fresh atQor home by default and preserves explicit home overrides", () =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const home = NodeOS.homedir();
+    for (const raw of [undefined, "", "  "]) {
+      assert.equal(
+        yield* resolveBaseDir(raw).pipe(Effect.provideService(HostProcess.HomeDirectory, home)),
+        path.join(home, ".atqor_ai_hub"),
+      );
+    }
+    assert.equal(
+      yield* resolveBaseDir("~/custom-atqor").pipe(
+        Effect.provideService(HostProcess.HomeDirectory, home),
+      ),
+      path.join(home, "custom-atqor"),
+    );
+  }).pipe(Effect.provide(NodeServices.layer)),
+);
 
 it("hydrates HOME independently of a blank process HOME", () => {
   const originalHome = process.env.HOME;
