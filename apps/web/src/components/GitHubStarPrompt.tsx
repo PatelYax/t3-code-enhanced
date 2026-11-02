@@ -27,7 +27,7 @@ function dismiss() {
 function showStarPrompt() {
   const close = () => toastManager.close(id);
   const id = toastManager.add({
-    title: "Enjoying T3 Code?",
+    title: "Enjoying atQor Agent Hub?",
     description: "Give us a star on GitHub to let us know!",
     timeout: 0,
     onClose: dismiss,
@@ -36,7 +36,7 @@ function showStarPrompt() {
       onClick: () => {
         close();
         void readLocalApi()
-          ?.shell.openExternal(`https://github.com/${REPOSITORY}`)
+          ?.shell.openExternal(``) // add url here for stars.
           .catch(() => undefined);
       },
     },
