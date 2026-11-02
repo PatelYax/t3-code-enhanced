@@ -80,6 +80,7 @@ export async function stageWindowsBundledTools(input: {
   readonly arch: "x64" | "arm64";
   readonly hostPlatform: NodeJS.Platform;
   readonly profile: Awaited<ReturnType<typeof readBundledAzureProfile>>;
+  readonly onProgress?: (message: string) => void;
 }) {
   const archiveTool =
     input.hostPlatform === "win32"
@@ -88,6 +89,7 @@ export async function stageWindowsBundledTools(input: {
   await NodeFSP.mkdir(input.destination, { recursive: true });
   const temporary = await NodeFSP.mkdtemp(NodePath.join(input.destination, ".download-"));
   try {
+    input.onProgress?.("Resolving pinned Codex runtime metadata...");
     const version = `${BUNDLED_CODEX_VERSION}-win32-${input.arch}`;
     const metadataResponse = await fetch(`https://registry.npmjs.org/@openai%2Fcodex/${version}`, {
       signal: AbortSignal.timeout(30_000),
@@ -108,12 +110,16 @@ export async function stageWindowsBundledTools(input: {
       !metadata.dist.integrity.startsWith("sha512-")
     )
       throw new Error("The native Codex package has invalid download metadata.");
+    input.onProgress?.("Downloading pinned Codex runtime...");
     const codexArchive = await download(metadata.dist.tarball);
+    input.onProgress?.("Verifying pinned Codex runtime checksum...");
     verifyDownload(codexArchive, "sha512", metadata.dist.integrity.slice(7), "base64");
     const codexArchivePath = NodePath.join(temporary, "codex.tgz");
     await NodeFSP.writeFile(codexArchivePath, codexArchive);
+    input.onProgress?.("Extracting pinned Codex runtime...");
     await execFile(archiveTool, ["-xf", codexArchivePath, "-C", temporary], { windowsHide: true });
     const target = input.arch === "x64" ? "x86_64-pc-windows-msvc" : "aarch64-pc-windows-msvc";
+    input.onProgress?.("Copying pinned Codex runtime...");
     await NodeFSP.cp(
       NodePath.join(temporary, "package", "vendor", target),
       NodePath.join(input.destination, "codex"),
@@ -125,17 +131,21 @@ export async function stageWindowsBundledTools(input: {
 
     const nodeArchiveName = `node-v${BUNDLED_NODE_VERSION}-win-${input.arch}.zip`;
     const nodeBaseUrl = `https://nodejs.org/dist/v${BUNDLED_NODE_VERSION}`;
+    input.onProgress?.("Downloading pinned Node runtime checksums...");
     const checksums = new TextDecoder().decode(await download(`${nodeBaseUrl}/SHASUMS256.txt`));
     const checksum = checksums
       .split(/\r?\n/)
       .map((line) => line.trim().split(/\s+/))
       .find((entry) => entry[1] === nodeArchiveName)?.[0];
     if (!checksum) throw new Error("The pinned Node runtime has no published checksum.");
+    input.onProgress?.("Downloading pinned Node runtime...");
     const nodeArchive = await download(`${nodeBaseUrl}/${nodeArchiveName}`);
+    input.onProgress?.("Verifying pinned Node runtime checksum...");
     verifyDownload(nodeArchive, "sha256", checksum, "hex");
     const nodeArchivePath = NodePath.join(temporary, "node.zip");
     await NodeFSP.writeFile(nodeArchivePath, nodeArchive);
     const nodeRoot = `node-v${BUNDLED_NODE_VERSION}-win-${input.arch}`;
+    input.onProgress?.("Extracting pinned Node runtime...");
     await execFile(
       archiveTool,
       ["-xf", nodeArchivePath, "-C", temporary, `${nodeRoot}/node.exe`, `${nodeRoot}/LICENSE`],
@@ -150,6 +160,7 @@ export async function stageWindowsBundledTools(input: {
       NodePath.join(temporary, nodeRoot, "LICENSE"),
       NodePath.join(input.destination, "node", "LICENSE"),
     );
+    input.onProgress?.("Downloading Codex license...");
     const codexLicense = await download(
       `https://raw.githubusercontent.com/openai/codex/rust-v${BUNDLED_CODEX_VERSION}/LICENSE`,
     );
@@ -169,6 +180,7 @@ export async function stageWindowsBundledTools(input: {
         node: BUNDLED_NODE_VERSION,
       }),
     );
+    input.onProgress?.("Pinned Windows runtimes staged.");
   } finally {
     await NodeFSP.rm(temporary, { recursive: true, force: true });
   }

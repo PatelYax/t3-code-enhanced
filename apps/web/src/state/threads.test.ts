@@ -111,11 +111,18 @@ function makeHarness() {
 }
 
 describe("createRunningThreadKeepAliveAtom", () => {
-  it("keeps running threads open across shell updates and thread view visits", () => {
+  it("reopens a newly running draft and keeps live streams across shell updates and visits", () => {
     const h = makeHarness();
+    h.registry.mount(h.stateAtom(LOCAL, "a"));
+    h.registry.set(
+      h.stateAtom(LOCAL, "a"),
+      AsyncResult.success({ ...EMPTY_ENVIRONMENT_THREAD_STATE, status: "deleted" }),
+    );
     h.registry.set(h.threads(LOCAL), [shell("a", "running"), shell("b", "idle"), shell("c", null)]);
     h.registry.set(h.threads(REMOTE), [shell("d", "starting")]);
     expect(h.openStreams()).toEqual(["local:a", "remote:d"]);
+    const recovered = h.registry.get(h.stateAtom(LOCAL, "a"));
+    expect(AsyncResult.isSuccess(recovered) && recovered.value.status === "deleted").toBe(false);
 
     const live = detail("a", "running");
     h.registry.set(h.stateAtom(LOCAL, "a"), live);

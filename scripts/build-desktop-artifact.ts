@@ -3979,14 +3979,19 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
         arch,
         hostPlatform,
         profile: bundledAzureProfile,
+        onProgress: (message) => {
+          process.stdout.write(`[desktop-artifact] ${message}\n`);
+        },
       }),
     );
+    yield* Effect.log("[desktop-artifact] Staging bundled skills...");
     yield* Effect.tryPromise(() =>
       stageBundledSkills(
         path.join(repoRoot, "bundled-skills"),
         path.join(path.dirname(windowsServerAsarPath), "tools", "skills"),
       ),
     );
+    yield* Effect.log("[desktop-artifact] Staging bundled MCP manifest...");
     yield* Effect.tryPromise(() =>
       stageBundledMcp(
         path.join(repoRoot, "bundled-mcp.json"),

@@ -172,27 +172,30 @@ describe("hasServerAcknowledgedLocalDispatch", () => {
     ).toBe(true);
   });
 
-  it("holds a first send while the thread shell still reports a preparing run", () => {
-    const localDispatch = createLocalDispatchSnapshot(makeThread());
-    const preparingRun = {
-      ...completedTurn,
-      status: "preparing" as const,
-      startedAt: null,
-      completedAt: null,
-    };
+  it.each(["preparing", "starting", "running"] as const)(
+    "holds a first send while only the thread shell reports a %s run",
+    (status) => {
+      const localDispatch = createLocalDispatchSnapshot(makeThread());
+      const preparingRun = {
+        ...completedTurn,
+        status,
+        startedAt: null,
+        completedAt: null,
+      };
 
-    expect(
-      hasServerAcknowledgedLocalDispatch({
-        localDispatch,
-        phase: "disconnected",
-        latestRun: preparingRun,
-        runtime: { ...readySession, status: "preparing", activeRunId: preparingRun.runId },
-        hasPendingApproval: false,
-        hasPendingUserInput: false,
-        threadError: null,
-      }),
-    ).toBe(false);
-  });
+      expect(
+        hasServerAcknowledgedLocalDispatch({
+          localDispatch,
+          phase: "disconnected",
+          latestRun: null,
+          runtime: { ...readySession, status, activeRunId: preparingRun.runId },
+          hasPendingApproval: false,
+          hasPendingUserInput: false,
+          threadError: null,
+        }),
+      ).toBe(false);
+    },
+  );
 
   it.each([
     ["queued", "message-queued", true],

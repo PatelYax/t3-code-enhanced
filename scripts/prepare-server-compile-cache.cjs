@@ -41,10 +41,15 @@ module.exports = async ({ appOutDir, electronPlatformName, arch, packager }) => 
   }
   const state = fs.mkdtempSync(path.join(os.tmpdir(), "t3-release-cache-"));
   env.T3CODE_HOME = state;
+  const workerExecutable =
+    electronPlatformName === "win32"
+      ? path.join(appOutDir, `.server-compile-cache-${process.pid}.exe`)
+      : executable;
   let result;
   try {
+    if (workerExecutable !== executable) fs.copyFileSync(executable, workerExecutable);
     result = spawnSync(
-      executable,
+      workerExecutable,
       [
         "-e",
         `require(${JSON.stringify(helper)}).generatePreparedServerCache(${JSON.stringify(resources)}).then(()=>process.exit(0),e=>{console.error(e);process.exit(1)})`,
@@ -53,6 +58,14 @@ module.exports = async ({ appOutDir, electronPlatformName, arch, packager }) => 
     );
   } finally {
     fs.rmSync(state, { recursive: true, force: true });
+    if (workerExecutable !== executable) {
+      fs.rmSync(workerExecutable, {
+        recursive: true,
+        force: true,
+        maxRetries: 10,
+        retryDelay: 100,
+      });
+    }
   }
   if (result.status !== 0)
     throw new Error(`Server compile cache generation failed: ${result.error || result.stderr}`);

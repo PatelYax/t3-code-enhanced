@@ -807,9 +807,11 @@ export default function ChatView(props: ChatViewProps) {
   const isProviderSubagent =
     serverThread !== null && isProviderNativeSubagentThread(serverThread.source);
   const supportsProviderSwitchingViaHandoff = threadSupportsProviderHandoff(serverProjection);
-  const activeLatestRun = isServerThread ? serverLatestRun : (activeThread?.latestRun ?? null);
-  const activeActivityRun = isServerThread ? serverActivityRun : (activeThread?.latestRun ?? null);
-  const activeRuntime = isServerThread ? serverRuntime : (activeThread?.runtime ?? null);
+  const activeLatestRun =
+    serverProjection === null ? (activeThread?.latestRun ?? null) : serverLatestRun;
+  const activeActivityRun =
+    serverProjection === null ? (activeThread?.latestRun ?? null) : serverActivityRun;
+  const activeRuntime = serverProjection === null ? (activeThread?.runtime ?? null) : serverRuntime;
   const hasHeldQueuedRuns =
     isServerThread &&
     serverProjection?.runs.some((run) => run.status === "queued" && run.queueHeld === true) ===
@@ -1466,7 +1468,10 @@ export default function ChatView(props: ChatViewProps) {
   const downloadFileAttachment = async (attachment: ChatFileAttachment) => {
     const connection = readPreparedConnection(environmentId);
     if (!connection) {
-      toastManager.add({ type: "error", title: "The environment is not connected." });
+      toastManager.add({
+        type: "error",
+        title: "The environment is not connected.",
+      });
       return;
     }
 
@@ -1864,7 +1869,12 @@ export default function ChatView(props: ChatViewProps) {
       environmentId,
       input: {
         threadId: activeThreadId,
-        message: { messageId: newMessageId(), role: "user", text, attachments: [] },
+        message: {
+          messageId: newMessageId(),
+          role: "user",
+          text,
+          attachments: [],
+        },
         runtimeMode,
         interactionMode,
         dispatchMode: "queue",
@@ -3061,7 +3071,10 @@ export default function ChatView(props: ChatViewProps) {
       return;
     }
     if (sendEnvMode !== "local") {
-      setDraftThreadContext(composerDraftTarget, { envMode: "local", startFromOrigin: false });
+      setDraftThreadContext(composerDraftTarget, {
+        envMode: "local",
+        startFromOrigin: false,
+      });
       return;
     }
     resendAfterWorkLocallyStable();
@@ -3336,7 +3349,9 @@ export default function ChatView(props: ChatViewProps) {
               rightPanelOpen={inlineRightPanelOwnsTitleBar}
               onNewThreadInProject={handleNewThreadInActiveProjectStable}
               {...(activeDraftLogicalProjectKey
-                ? { onOpenProjectSettings: handleOpenDraftProjectSettingsStable }
+                ? {
+                    onOpenProjectSettings: handleOpenDraftProjectSettingsStable,
+                  }
                 : {})}
               {...(threadFindEnabled ? { onFindInThread: openThreadFindStable } : {})}
             />
@@ -3401,7 +3416,9 @@ export default function ChatView(props: ChatViewProps) {
                 citationHistory={citationHistory}
                 onCiteAssistantText={citeAssistantTextStable}
                 {...(activeProject
-                  ? { onRunShellCommand: parentPanel?.runShellCommand ?? runShellCommandStable }
+                  ? {
+                      onRunShellCommand: parentPanel?.runShellCommand ?? runShellCommandStable,
+                    }
                   : {})}
                 isWorking={isWorking}
                 runlessWorkActive={runlessWorkStartedAt !== null}
@@ -3424,7 +3441,9 @@ export default function ChatView(props: ChatViewProps) {
                 retryableWorkspacePreparationRunIds={retryableWorkspacePreparationRunIds}
                 onRetryWorkspacePreparation={onRetryWorkspacePreparationStable}
                 {...(draftId
-                  ? { onWorktreeSetupWorkLocally: onWorktreeSetupWorkLocallyStable }
+                  ? {
+                      onWorktreeSetupWorkLocally: onWorktreeSetupWorkLocallyStable,
+                    }
                   : {})}
                 {...(onOpenWorktreeSetupTerminal ? { onOpenWorktreeSetupTerminal } : {})}
                 isPreparingWorktree={isPreparingWorktree}
@@ -3449,7 +3468,10 @@ export default function ChatView(props: ChatViewProps) {
                 // Side chat runs keep no checkpoints to diff, and a fork would promote the side chat.
                 {...(embedded
                   ? {}
-                  : { onOpenTurnDiff: onOpenTurnDiffStable, onForkFromRun: onForkFromRunStable })}
+                  : {
+                      onOpenTurnDiff: onOpenTurnDiffStable,
+                      onForkFromRun: onForkFromRunStable,
+                    })}
                 onOpenThread={onOpenRelatedThreadStable}
                 parentThreadLink={parentThreadLink}
                 workflowOpening={workflowOpening}
@@ -3518,7 +3540,9 @@ export default function ChatView(props: ChatViewProps) {
                         className="pb-4 group-has-data-[composer-shoulder-tab]/composer-stack:pb-0"
                         style={
                           forceExpandedMobileComposer
-                            ? { viewTransitionName: MOBILE_DRAFT_HEADLINE_VIEW_TRANSITION_NAME }
+                            ? {
+                                viewTransitionName: MOBILE_DRAFT_HEADLINE_VIEW_TRANSITION_NAME,
+                              }
                             : undefined
                         }
                       >
@@ -3535,7 +3559,9 @@ export default function ChatView(props: ChatViewProps) {
                     className="relative z-10"
                     style={
                       forceExpandedMobileComposer
-                        ? { viewTransitionName: MOBILE_COMPOSER_VIEW_TRANSITION_NAME }
+                        ? {
+                            viewTransitionName: MOBILE_COMPOSER_VIEW_TRANSITION_NAME,
+                          }
                         : undefined
                     }
                   >
@@ -3759,10 +3785,14 @@ export default function ChatView(props: ChatViewProps) {
                                 envLocked={envLocked}
                                 onComposerFocusRequest={scheduleComposerFocusStable}
                                 {...(canCheckoutPullRequestIntoThread
-                                  ? { onCheckoutPullRequestRequest: openPullRequestDialogStable }
+                                  ? {
+                                      onCheckoutPullRequestRequest: openPullRequestDialogStable,
+                                    }
                                   : {})}
                                 {...(canChangeEnvironment
-                                  ? { onEnvironmentChange: onEnvironmentChangeStable }
+                                  ? {
+                                      onEnvironmentChange: onEnvironmentChangeStable,
+                                    }
                                   : {})}
                                 autoEnvironmentLabel={autoEnvironmentLabel}
                                 onAutoEnvironment={
@@ -3882,7 +3912,9 @@ export default function ChatView(props: ChatViewProps) {
                   startFromOrigin={startFromOrigin}
                   onStartFromOriginChange={onStartFromOriginChange}
                   {...(canCheckoutPullRequestIntoThread
-                    ? { onCheckoutPullRequestRequest: openPullRequestDialogStable }
+                    ? {
+                        onCheckoutPullRequestRequest: openPullRequestDialogStable,
+                      }
                     : {})}
                   onComposerFocusRequest={scheduleComposerFocusStable}
                   {...(isServerThread && isGitRepo

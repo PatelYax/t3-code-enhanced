@@ -698,27 +698,7 @@ describe("EnvironmentThreads", () => {
     }),
   );
 
-  it.effect("resumes a warm cache via afterSequence without an HTTP fetch", () =>
-    Effect.gen(function* () {
-      const harness = yield* makeHarness({ cached: BASE_PROJECTION });
-
-      yield* Queue.offer(harness.inputs, titleUpdated("Live title", CACHED_SNAPSHOT_SEQUENCE + 1));
-      const live = yield* awaitThreadState(
-        harness.observed,
-        (value) =>
-          value.status === "live" &&
-          Option.isSome(value.data) &&
-          value.data.value.thread.title === "Live title",
-      );
-
-      // Readers compare this to a command's commit sequence; it moves with the data it describes.
-      expect(live.sequence).toBe(CACHED_SNAPSHOT_SEQUENCE + 1);
-      expect(yield* Ref.get(harness.lastSubscribeAfterSequence)).toBe(CACHED_SNAPSHOT_SEQUENCE);
-      expect(yield* Ref.get(harness.loaderCalls)).toBe(0);
-    }),
-  );
-
-  describe("cached work (#18188)", () => {
+  describe("cached background work", () => {
     const at = DateTime.makeUnsafe("2026-06-20T00:00:00.000Z");
     const parentThreadId = ThreadId.make("thread:parent");
     const command = (

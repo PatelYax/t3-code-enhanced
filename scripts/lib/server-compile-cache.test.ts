@@ -25,6 +25,40 @@ it.each(["x64", "arm64"])("skips prepared bytecode generation on Linux %s", asyn
   expect(result.stdout).toContain("Skipping unsupported target linux");
 });
 
+it("does not execute the Windows binary that resource editing must overwrite", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const hook = NodeURL.fileURLToPath(
+    new URL("../prepare-server-compile-cache.cjs", import.meta.url),
+  );
+  const root = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3-cache-hook-test-"));
+  const executable = NodePath.join(root, "Test App.exe");
+  NodeFS.writeFileSync(executable, "packaged executable");
+  try {
+    const result = spawnSync(
+      process.execPath,
+      [
+        "-e",
+        `const childProcess = require("node:child_process");
+         const fs = require("node:fs");
+         Object.defineProperty(process, "platform", { value: "win32" });
+         Object.defineProperty(process, "arch", { value: "x64" });
+         childProcess.spawnSync = executable => {
+           if (executable === ${JSON.stringify(executable)}) throw Error("Final executable would remain locked for resource editing");
+           if (fs.readFileSync(executable, "utf8") !== "packaged executable") throw Error("Worker is not the packaged engine");
+           return { status: 0 };
+         };
+         require(${JSON.stringify(hook)})({ appOutDir: ${JSON.stringify(root)}, electronPlatformName: "win32", arch: 1, packager: { appInfo: { productFilename: "Test App" } } }).catch(error => { console.error(error); process.exitCode = 1; });`,
+      ],
+      { encoding: "utf8" },
+    );
+    expect(result.status, result.stderr).toBe(0);
+    expect(NodeFS.readdirSync(root)).toEqual(["Test App.exe"]);
+    expect(NodeFS.readFileSync(executable, "utf8")).toBe("packaged executable");
+  } finally {
+    NodeFS.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 it("seeds relocated cache entries without allowing writes into shipped resources", () => {
   const root = NodeFS.realpathSync(
     NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3-prepared-test-")),

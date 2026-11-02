@@ -115,7 +115,20 @@ export function createRunningThreadKeepAliveAtom<E>(input: {
           if (isDetailDone(state)) get.refreshSelf();
         });
       }
-      for (const threadId of threadIds) get.mount(input.stateAtom(environmentId, threadId));
+      for (const threadId of threadIds) {
+        const stateAtom = input.stateAtom(environmentId, threadId);
+        if (!previous?.get(environmentId)?.has(threadId)) {
+          const current = get.once(stateAtom);
+          if (
+            AsyncResult.isSuccess(current) &&
+            current.value.status === "deleted" &&
+            Option.isNone(current.value.data)
+          ) {
+            get.refresh(stateAtom);
+          }
+        }
+        get.mount(stateAtom);
+      }
       kept.set(environmentId, threadIds);
     }
     return kept;
