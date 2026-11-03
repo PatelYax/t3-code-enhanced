@@ -36,7 +36,6 @@ import {
   Redo2Icon,
   PencilIcon,
 } from "lucide-react";
-import { Link as LinkIconNode } from "lucide";
 import { Button, InlineButton } from "../ui/button";
 import { useAssetUrlRefresh, useAssetUrls, useAssetUrlState } from "../../assets/assetUrls";
 import { AttachmentImage } from "../media/AttachmentImage";
@@ -52,7 +51,6 @@ import {
 } from "./SnapShotAttachmentDetails";
 import { GuestMessageName, guestBubbleClassName } from "./guestMessageStyle";
 import { MessageCopyButton } from "./MessageCopyButton";
-import { promptLinkFor } from "../promptLinks/copyPromptLink";
 import { PierreEntryIcon } from "./PierreEntryIcon";
 import { formatBytes } from "../../lib/formatBytes";
 import { shouldCollapseUserMessage } from "./MessagesTimeline.logic";
@@ -272,7 +270,6 @@ function AutomationMessageRow({ row }: { row: Extract<TimelineRow, { kind: "mess
     "";
 
   const revertTurnCount = row.revertTurnCount;
-  const promptLink = promptLinkFor(text);
   // Find reads the DOM, so a folded prompt stays mounted but hidden while find is open.
   const bodyMounted = expanded || ctx.findActive;
 
@@ -316,7 +313,10 @@ function AutomationMessageRow({ row }: { row: Extract<TimelineRow, { kind: "mess
             {scheduledTaskId ? (
               <Link
                 to="/settings/scheduled-tasks"
-                search={{ environmentId: ctx.activeThreadEnvironmentId, taskId: scheduledTaskId }}
+                search={{
+                  environmentId: ctx.activeThreadEnvironmentId,
+                  taskId: scheduledTaskId,
+                }}
                 className="rounded-sm text-xs text-muted-foreground hover:underline focus-visible:outline-2 focus-visible:outline-ring"
               >
                 Open automation
@@ -332,14 +332,6 @@ function AutomationMessageRow({ row }: { row: Extract<TimelineRow, { kind: "mess
                 <RevertUserMessageButton turnCount={revertTurnCount} messageId={row.message.id} />
               )}
               <MessageCopyButton text={text} variant="ghost" />
-              {promptLink !== null && (
-                <MessageCopyButton
-                  text={promptLink}
-                  label="Copy prompt link"
-                  icon={LinkIconNode}
-                  variant="ghost"
-                />
-              )}
             </div>
           </div>
         </div>
@@ -441,11 +433,17 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" 
   const revealFoldRef = findRevealRef(() => setExpanded(true));
   const senderShell = useQuietThreadShell(
     folded && senderThreadId
-      ? { environmentId: ctx.activeThreadEnvironmentId, threadId: senderThreadId }
+      ? {
+          environmentId: ctx.activeThreadEnvironmentId,
+          threadId: senderThreadId,
+        }
       : null,
   );
   const senderLabel = senderShell?.title.trim() || "Agent";
-  const resolvedContext = resolveUserMessageContext({ ...row.message, text: userMessage.text });
+  const resolvedContext = resolveUserMessageContext({
+    ...row.message,
+    text: userMessage.text,
+  });
   const previewImages = userImages.filter((image) => image.name.startsWith("preview-annotation-"));
   const revertTurnCount = row.revertTurnCount;
   const attachmentReferences = collectComposerContextReferences(resolvedContext.text).flatMap(
@@ -533,7 +531,6 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" 
     resolvedContext.text,
     (reference) => reference.label,
   );
-  const promptLink = promptLinkFor(plainText);
   const foldSummary =
     plainText
       .split(/\r?\n/)
@@ -793,14 +790,6 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" 
                   },
                 }
               : {})}
-            variant="ghost"
-          />
-        )}
-        {promptLink !== null && (
-          <MessageCopyButton
-            text={promptLink}
-            label="Copy prompt link"
-            icon={LinkIconNode}
             variant="ghost"
           />
         )}
