@@ -456,7 +456,7 @@ function armAgentAwarenessLiveActivityForLocalWorkNow(input: {
     const nowIso = new Date(Date.now()).toISOString();
     const activity = startAgentLiveActivity(
       {
-        title: "atQor AI Hub",
+        title: "atQor agent hub",
         subtitle: "Agent work in progress",
         activeCount: 1,
         updatedAt: nowIso,

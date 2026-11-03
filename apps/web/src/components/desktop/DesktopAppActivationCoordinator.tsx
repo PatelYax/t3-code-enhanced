@@ -70,7 +70,7 @@ export function DesktopAppActivationCoordinator() {
           const error = squashAtomCommandFailure(result);
           throw error instanceof Error
             ? error
-            : new Error("atQor AI Hub could not add the project.");
+            : new Error("atQor agent hub could not add the project.");
         }
         return projectId;
       },

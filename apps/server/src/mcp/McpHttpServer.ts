@@ -106,7 +106,7 @@ const unauthorized = (input: {
   return HttpServerResponse.jsonUnsafe(
     {
       error: "invalid_mcp_credential",
-      message: "A valid T3 Code MCP credential is required.",
+      message: "A valid atQor agent hub MCP credential is required.",
     },
     {
       status: 401,
@@ -167,7 +167,7 @@ const parseModeLimit = (value: string) => {
 const invalidModeLimit = HttpServerResponse.jsonUnsafe(
   {
     error: "invalid_mode_limit",
-    message: "T3-Mode-Limit must be <runtimeMode>/<interactionMode>, e.g. auto/default.",
+    message: "The MCP mode limit must be <runtimeMode>/<interactionMode>, e.g. auto/default.",
   },
   { status: 400, headers: { "cache-control": "no-store" } },
 );
@@ -1180,7 +1180,7 @@ export const layerInProcessMcpServer = McpServer.middleware<{
 
 export const layerMcpTransport = <RA, RE, RR>(registrations: Layer.Layer<RA, RE, RR>) =>
   McpServer.layerHttp({
-    name: "T3 Code",
+    name: "atQor agent hub",
     version: packageJson.version,
     path: "/mcp",
     protocols: [McpProtocol.v2025_06_18],

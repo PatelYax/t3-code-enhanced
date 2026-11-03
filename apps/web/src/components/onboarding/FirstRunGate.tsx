@@ -197,7 +197,7 @@ function FirstRunRecovery({
         <p className="mt-2 text-sm text-muted-foreground">
           {settingsReadFailed
             ? "Your saved settings could not be loaded."
-            : "atQor AI Hub could not confirm this workspace."}
+            : "atQor agent hub could not confirm this workspace."}
         </p>
         <Button
           className="mt-5"

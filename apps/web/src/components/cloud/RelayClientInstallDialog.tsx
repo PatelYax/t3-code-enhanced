@@ -69,8 +69,8 @@ export function RelayClientInstallDialog() {
           </DialogTitle>
           <DialogDescription>
             {isInstalling
-              ? "atQor AI Hub is preparing this environment for secure access through T3 Connect."
-              : "atQor AI Hub needs the relay client to make this environment available through T3 Connect."}
+              ? "atQor agent hub is preparing this environment for secure access through atQor agent hub Connect."
+              : "atQor agent hub needs the relay client to make this environment available through atQor agent hub Connect."}
           </DialogDescription>
         </DialogHeader>
         <DialogPanel scrollFade={false}>
@@ -91,14 +91,14 @@ export function RelayClientInstallDialog() {
                 value={activeStepIndex + 1}
               />
               <p className="text-xs leading-relaxed text-muted-foreground">
-                Keep atQor AI Hub open while the relay client is installed.
+                Keep atQor agent hub open while the relay client is installed.
               </p>
             </div>
           ) : (
             <div className="rounded-xl border border-border/70 bg-muted/35 p-3">
               <p className="text-sm font-medium text-foreground">Managed relay client</p>
               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                atQor AI Hub will download and install version{" "}
+                atQor agent hub will download and install version{" "}
                 {view.status === "confirming" ? view.version : ""} locally.
               </p>
             </div>

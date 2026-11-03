@@ -164,7 +164,7 @@ export async function startDesktopAppControlServer(input: {
         finish(
           invalidResponse(
             parsed.requestId,
-            "atQor AI Hub could not process the desktop app request.",
+            "atQor agent hub could not process the desktop app request.",
           ),
         );
       });

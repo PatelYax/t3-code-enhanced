@@ -17,7 +17,7 @@ import {
 } from "./versionSkew";
 
 const MISMATCH_HINT =
-  "Version mismatch. Try syncing the client and server to the same atQor AI Hub version.";
+  "Version mismatch. Try syncing the client and server to the same atQor agent hub version.";
 
 describe("versionSkew", () => {
   it("updates only the proven npm prefix and safely quotes its path", () => {

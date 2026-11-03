@@ -606,8 +606,8 @@ function ManagedCodexSetup({
         : installation?.phase === "verifying"
           ? "Checking Codex."
           : installed
-            ? `${installation?.source === "local" ? "Using your installed Codex" : "Managed by atQor AI Hub"}${installation?.installedVersion ? ` · v${installation.installedVersion}` : ""}.`
-            : (installation?.message ?? "atQor AI Hub downloads and manages Codex for you.");
+            ? `${installation?.source === "local" ? "Using your installed Codex" : "Managed by atQor agent hub"}${installation?.installedVersion ? ` · v${installation.installedVersion}` : ""}.`
+            : (installation?.message ?? "atQor agent hub downloads and manages Codex for you.");
   const accountDescription = finishingSignIn ? (
     "Finishing sign-in..."
   ) : installActive ? (
@@ -685,7 +685,7 @@ function ManagedCodexSetup({
     !handoff && auth?.phase === "waiting" && url ? (
       <div className="flex w-full flex-col gap-3 text-xs leading-relaxed text-muted-foreground">
         <p>
-          If sign-in doesn't return to atQor AI Hub, paste the URL from the final localhost page.
+          If sign-in doesn't return to atQor agent hub, paste the URL from the final localhost page.
         </p>
         <form
           className="flex flex-col gap-2 sm:flex-row sm:items-center"
@@ -742,7 +742,7 @@ function ManagedCodexSetup({
           <details>
             <summary className="cursor-pointer">Other ways to connect</summary>
             <Button className="mt-2" size="sm" variant="outline" render={<a href={handoffUrl} />}>
-              Use T3 desktop for automatic return
+              Use atQor agent hub desktop for automatic return
             </Button>
           </details>
         ) : null}
@@ -1071,7 +1071,7 @@ export function CodexManagedRuntimeFields({
     <>
       <SettingsRow
         title="Binary path"
-        description="Selected by atQor AI Hub."
+        description="Selected by atQor agent hub."
         control={
           <div className="w-full sm:w-80">
             <Input

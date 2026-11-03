@@ -114,7 +114,7 @@ function createWindow(
     resizable: false,
     show: false,
     skipTaskbar: true,
-    title: "atQor AI Hub Snapshot Animation",
+    title: "atQor agent hub Snapshot Animation",
     transparent: true,
     webPreferences: {
       backgroundThrottling: false,

@@ -330,7 +330,9 @@ export const RelayEnvironmentLinkRequest = Schema.Struct({
   notificationsEnabled: Schema.Boolean,
   liveActivitiesEnabled: Schema.Boolean,
   managedTunnelsEnabled: Schema.Boolean,
-}).annotate({ description: "Links an authenticated cloud user to a T3 environment." });
+}).annotate({
+  description: "Links an authenticated cloud user to an atQor agent hub environment.",
+});
 export type RelayEnvironmentLinkRequest = typeof RelayEnvironmentLinkRequest.Type;
 
 export const RelayEnvironmentLinkResponse = Schema.Struct({
@@ -670,7 +672,7 @@ export class RelayEnvironmentPrincipal extends Context.Service<
 const RelayClientBearerAuthorization = HttpApiSecurity.http({ scheme: "bearer" }).pipe(
   HttpApiSecurity.annotate(
     OpenApi.Description,
-    "Clerk session or OAuth bearer token for the signed-in T3 Connect user.",
+    "Clerk session or OAuth bearer token for the signed-in atQor agent hub Connect user.",
   ),
 );
 
@@ -1139,17 +1141,17 @@ const RelayClientGroup = HttpApiGroup.make("client")
       headers: RelayBearerRequestHeaders,
       success: RelayT3ChatLinkResponse,
       error: RelayAuthAndInternalErrors,
-    }).annotate(OpenApi.Summary, "Get the linked T3 Chat account"),
+    }).annotate(OpenApi.Summary, "Get the linked atQor agent hub Chat account"),
     HttpApiEndpoint.post("createT3ChatLinkRequest", "/v1/client/t3chat-link-requests", {
       headers: RelayBearerRequestHeaders,
       success: RelayT3ChatLinkRequestResponse,
       error: RelayAuthAndInternalErrors,
-    }).annotate(OpenApi.Summary, "Start linking a T3 Chat account"),
+    }).annotate(OpenApi.Summary, "Start linking an atQor agent hub Chat account"),
     HttpApiEndpoint.delete("unlinkT3Chat", "/v1/client/t3chat-link", {
       headers: RelayBearerRequestHeaders,
       success: RelayOkResponse,
       error: RelayAuthAndInternalErrors,
-    }).annotate(OpenApi.Summary, "Unlink the T3 Chat account"),
+    }).annotate(OpenApi.Summary, "Unlink the atQor agent hub Chat account"),
   )
   .annotate(OpenApi.Description, "Cloud-user environment links and registered devices.")
   .middleware(RelayClientAuth);
@@ -1320,10 +1322,10 @@ export const RelayApi = HttpApi.make("RelayApi")
     RelayHooksGroup,
     RelayMobileTelemetryGroup,
   )
-  .annotate(OpenApi.Title, "T3 Code Relay API")
+  .annotate(OpenApi.Title, "atQor agent hub Relay API")
   .annotate(OpenApi.Version, "1.0.0")
   .annotate(
     OpenApi.Description,
-    "Control-plane API for linking T3 environments, connecting authorized clients, and publishing agent activity.",
+    "Control-plane API for linking atQor agent hub environments, connecting authorized clients, and publishing agent activity.",
   );
 export type RelayApi = typeof RelayApi;

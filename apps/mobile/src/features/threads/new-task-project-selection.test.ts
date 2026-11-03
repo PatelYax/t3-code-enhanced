@@ -45,7 +45,7 @@ function makeProject(
 function makeScope(projects: ReadonlyArray<EnvironmentProject>): HomeProjectScope {
   return {
     key: "github.com/t3tools/t3code",
-    title: "atQor AI Hub",
+    title: "atQor agent hub",
     representative: projects[0]!,
     projects,
     projectRefs: projects.map((project) => ({

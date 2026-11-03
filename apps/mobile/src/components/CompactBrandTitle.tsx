@@ -40,7 +40,7 @@ export function CompactBrandTitle(
         props.fit && showStage ? (event) => setFullWidth(event.nativeEvent.layout.width) : undefined
       }
       aria-level={1}
-      accessibilityLabel={props.accessibilityLabel ?? "atQor AI Hub, Threads"}
+      accessibilityLabel={props.accessibilityLabel ?? "atQor agent hub, Threads"}
       accessible
       role="heading"
       className="items-center gap-0.5"

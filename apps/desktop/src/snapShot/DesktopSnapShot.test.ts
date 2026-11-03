@@ -493,7 +493,7 @@ const layerTest = (
           DesktopEnvironment.DesktopEnvironment,
           DesktopEnvironment.DesktopEnvironment.of({
             platform,
-            displayName: "atQor AI Hub (Dev)",
+            displayName: "atQor agent hub (Dev)",
             stateDir: "/state",
             linuxDesktopEntryName: "com.t3tools.T3Code.desktop",
             appRoot: "/repo",
@@ -1786,7 +1786,7 @@ it.effect("flags revoked macOS permissions on read and re-registers once they re
       const revoked = yield* service.state;
       assert.equal(
         revoked.message,
-        "Allow Screen Recording in System Settings, then restart atQor AI Hub.",
+        "Allow Screen Recording in System Settings, then restart atQor agent hub.",
       );
       assert.deepEqual(revoked.macPermissions, { screenRecording: false, accessibility: true });
 
@@ -1799,7 +1799,7 @@ it.effect("flags revoked macOS permissions on read and re-registers once they re
       const blocked = yield* service.state;
       assert.equal(
         blocked.message,
-        "Allow Screen Recording in System Settings, then restart atQor AI Hub.",
+        "Allow Screen Recording in System Settings, then restart atQor agent hub.",
       );
       assert.isFalse(blocked.shortcutRegistered);
 
@@ -2157,7 +2157,7 @@ it.effect.each([false, true])(
       platform: "macos",
       id: 42,
       title: "Setup",
-      owner: { name: "atQor AI Hub", processId: 123, path: "/Applications/atQor AI Hub.app" },
+      owner: { name: "atQor agent hub", processId: 123, path: "/Applications/atQor AI Hub.app" },
       bounds: { x: 0, y: 0, width: 800, height: 600 },
     };
     activeWindowMock.mockReset().mockResolvedValue(active);
@@ -2174,7 +2174,7 @@ it.effect.each([false, true])(
           assert.equal(error.reason, "setup-failed");
           assert.equal(
             error.message,
-            'Could not capture a test snapshot. Capturing the window failed. macOS grants Screen Recording and Accessibility to each app separately. In System Settings, open Privacy & Security and check that "atQor AI Hub (Dev)" is allowed for both.',
+            'Could not capture a test snapshot. Capturing the window failed. macOS grants Screen Recording and Accessibility to each app separately. In System Settings, open Privacy & Security and check that "atQor agent hub (Dev)" is allowed for both.',
           );
         } else yield* service.setup("test-mac-capture");
         assert.equal(macCaptureMock.mock.calls.length, 1);

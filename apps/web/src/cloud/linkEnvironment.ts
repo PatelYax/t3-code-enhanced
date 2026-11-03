@@ -59,7 +59,7 @@ const ensureRelayClientAvailable = Effect.fn("linkEnvironment.ensureRelayClientA
     if (status.status === "available") return;
     if (status.status === "unsupported") {
       return yield* new CloudEnvironmentLinkError({
-        message: `atQor AI Hub cannot install the relay client automatically on ${status.platform}-${status.arch}.`,
+        message: `atQor agent hub cannot install the relay client automatically on ${status.platform}-${status.arch}.`,
       });
     }
 
@@ -95,7 +95,7 @@ const ensureRelayClientAvailable = Effect.fn("linkEnvironment.ensureRelayClientA
       return yield* new CloudEnvironmentLinkError({
         message:
           installedStatus.status === "unsupported"
-            ? `atQor AI Hub cannot install the relay client automatically on ${installedStatus.platform}-${installedStatus.arch}.`
+            ? `atQor agent hub cannot install the relay client automatically on ${installedStatus.platform}-${installedStatus.arch}.`
             : "The relay client is still unavailable after installation.",
       });
     }

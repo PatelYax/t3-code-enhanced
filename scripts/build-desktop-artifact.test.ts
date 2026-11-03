@@ -226,7 +226,7 @@ const makeMacPayloadFixture = Effect.fn("test.makeMacPayloadFixture")(function* 
   yield* fs.writeFileString(serverEntryPath, input.serverEntrySource ?? "console.log('server');\n");
 
   const stageDistDir = path.join(tempDir, "dist");
-  const resourcesDir = path.join(stageDistDir, "mac-arm64/atQor AI Hub.app/Contents/Resources");
+  const resourcesDir = path.join(stageDistDir, "mac-arm64/atQor agent hub.app/Contents/Resources");
   yield* fs.makeDirectory(resourcesDir, { recursive: true });
   yield* Effect.promise(() =>
     createPackageWithOptions(sourceDir, path.join(resourcesDir, "app.asar"), {}),
@@ -540,7 +540,7 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
 
       assert.isNull(preview.publish);
       assert.isNull(previewChannel.publish);
-      assert.equal(release.productName, "atQor AI Hub");
+      assert.equal(release.productName, "atQor agent hub");
       const windows = yield* createBuildConfig(
         "win",
         "nsis",
@@ -550,7 +550,7 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
         undefined,
         undefined,
       );
-      assert.nestedPropertyVal(windows, "win.executableName", "atQor AI Hub");
+      assert.nestedPropertyVal(windows, "win.executableName", "atQor agent hub");
       assert.deepStrictEqual(release.publish, [
         {
           provider: "github",
@@ -1421,9 +1421,12 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
       Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const stageDistDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3-mac-payload-test-" });
-        yield* fs.makeDirectory(`${stageDistDir}/mac-arm64/atQor AI Hub.app/Contents/Resources`, {
-          recursive: true,
-        });
+        yield* fs.makeDirectory(
+          `${stageDistDir}/mac-arm64/atQor agent hub.app/Contents/Resources`,
+          {
+            recursive: true,
+          },
+        );
         const error = yield* validateMacPackagedPayload({ stageDistDir }).pipe(Effect.flip);
 
         assert.instanceOf(error, BundleNotSelfContainedError);
@@ -1827,7 +1830,7 @@ it.effect("preserves packaged app directories from the dir target", () =>
     const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-dir-artifact-" });
     const stage = path.join(root, "stage");
     const output = path.join(root, "output");
-    const app = path.join("mac-arm64", "T3 Code.app", "Contents");
+    const app = path.join("mac-arm64", "atQor agent hub.app", "Contents");
     yield* fs.makeDirectory(path.join(stage, app), { recursive: true });
     yield* fs.writeFileString(path.join(stage, app, "Info.plist"), "built-app");
     yield* fs.writeFileString(path.join(stage, "builder-debug.yml"), "debug");
@@ -1857,7 +1860,7 @@ it.effect.skipIf(!symlinksSupported)("preserves relative links when replacing di
     const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-dir-artifact-links-" });
     const stage = path.join(root, "stage");
     const output = path.join(root, "output");
-    const app = path.join("mac-arm64", "T3 Code.app", "Contents");
+    const app = path.join("mac-arm64", "atQor agent hub.app", "Contents");
     yield* fs.makeDirectory(path.join(stage, app), { recursive: true });
     yield* fs.writeFileString(path.join(stage, app, "Info.plist"), "built-app");
     yield* fs.symlink("Info.plist", path.join(stage, app, "Current"));

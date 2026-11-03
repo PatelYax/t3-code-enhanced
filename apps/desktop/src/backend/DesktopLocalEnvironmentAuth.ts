@@ -101,7 +101,7 @@ export const make = Effect.gen(function* () {
           httpBaseUrl: config.httpBaseUrl.href,
           credential,
           clientMetadata: {
-            label: "atQor AI Hub Desktop",
+            label: "atQor agent hub Desktop",
             deviceType: "desktop",
           },
         }).pipe(

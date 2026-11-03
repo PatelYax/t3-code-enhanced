@@ -158,9 +158,9 @@ function ActiveSshPasswordPrompt({
         <DialogHeader>
           <DialogTitle>SSH verification required</DialogTitle>
           <DialogDescription>
-            Enter the password or verification code required by <code>{target}</code>. atQor AI Hub
-            passes your response to the local SSH process and keeps it in memory to reuse for this
-            host. atQor AI Hub does not write it to disk.
+            Enter the password or verification code required by <code>{target}</code>. atQor agent
+            hub passes your response to the local SSH process and keeps it in memory to reuse for
+            this host. atQor agent hub does not write it to disk.
           </DialogDescription>
         </DialogHeader>
         <DialogPanel scrollFade={false}>

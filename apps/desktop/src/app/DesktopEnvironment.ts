@@ -85,7 +85,7 @@ export class DesktopEnvironment extends Context.Service<
   }
 >()("@t3tools/desktop/app/DesktopEnvironment") {}
 
-const APP_BASE_NAME = "atQor AI Hub";
+const APP_BASE_NAME = "atQor agent hub";
 
 function resolveDesktopAppStageLabel(input: {
   readonly isDevelopment: boolean;

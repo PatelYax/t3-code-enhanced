@@ -30,7 +30,7 @@ const GNOME_ACCESS_COPY = {
   "not-installed": {
     title: "Install the extension",
     description:
-      "The atQor AI Hub GNOME extension lets you capture other windows and bring them into your draft. Sign out once after installing.",
+      "The atQor agent hub GNOME extension lets you capture other windows and bring them into your draft. Sign out once after installing.",
   },
   "restart-required": {
     title: "Extension installed",
@@ -46,7 +46,7 @@ const GNOME_ACCESS_COPY = {
   },
   disabled: {
     title: "Enable the extension",
-    description: "Enable atQor AI Hub SnapShots to start capturing windows.",
+    description: "Enable atQor agent hub SnapShots to start capturing windows.",
   },
   enabled: {
     title: "Capture is ready",
@@ -58,7 +58,7 @@ const GNOME_ACCESS_COPY = {
   },
   error: {
     title: "Couldn't set up the extension",
-    description: "Check atQor AI Hub SnapShots in GNOME Extensions, then try again.",
+    description: "Check atQor agent hub SnapShots in GNOME Extensions, then try again.",
   },
 };
 
@@ -171,7 +171,7 @@ export function SnapShotSetupDialog({
                       ? "Update the capture helper"
                       : "Allow snapshots",
                   description:
-                    "atQor AI Hub's capture helper lets you capture other apps and return to your draft. It's included with atQor AI Hub.",
+                    "atQor agent hub's capture helper lets you capture other apps and return to your draft. It's included with atQor agent hub.",
                 }
           : backend === "niri"
             ? {
@@ -352,7 +352,7 @@ export function SnapShotSetupDialog({
                     </p>
                   ))}
                   {step === "access" && (backend === "gnome" || helperBackend) ? (
-                    <p>Included with atQor AI Hub. No download needed.</p>
+                    <p>Included with atQor agent hub. No download needed.</p>
                   ) : null}
                   {step === "access" && backend === "gnome" && extension?.status === "enabled" ? (
                     <Button

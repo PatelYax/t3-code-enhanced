@@ -55,7 +55,7 @@ export async function installGnomeCaptureBundle({ bundle, dataHome }: SetupPaths
     );
     if (installed.version > metadata.version)
       throw new Error(
-        "A newer extension is installed. Update atQor AI Hub instead of replacing it.",
+        "A newer extension is installed. Update atQor agent hub instead of replacing it.",
       );
   }
   const staged = await NodeFSP.mkdtemp(NodePath.join(parent, ".t3-capture-install-"));
@@ -183,7 +183,7 @@ export class GnomeCaptureSetup {
         return {
           status: "restart-required",
           message:
-            "Installed. Save your work, sign out of GNOME and sign back in, then return here to enable the extension. Restarting atQor AI Hub alone is not enough.",
+            "Installed. Save your work, sign out of GNOME and sign back in, then return here to enable the extension. Restarting atQor agent hub alone is not enough.",
         };
       if ((installed?.version ?? info.version?.value ?? 0) < bundled.version)
         return {
@@ -195,12 +195,13 @@ export class GnomeCaptureSetup {
         return {
           status: "extensions-disabled",
           message:
-            "GNOME has disabled user extensions. Turn on Extensions in the GNOME Extensions app, then check again. atQor AI Hub will not enable your other extensions for you.",
+            "GNOME has disabled user extensions. Turn on Extensions in the GNOME Extensions app, then check again. atQor agent hub will not enable your other extensions for you.",
         };
       if (info.state?.value === 1)
         return {
           status: "enabled",
-          message: "The atQor AI Hub extension is running. Active-window snapshots are available.",
+          message:
+            "The atQor agent hub extension is running. Active-window snapshots are available.",
         };
       if (info.state?.value === 3 || info.state?.value === 4)
         return {
@@ -212,7 +213,7 @@ export class GnomeCaptureSetup {
       return {
         status: "disabled",
         message:
-          "Enable the atQor AI Hub extension to allow active-window snapshots. You can disable it here at any time.",
+          "Enable the atQor agent hub extension to allow active-window snapshots. You can disable it here at any time.",
       };
     } catch (error) {
       return {

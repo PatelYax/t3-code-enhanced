@@ -44,7 +44,7 @@ export class DesktopAppActivationBroker {
   request(request: DesktopAppActivationRequest): Promise<DesktopAppActivationResponse> {
     if (this.#closed) {
       return Promise.resolve(
-        failure(request.requestId, "renderer-unavailable", "atQor AI Hub is shutting down."),
+        failure(request.requestId, "renderer-unavailable", "atQor agent hub is shutting down."),
       );
     }
     if (this.#pending.has(request.requestId)) {
@@ -89,7 +89,7 @@ export class DesktopAppActivationBroker {
           failure(
             pending.request.requestId,
             "renderer-unavailable",
-            "The atQor AI Hub window closed before it opened the project.",
+            "The atQor agent hub window closed before it opened the project.",
           ),
         );
       }
@@ -105,7 +105,7 @@ export class DesktopAppActivationBroker {
       failure(
         requestId,
         "renderer-unavailable",
-        "The command closed before atQor AI Hub was ready.",
+        "The command closed before atQor agent hub was ready.",
       ),
     );
   }
@@ -118,7 +118,7 @@ export class DesktopAppActivationBroker {
         failure(
           pending.request.requestId,
           "renderer-unavailable",
-          "atQor AI Hub is shutting down.",
+          "atQor agent hub is shutting down.",
         ),
       );
     }

@@ -646,7 +646,9 @@ describe("buildThreadActionItems", () => {
     });
     const items = buildThreadActionItems({
       threads: [idThread, titleThread],
-      projectByKey: new Map([[`${LOCAL_ENVIRONMENT_ID}:${PROJECT_ID}`, { title: "atQor AI Hub" }]]),
+      projectByKey: new Map([
+        [`${LOCAL_ENVIRONMENT_ID}:${PROJECT_ID}`, { title: "atQor agent hub" }],
+      ]),
       icon: null,
       runThread: async (_thread) => undefined,
     });

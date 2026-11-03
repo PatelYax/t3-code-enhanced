@@ -263,10 +263,10 @@ function FullDiskAccessStep({
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Let atQor AI Hub read {source.name}&rsquo;s cookies</DialogTitle>
+        <DialogTitle>Let atQor agent hub read {source.name}&rsquo;s cookies</DialogTitle>
         <DialogDescription>
-          To import cookies from {source.name}, atQor AI Hub needs Full Disk Access. Turn it on in
-          System Settings, then come back to finish the import. You can revoke it again once the
+          To import cookies from {source.name}, atQor agent hub needs Full Disk Access. Turn it on
+          in System Settings, then come back to finish the import. You can revoke it again once the
           import is done.
         </DialogDescription>
       </DialogHeader>
@@ -297,8 +297,8 @@ function FullDiskAccessStep({
         {!permission.isReady(["fullDiskAccess"]) ? (
           <p className="mt-3 text-xs text-muted-foreground">
             {stillRequired
-              ? "Access is still required. Quit and reopen atQor AI Hub if you just allowed it, then retry the import."
-              : "If access doesn't update after you allow it, quit and reopen atQor AI Hub, then retry the import."}
+              ? "Access is still required. Quit and reopen atQor agent hub if you just allowed it, then retry the import."
+              : "If access doesn't update after you allow it, quit and reopen atQor agent hub, then retry the import."}
           </p>
         ) : null}
       </DialogPanel>

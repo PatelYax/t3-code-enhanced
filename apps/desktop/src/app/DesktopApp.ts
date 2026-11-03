@@ -137,7 +137,7 @@ const handleFatalStartupError = Effect.fn("desktop.startup.handleFatalStartupErr
   const wasQuitting = yield* Ref.getAndSet(state.quitting, true);
   if (!wasQuitting) {
     yield* electronDialog.showErrorBox(
-      "atQor AI Hub failed to start",
+      "atQor agent hub failed to start",
       `Stage: ${stage}\n${message}${detail}`,
     );
   }

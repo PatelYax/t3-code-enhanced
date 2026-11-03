@@ -2763,8 +2763,8 @@ export function resolvePackageManagerUserAgent(packageManager: string): string {
 
 export function resolveDesktopProductName(version: string): string {
   return resolveDesktopUpdateChannel(version) === "nightly"
-    ? "atQor AI Hub (Nightly)"
-    : (desktopPackageJson.productName ?? "atQor AI Hub");
+    ? "atQor agent hub (Nightly)"
+    : (desktopPackageJson.productName ?? "atQor agent hub");
 }
 
 export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
@@ -2843,13 +2843,13 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
         // macOS 26 offers Messages/Mail codes in every text field unless opted out.
         NSAutoFillRequiresTextContentTypeForOneTimeCodeOnMac: true,
         NSLocalNetworkUsageDescription:
-          "atQor AI Hub connects to devices on your local network for remote environments and commands run by terminals and coding agents.",
+          "atQor agent hub connects to devices on your local network for remote environments and commands run by terminals and coding agents.",
         NSScreenCaptureUsageDescription:
-          "atQor AI Hub captures the active window when you use the window capture shortcut.",
+          "atQor agent hub captures the active window when you use the window capture shortcut.",
         NSCameraUsageDescription:
-          "atQor AI Hub lets commands run by terminals and coding agents use the camera.",
+          "atQor agent hub lets commands run by terminals and coding agents use the camera.",
         NSMicrophoneUsageDescription:
-          "atQor AI Hub lets commands run by terminals and coding agents use the microphone.",
+          "atQor agent hub lets commands run by terminals and coding agents use the microphone.",
         // macOS lists an app under Default web browser only when it opens web
         // pages as documents as well as http and https links (see protocols).
         CFBundleDocumentTypes: [
@@ -2863,7 +2863,7 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
       },
       protocols: [
         {
-          name: "atQor AI Hub",
+          name: "atQor agent hub",
           schemes: ["t3code", "t3code-dev"],
         },
         {
@@ -2916,7 +2916,7 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
       maintainer: "T3 Tools <hello@t3.codes>",
       protocols: [
         {
-          name: "atQor AI Hub",
+          name: "atQor agent hub",
           schemes: ["t3code", "t3code-dev"],
         },
       ],
@@ -3912,10 +3912,10 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
     private: true,
     packageManager: rootPackageJson.packageManager,
     description:
-      "atQor AI Hub is an open-source desktop app for coding agents. Work with your existing agent subscriptions, review code changes, and run commands in your projects. Connect from desktop, web, or mobile to continue working remotely.",
+      "atQor agent hub is an open-source desktop app for coding agents. Work with your existing agent subscriptions, review code changes, and run commands in your projects. Connect from desktop, web, or mobile to continue working remotely.",
     license: "MIT",
     homepage: "https://github.com/PatelYax/t3-code-enhanced",
-    author: "atQor AI Hub",
+    author: "atQor agent hub",
     main: "apps/desktop/dist-electron/boot.cjs",
     build: yield* createBuildConfig(
       options.platform,
@@ -4259,7 +4259,7 @@ const buildDesktopArtifactCli = Command.make("build-desktop-artifact", {
     Flag.optional,
   ),
 }).pipe(
-  Command.withDescription("Build a desktop artifact for atQor AI Hub."),
+  Command.withDescription("Build a desktop artifact for atQor agent hub."),
   Command.withHandler((input) => Effect.flatMap(resolveBuildOptions(input), buildDesktopArtifact)),
 );
 

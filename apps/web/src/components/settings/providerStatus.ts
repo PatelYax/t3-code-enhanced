@@ -56,7 +56,7 @@ export function getProviderSummary(provider: ServerProvider | undefined) {
       headline: "Disabled",
       detail:
         provider.message ??
-        "This provider is installed but disabled for new sessions in atQor AI Hub.",
+        "This provider is installed but disabled for new sessions in atQor agent hub.",
     };
   }
   if (!provider.installed) {

@@ -114,7 +114,7 @@ export function createManagedRelaySession(input: ManagedRelaySessionInput): Mana
         try: () => readCachedClerkToken(nowMillis),
         catch: (cause) =>
           new ManagedRelaySessionError({
-            message: "Could not obtain the T3 Connect session token.",
+            message: "Could not obtain the atQor agent hub Connect session token.",
             cause,
           }),
       });
@@ -171,7 +171,7 @@ function readSessionClerkToken(
       (token): token is string => Boolean(token),
       () =>
         new ManagedRelaySessionError({
-          message: "The T3 Connect session token is unavailable.",
+          message: "The atQor agent hub Connect session token is unavailable.",
         }),
     ),
   );
@@ -185,7 +185,9 @@ function requireSessionClerkToken(
   const session = registry.get(managedRelaySessionAtom);
   if (!session || session.accountId !== accountId) {
     return Effect.fail(
-      new ManagedRelaySessionError({ message: `Sign in to T3 Connect before ${action}.` }),
+      new ManagedRelaySessionError({
+        message: `Sign in to atQor agent hub Connect before ${action}.`,
+      }),
     );
   }
   return readSessionClerkToken(session);
@@ -210,7 +212,11 @@ export const deregisterManagedRelayEnvironment = Effect.fn(
 export const createManagedRelayT3ChatLinkRequest = Effect.fn(
   "clientRuntime.managedRelaySession.createT3ChatLinkRequest",
 )(function* (registry: AtomRegistry.AtomRegistry, input: { readonly accountId: string }) {
-  const clerkToken = yield* requireSessionClerkToken(registry, input.accountId, "linking T3 Chat");
+  const clerkToken = yield* requireSessionClerkToken(
+    registry,
+    input.accountId,
+    "linking atQor agent hub Chat",
+  );
   const relay = yield* ManagedRelay.ManagedRelayClient;
   return (yield* relay.createT3ChatLinkRequest({ clerkToken })).url;
 });
@@ -220,7 +226,7 @@ export const unlinkManagedRelayT3Chat = Effect.fn("clientRuntime.managedRelaySes
     const clerkToken = yield* requireSessionClerkToken(
       registry,
       input.accountId,
-      "unlinking T3 Chat",
+      "unlinking atQor agent hub Chat",
     );
     const relay = yield* ManagedRelay.ManagedRelayClient;
     yield* relay.unlinkT3Chat({ clerkToken });
@@ -235,7 +241,7 @@ function requireClerkToken(
   if (!session || session.accountId !== accountId) {
     return Effect.fail(
       new ManagedRelaySessionError({
-        message: "Sign in to T3 Connect before loading relay data.",
+        message: "Sign in to atQor agent hub Connect before loading relay data.",
       }),
     );
   }
@@ -253,7 +259,7 @@ function describeManagedRelayFailure(cause: Cause.Cause<unknown>): {
         ? relayProtectedErrorMessage(error.relayError)
         : error instanceof Error
           ? error.message
-          : "Could not load T3 Connect data.",
+          : "Could not load atQor agent hub Connect data.",
     traceId: findErrorTraceId(error),
   };
 }

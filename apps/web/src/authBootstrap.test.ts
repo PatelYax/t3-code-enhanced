@@ -71,7 +71,7 @@ function installTestBrowser(url: string) {
   };
 
   vi.stubGlobal("window", testWindow);
-  vi.stubGlobal("document", { title: "atQor AI Hub" });
+  vi.stubGlobal("document", { title: "atQor agent hub" });
 
   return testWindow;
 }

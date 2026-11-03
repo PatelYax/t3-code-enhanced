@@ -2071,7 +2071,7 @@ export function AboutSettingsPanel() {
           {...searchableSetting("privacy-policy")}
           description={
             telemetryOff === undefined
-              ? "How we handle your data, including the anonymous usage data atQor AI Hub collects."
+              ? "How we handle your data, including the anonymous usage data atQor agent hub collects."
               : `How we handle your data. ${telemetryOff}`
           }
           control={
@@ -2086,7 +2086,7 @@ export function AboutSettingsPanel() {
         />
         <SettingsRow
           {...searchableSetting("open-source-licenses")}
-          description="Notices for dependencies, assets, and optional tools used by atQor AI Hub."
+          description="Notices for dependencies, assets, and optional tools used by atQor agent hub."
           control={
             <Button
               render={<Link to="/settings/open-source-licenses" />}

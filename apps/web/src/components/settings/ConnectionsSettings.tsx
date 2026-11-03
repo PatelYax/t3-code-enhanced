@@ -883,7 +883,7 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
         {desktopWslState.enabled ? (
           <SettingsRow
             title="WSL only"
-            description="Run only the WSL backend. atQor AI Hub restarts when this changes."
+            description="Run only the WSL backend. atQor agent hub restarts when this changes."
             className="bg-muted/20 pl-7 sm:pl-8"
             control={
               <Switch
@@ -1207,8 +1207,8 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
                 </AlertDialogTitle>
                 <AlertDialogDescription>
                   {pendingDesktopServerExposureMode === "network-accessible"
-                    ? "Let your other devices connect to atQor AI Hub over the network. Pair devices to give them access. atQor AI Hub will restart."
-                    : "Devices connected over your local network will disconnect. Existing tunnels, such as T3 Connect or Tailscale HTTPS, keep working. atQor AI Hub will restart."}
+                    ? "Let your other devices connect to atQor agent hub over the network. Pair devices to give them access. atQor agent hub will restart."
+                    : "Devices connected over your local network will disconnect. Existing tunnels, such as atQor agent hub Connect or Tailscale HTTPS, keep working. atQor agent hub will restart."}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -1264,15 +1264,15 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
                 <AlertDialogDescription>
                   {pendingWslChange?.kind === "disable"
                     ? pendingWslChange.wasWslOnly
-                      ? "atQor AI Hub will restart on the Windows backend. Threads and projects opened against WSL stay safe inside the distro and become available again when you re-enable WSL."
-                      : "The WSL backend will stop. Threads and projects opened against WSL stay safe inside the distro, but they'll be unavailable in atQor AI Hub until you re-enable WSL."
+                      ? "atQor agent hub will restart on the Windows backend. Threads and projects opened against WSL stay safe inside the distro and become available again when you re-enable WSL."
+                      : "The WSL backend will stop. Threads and projects opened against WSL stay safe inside the distro, but they'll be unavailable in atQor agent hub until you re-enable WSL."
                     : pendingWslChange?.kind === "distro"
-                      ? "atQor AI Hub will restart the WSL backend on the new distro. Sessions still running on the current distro will be interrupted."
+                      ? "atQor agent hub will restart the WSL backend on the new distro. Sessions still running on the current distro will be interrupted."
                       : pendingWslChange?.kind === "enable"
                         ? "Run the WSL backend alongside the Windows one, or stop the Windows backend and use only WSL? You can change this later from Settings."
                         : pendingWslChange?.nextValue
-                          ? "atQor AI Hub will restart and start only the WSL backend. Your Windows-side projects won't be accessible until you turn this off again."
-                          : "atQor AI Hub will restart and bring the Windows backend back up alongside WSL."}
+                          ? "atQor agent hub will restart and start only the WSL backend. Your Windows-side projects won't be accessible until you turn this off again."
+                          : "atQor agent hub will restart and bring the Windows backend back up alongside WSL."}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -1358,7 +1358,7 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
               <AlertDialogHeader>
                 <AlertDialogTitle>Disable Tailscale HTTPS?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  atQor AI Hub will restart the local backend without Tailscale Serve.
+                  atQor agent hub will restart the local backend without Tailscale Serve.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -1396,8 +1396,8 @@ export function ConnectionsSettings({ view }: { readonly view: "environments" | 
               <DialogHeader>
                 <DialogTitle>Set up Tailscale HTTPS?</DialogTitle>
                 <DialogDescription>
-                  atQor AI Hub will restart the local backend with Tailscale Serve enabled and ask
-                  Tailscale to proxy HTTPS traffic to this backend.
+                  atQor agent hub will restart the local backend with Tailscale Serve enabled and
+                  ask Tailscale to proxy HTTPS traffic to this backend.
                 </DialogDescription>
               </DialogHeader>
               <DialogPanel>

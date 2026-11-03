@@ -14,7 +14,7 @@ import { useT3ChatLink } from "./useT3ChatLink";
 
 const upgradeLink = (
   <a className="underline" href={T3CHAT_SUBSCRIPTION_URL} target="_blank" rel="noopener noreferrer">
-    Upgrade on T3 Chat
+    Upgrade on atQor agent hub Chat
   </a>
 );
 
@@ -44,8 +44,8 @@ export function T3ChatUserProfilePage() {
 
   return (
     <ClerkUserProfilePage
-      title="T3 Chat"
-      description={`Link a paid T3 Chat account for more T3 Connect tunnels: up to ${T3CHAT_PLAN_TUNNEL_LIMITS.pro} with Pro, ${T3CHAT_PLAN_TUNNEL_LIMITS.premier} with Premier.`}
+      title="atQor agent hub Chat"
+      description={`Link a paid atQor agent hub Chat account for more atQor agent hub Connect tunnels: up to ${T3CHAT_PLAN_TUNNEL_LIMITS.pro} with Pro, ${T3CHAT_PLAN_TUNNEL_LIMITS.premier} with Premier.`}
       action={
         <ClerkUserProfileRefreshButton
           disabled={pending !== null}
@@ -56,12 +56,14 @@ export function T3ChatUserProfilePage() {
     >
       {linkState.error ? (
         <div className="border-t py-3 text-xs" role="alert">
-          <p className="font-medium text-destructive-foreground">Could not load T3 Chat link</p>
+          <p className="font-medium text-destructive-foreground">
+            Could not load atQor agent hub Chat link
+          </p>
           <p className="mt-0.5 text-muted-foreground">{linkState.error}</p>
         </div>
       ) : data === null ? null : !data.available ? (
         <p className="border-t py-4 text-xs text-muted-foreground">
-          This T3 Connect server does not support T3 Chat linking.
+          This atQor agent hub Connect server does not support atQor agent hub Chat linking.
         </p>
       ) : (
         <ul className="border-t">
@@ -103,7 +105,7 @@ export function T3ChatUserProfilePage() {
                 </Button>
               ) : (
                 <Button size="sm" disabled={pending !== null} onClick={() => void handleLink()}>
-                  {pending === "link" ? "Opening…" : "Link T3 Chat"}
+                  {pending === "link" ? "Opening…" : "Link atQor agent hub Chat"}
                 </Button>
               )}
             </div>

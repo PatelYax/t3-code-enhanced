@@ -131,11 +131,11 @@ it("does not activate T3 until requested, then matches PID and title", async () 
   const snapshot = await captureNiriWindow(socketPath);
   expect(calls.some((call) => typeof call !== "string" && call.Action.FocusWindow)).toBe(false);
   windows = [
-    { ...window, id: 1, pid: 999, title: "atQor AI Hub" },
+    { ...window, id: 1, pid: 999, title: "atQor agent hub" },
     { ...window, id: 2, pid: process.pid, title: "Other T3" },
-    { ...window, id: 3, pid: process.pid, title: "atQor AI Hub" },
+    { ...window, id: 3, pid: process.pid, title: "atQor agent hub" },
   ];
-  await snapshot.feedback!.activate("atQor AI Hub");
+  await snapshot.feedback!.activate("atQor agent hub");
   expect(calls).toContainEqual({ Action: { FocusWindow: { id: 3 } } });
 });
 
@@ -147,18 +147,18 @@ it("waits for the restored T3 window to map instead of polling", async () => {
     if (request === "EventStream")
       send(socket, {
         WindowOpenedOrChanged: {
-          window: { ...window, id: 4, pid: process.pid, title: "atQor AI Hub" },
+          window: { ...window, id: 4, pid: process.pid, title: "atQor agent hub" },
         },
       });
   };
-  await snapshot.feedback!.activate("atQor AI Hub");
+  await snapshot.feedback!.activate("atQor agent hub");
   expect(calls).toContainEqual({ Action: { FocusWindow: { id: 4 } } });
 });
 
 it("rejects ambiguous activation targets", async () => {
   const snapshot = await captureNiriWindow(socketPath);
-  windows = [1, 2].map((id) => ({ ...window, id, pid: process.pid, title: "atQor AI Hub" }));
-  await expect(snapshot.feedback!.activate("atQor AI Hub")).rejects.toThrow("More than one");
+  windows = [1, 2].map((id) => ({ ...window, id, pid: process.pid, title: "atQor agent hub" }));
+  await expect(snapshot.feedback!.activate("atQor agent hub")).rejects.toThrow("More than one");
 });
 
 it("cancels pending activation when capture feedback is closed", async () => {
@@ -169,7 +169,7 @@ it("cancels pending activation when capture feedback is closed", async () => {
     await original(request, socket);
     if (request === "EventStream") started.resolve();
   };
-  const activation = expect(snapshot.feedback!.activate("atQor AI Hub")).rejects.toThrow(
+  const activation = expect(snapshot.feedback!.activate("atQor agent hub")).rejects.toThrow(
     "cancelled",
   );
   await started.promise;

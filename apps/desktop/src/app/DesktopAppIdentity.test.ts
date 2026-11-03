@@ -40,7 +40,7 @@ interface ElectronAppCalls {
 const layerElectronApp = (calls: ElectronAppCalls) =>
   Layer.succeed(ElectronApp.ElectronApp, {
     metadata: Effect.die("unexpected metadata read"),
-    name: Effect.succeed("atQor AI Hub"),
+    name: Effect.succeed("atQor agent hub"),
     systemLocale: Effect.succeed("en-US"),
     whenReady: Effect.void,
     requestSingleInstanceLock: Effect.succeed(true),
@@ -199,9 +199,9 @@ describe("DesktopAppIdentity", () => {
 
         const runtimeName = calls.setName[0];
         assert.isDefined(runtimeName);
-        assert.equal(runtimeName, `atQor AI Hub ${stage}`);
+        assert.equal(runtimeName, `atQor agent hub ${stage}`);
         assert.match(runtimeName.replaceAll(" ", ""), /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/);
-        assert.equal(calls.setAboutPanelOptions[0]?.applicationName, `atQor AI Hub (${stage})`);
+        assert.equal(calls.setAboutPanelOptions[0]?.applicationName, `atQor agent hub (${stage})`);
       }),
       { calls, environment },
     );

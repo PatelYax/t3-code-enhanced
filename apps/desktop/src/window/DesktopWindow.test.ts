@@ -1198,7 +1198,7 @@ describe("DesktopWindow", () => {
         createCount,
         mainWindow,
         onReveal: () => {
-          foreground = "atQor AI Hub";
+          foreground = "atQor agent hub";
           operations.push("reveal");
         },
       });
@@ -1211,7 +1211,7 @@ describe("DesktopWindow", () => {
         operations.length = 0;
         foreground = "Discord";
         yield* desktopWindow.dispatchSnapShotEvent({ type: "started", id: captureOne });
-        assert.equal(foreground, "atQor AI Hub");
+        assert.equal(foreground, "atQor agent hub");
         foreground = "Explorer";
         yield* desktopWindow.dispatchSnapShotEvent({ type: "ready", id: captureOne });
         yield* desktopWindow.dispatchSnapShotEvent({ type: "failed", id: captureTwo });

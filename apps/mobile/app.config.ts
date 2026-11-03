@@ -77,7 +77,7 @@ const RELEASE_ASSETS = {
 
 const VARIANT_CONFIG = {
   development: {
-    appName: "atQor AI Hub Dev",
+    appName: "atQor agent hub Dev",
     scheme: "t3code-dev",
     iosBundleIdentifier: "com.t3tools.t3code.dev",
     androidPackage: "com.t3tools.t3code.dev",
@@ -85,7 +85,7 @@ const VARIANT_CONFIG = {
     assets: DEVELOPMENT_ASSETS,
   },
   preview: {
-    appName: "atQor AI Hub Preview",
+    appName: "atQor agent hub Preview",
     scheme: "t3code-preview",
     iosBundleIdentifier: "com.t3tools.t3code.preview",
     androidPackage: "com.t3tools.t3code.preview",
@@ -93,7 +93,7 @@ const VARIANT_CONFIG = {
     assets: PREVIEW_ASSETS,
   },
   production: {
-    appName: "atQor AI Hub",
+    appName: "atQor agent hub",
     scheme: "t3code",
     iosBundleIdentifier: "com.t3tools.t3code",
     androidPackage: "com.t3tools.t3code",
@@ -139,7 +139,7 @@ const widgetsPlugin: NonNullable<ExpoConfig["plugins"]>[number] = [
       {
         name: "SubscriptionUsage",
         displayName: "Subscription usage",
-        description: "Subscription quotas from your connected atQor AI Hub environments.",
+        description: "Subscription quotas from your connected atQor agent hub environments.",
         ios: {
           configuration: {
             title: "Subscription usage",
@@ -189,7 +189,7 @@ const widgetsPlugin: NonNullable<ExpoConfig["plugins"]>[number] = [
       {
         name: "AgentActivity",
         displayName: "Agent Activity",
-        description: "Shows the current state of active atQor AI Hub agents.",
+        description: "Shows the current state of active atQor agent hub agents.",
         android: null,
         ios: { supportedFamilies: ["systemSmall", "systemMedium", "accessoryRectangular"] },
       },
@@ -266,8 +266,9 @@ const config: ExpoConfig = {
         NSAllowsArbitraryLoads: true,
       },
       NSLocalNetworkUsageDescription:
-        "Allow atQor AI Hub to connect to atQor AI Hub servers on your local network or tailnet.",
-      NSPhotoLibraryAddUsageDescription: "Allow atQor AI Hub to save images to your photo library.",
+        "Allow atQor agent hub to connect to atQor agent hub servers on your local network or tailnet.",
+      NSPhotoLibraryAddUsageDescription:
+        "Allow atQor agent hub to save images to your photo library.",
       // System picture in picture needs background audio to start and survive outside the app.
       UIBackgroundModes: ["audio"],
       ITSAppUsesNonExemptEncryption: false,
@@ -366,7 +367,7 @@ const config: ExpoConfig = {
     [
       "expo-audio",
       {
-        microphonePermission: "Allow atQor AI Hub to use your microphone for voice input.",
+        microphonePermission: "Allow atQor agent hub to use your microphone for voice input.",
         recordAudioAndroid: false,
         enableBackgroundPlayback: false,
         enableBackgroundRecording: false,
@@ -376,7 +377,7 @@ const config: ExpoConfig = {
       "expo-camera",
       {
         cameraPermission:
-          "Allow atQor AI Hub to access your camera so you can scan pairing QR codes.",
+          "Allow atQor agent hub to access your camera so you can scan pairing QR codes.",
         microphonePermission: false,
         barcodeScannerEnabled: true,
         recordAudioAndroid: false,

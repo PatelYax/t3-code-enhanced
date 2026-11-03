@@ -119,7 +119,10 @@ const needsRestart = (before: Routes, after: Routes) =>
   after.lan !== before.lan || (after.connect && !before.connect);
 
 const CHOICES = {
-  connect: { title: "T3 Connect", description: "Creates a tunnel to control your PC." },
+  connect: {
+    title: "atQor agent hub Connect",
+    description: "Creates a tunnel to control your PC.",
+  },
   lan: { title: "Local network", description: "LAN and tailnet. Pairing code required." },
 } satisfies Record<Route, { readonly title: string; readonly description: string }>;
 
@@ -138,9 +141,9 @@ const formatSetup = (setup: Setup) => {
       ? []
       : [
           [
-            "T3 Connect",
+            "atQor agent hub Connect",
             setup.connect
-              ? "on · your T3 account"
+              ? "on · your atQor agent hub account"
               : setup.connectRevoked
                 ? "off · link revoked. Run `t3 connect`."
                 : "off",
@@ -174,15 +177,15 @@ const formatSetup = (setup: Setup) => {
 const formatNextSteps = (routes: Routes, serviceInstalled: boolean) =>
   [
     ...(routes.connect
-      ? ["On your other device, sign in to T3 Connect with the same account."]
+      ? ["On your other device, sign in to atQor agent hub Connect with the same account."]
       : []),
     ...(routes.lan ? ["Run `t3 pair`. Use the code on your other device."] : []),
     ...(routes.connect || routes.lan
       ? []
       : [
           serviceInstalled
-            ? "Remote access is off. T3 Code still runs here in the background."
-            : "Remote access is off. Run `t3` to use T3 Code here.",
+            ? "Remote access is off. atQor agent hub still runs here in the background."
+            : "Remote access is off. Run `t3` to use atQor agent hub here.",
         ]),
   ].join("\n");
 
@@ -201,7 +204,7 @@ const setUp = Effect.fn("cli.up")(function* (flags: {
   if (before.connect === null && Option.getOrElse(flags.connect, () => false)) {
     return yield* new CliError.UserError({
       cause: "connect",
-      userMessage: "T3 Connect is unavailable in this build.",
+      userMessage: "atQor agent hub Connect is unavailable in this build.",
     });
   }
 
@@ -273,7 +276,7 @@ const setUp = Effect.fn("cli.up")(function* (flags: {
     const confirmed = yield* Prompt.run(
       Prompt.Confirm({
         message: update
-          ? "Update and restart T3 Code? Running agent turns will stop."
+          ? "Update and restart atQor agent hub? Running agent turns will stop."
           : "Apply changes and restart? Running agent turns will stop.",
         initial: true,
       }),
@@ -288,7 +291,7 @@ const setUp = Effect.fn("cli.up")(function* (flags: {
     });
     if (linked === null) return;
     yield* Console.log(
-      `✓ Signed in to T3 Connect${linked.identity ? ` as ${linked.identity}` : ""}`,
+      `✓ Signed in to atQor agent hub Connect${linked.identity ? ` as ${linked.identity}` : ""}`,
     );
   }
   // A running server unlinks live; when that fails, only a restart stops its tunnel.
@@ -348,7 +351,7 @@ const setUp = Effect.fn("cli.up")(function* (flags: {
       yield* Console.log(`Keeping installed service version t3@${installedVersion}.`);
     }
     if (update && !interactive) {
-      yield* Console.log("Updating T3 Code. Running agent turns will stop.");
+      yield* Console.log("Updating atQor agent hub. Running agent turns will stop.");
     }
     const result = newer
       ? ({ changed: false } as const)
@@ -377,15 +380,15 @@ const setUp = Effect.fn("cli.up")(function* (flags: {
         (yield* Prompt.run(
           Prompt.Confirm({
             message:
-              "The running service still has T3 Connect on. Restart it? Running agent turns will stop.",
+              "The running service still has atQor agent hub Connect on. Restart it? Running agent turns will stop.",
             initial: true,
           }),
         ).pipe(Effect.catchTags({ QuitError: () => Effect.succeed(false) })));
       if (!confirmed) {
-        yield* Console.log("Run `t3 service restart` to turn T3 Connect off.");
+        yield* Console.log("Run `t3 service restart` to turn atQor agent hub Connect off.");
       } else {
         if (!interactive && !stopped) {
-          yield* Console.log("Restarting T3 Code. Running agent turns will stop.");
+          yield* Console.log("Restarting atQor agent hub. Running agent turns will stop.");
         }
         const outcome = yield* service.restart.pipe(Effect.tapError(() => rollBack));
         if (outcome === "queued") {
@@ -393,7 +396,7 @@ const setUp = Effect.fn("cli.up")(function* (flags: {
         }
         if (outcome === "skipped") {
           yield* Console.log(
-            "The installed service runs another T3 home, so it was not restarted. Pass its --base-dir.",
+            "The installed service runs another atQor agent hub home, so it was not restarted. Pass its --base-dir.",
           );
         }
         started = outcome === "restarted";
@@ -416,7 +419,7 @@ export const upCommand = Command.make("up", {
   ...projectLocationFlags,
   connect: Flag.Boolean("connect").pipe(
     Flag.withDescription(
-      "Allow access through T3 Connect with your T3 account. Turn off with --no-connect.",
+      "Allow access through atQor agent hub Connect with your atQor agent hub account. Turn off with --no-connect.",
     ),
     Flag.optional,
   ),
@@ -428,19 +431,22 @@ export const upCommand = Command.make("up", {
   ),
   yes: Flag.Boolean("yes").pipe(
     Flag.withDescription(
-      "Ask nothing. Keep the access settings; a new machine gets T3 Connect. A restart stops running agent turns.",
+      "Ask nothing. Keep the access settings; a new machine gets atQor agent hub Connect. A restart stops running agent turns.",
     ),
     Flag.withDefault(false),
   ),
   headless: headlessFlag,
 }).pipe(
-  Command.withShortDescription("Set up remote access and the T3 Code background service."),
+  Command.withShortDescription("Set up remote access and the atQor agent hub background service."),
   Command.withDescription(
-    "Set up remote access and the T3 Code background service. Access flags skip the question, and routes not named keep their settings. Without a terminal, a needed restart runs without asking and stops running agent turns.",
+    "Set up remote access and the atQor agent hub background service. Access flags skip the question, and routes not named keep their settings. Without a terminal, a needed restart runs without asking and stops running agent turns.",
   ),
   Command.withExamples([
     { command: "t3 up", description: "Choose remote access." },
-    { command: "t3 up --connect", description: "Turn on T3 Connect. Keep other settings." },
+    {
+      command: "t3 up --connect",
+      description: "Turn on atQor agent hub Connect. Keep other settings.",
+    },
     { command: "t3 up --lan", description: "Allow LAN access with pairing codes." },
     { command: "t3 up --no-lan", description: "Stop LAN access." },
     { command: "t3 up --yes", description: "Take the defaults with no questions." },
@@ -453,7 +459,9 @@ export const connectCommand = Command.make("connect", {
   ...projectLocationFlags,
   headless: headlessFlag,
 }).pipe(
-  Command.withDescription("Set up T3 Connect for this machine. Same as `t3 up --connect`."),
+  Command.withDescription(
+    "Set up atQor agent hub Connect for this machine. Same as `t3 up --connect`.",
+  ),
   Command.withHandler((flags) =>
     runCloudCommand(
       flags,

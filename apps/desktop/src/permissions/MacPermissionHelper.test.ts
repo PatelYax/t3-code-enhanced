@@ -59,7 +59,7 @@ vi.mock("electron", async () => {
   }
   return {
     app: {
-      getPath: () => "/Applications/atQor AI Hub (Nightly).app/Contents/MacOS/atQor AI Hub",
+      getPath: () => "/Applications/atQor agent hub (Nightly).app/Contents/MacOS/atQor agent hub",
     },
     nativeImage: { createFromPath: mocks.createFromPath },
     BrowserWindow: class extends MockWindow {},
