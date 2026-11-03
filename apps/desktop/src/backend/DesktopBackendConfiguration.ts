@@ -1,10 +1,10 @@
+import * as NodeCrypto from "node:crypto";
 import * as NodeOS from "node:os";
 
 import { parsePersistedServerObservabilitySettings } from "@t3tools/shared/serverSettings";
 import { currentDesktopBootstrapToken } from "@t3tools/shared/desktopBootstrapToken";
 import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
-import * as Crypto from "effect/Crypto";
 import * as Effect from "effect/Effect";
 import * as Hex from "effect/encoding/Hex";
 import * as FileSystem from "effect/FileSystem";
@@ -726,25 +726,22 @@ export const make = Effect.gen(function* () {
   const wslEnvironment = yield* DesktopWslEnvironment.DesktopWslEnvironment;
   const wslServerTree = yield* DesktopWslServerTree.DesktopWslServerTree;
   const settings = yield* DesktopAppSettings.DesktopAppSettings;
-  const crypto = yield* Crypto.Crypto;
   const bundledEnvironment = yield* Effect.cached(
     DesktopBundledTools.prepare().pipe(
       Effect.provideService(FileSystem.FileSystem, fileSystem),
       Effect.provideService(DesktopEnvironment.DesktopEnvironment, environment),
     ),
   );
-  // Random generation yields; serialize it so concurrent backends cannot capture distinct bootstrap secrets.
+  // Serialize initialization so concurrent backends share the same bootstrap secret.
   const secretRef = yield* SynchronizedRef.make(Option.none<string>());
   const getOrCreateBootstrapSecret = SynchronizedRef.modifyEffect(secretRef, (current) =>
     Option.match(current, {
       onSome: (secret) => Effect.succeed([secret, current] as const),
       onNone: () =>
-        crypto.randomBytes(32).pipe(
-          Effect.map((bytes) => {
-            const secret = Hex.encode(bytes);
-            return [secret, Option.some(secret)] as const;
-          }),
-        ),
+        Effect.sync(() => {
+          const secret = Hex.encode(NodeCrypto.randomBytes(32));
+          return [secret, Option.some(secret)] as const;
+        }),
     }),
   );
 

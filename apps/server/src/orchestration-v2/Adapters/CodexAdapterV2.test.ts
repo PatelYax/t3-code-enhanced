@@ -1,8 +1,10 @@
 import { historyResponseItems } from "@t3tools/provider-core/server/handoffBudget";
+import { makeProviderFailure } from "@t3tools/provider-core/server/failure";
 import {
   makeProviderTextDeltaCoalescer,
   type ProviderTextDeltaUpdate,
 } from "./ProviderTextDeltaCoalescer.ts";
+import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import * as NodeServices from "@effect/platform-node/NodeServices";
 import {
   CommandId,
@@ -37,7 +39,7 @@ import * as CodexError from "effect-codex-app-server/errors";
 import type * as CodexSchema from "effect-codex-app-server/schema";
 import * as DateTime from "effect/DateTime";
 import * as Deferred from "effect/Deferred";
-import * as Crypto from "effect/Crypto";
+import * as Digest from "effect/crypto/Digest";
 import * as Effect from "effect/Effect";
 import * as Predicate from "effect/Predicate";
 import * as FileSystem from "effect/FileSystem";
@@ -795,7 +797,7 @@ describe("CodexAdapterV2 process exit", () => {
         settings: DEFAULT_CODEX_SETTINGS,
         environment: {},
         clientFactory: { open: () => Effect.succeed(client) },
-        crypto: yield* Crypto.Crypto,
+        digest: yield* Digest.Digest,
         fileSystem: yield* FileSystem.FileSystem,
         idAllocator: yield* IdAllocator.IdAllocatorV2,
         serverConfig: yield* ProviderReplayHarness.makeReplayServerConfig(scenario).pipe(
@@ -875,7 +877,12 @@ describe("CodexAdapterV2 process exit", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -924,7 +931,7 @@ describe("CodexAdapterV2 session initialize", () => {
               ),
             ),
         },
-        crypto: yield* Crypto.Crypto,
+        digest: yield* Digest.Digest,
         fileSystem: yield* FileSystem.FileSystem,
         idAllocator: yield* IdAllocator.IdAllocatorV2,
         serverConfig: yield* ProviderReplayHarness.makeReplayServerConfig(transcript.scenario).pipe(
@@ -992,7 +999,12 @@ describe("CodexAdapterV2 session initialize", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -1024,7 +1036,12 @@ describe("CodexAdapterV2 session initialize", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -1072,7 +1089,12 @@ describe("CodexAdapterV2 session initialize", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -1118,7 +1140,12 @@ describe("CodexAdapterV2 session initialize", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -1205,7 +1232,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         settings: DEFAULT_CODEX_SETTINGS,
         environment,
         clientFactory,
-        crypto: yield* Crypto.Crypto,
+        digest: yield* Digest.Digest,
         fileSystem,
         idAllocator,
         serverConfig,
@@ -1376,7 +1403,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
   );
@@ -1486,7 +1518,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
   );
@@ -1527,13 +1564,23 @@ describe("CodexAdapterV2 post-settle continuation", () => {
             "tools.update_plan.enabled": true,
             mcp_optional_startup_grace_ms: 10_000,
             "shell_environment_policy.set.T3CODE_THREAD_ID": `thread-${scenario}`,
+            "mcp_servers.t3-code": {
+              url: "http://127.0.0.1:43123/mcp",
+              tool_timeout_sec: 3_900,
+              http_headers: { Authorization: "Bearer secret-codex-token" },
+            },
           },
         },
       ]);
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -1654,7 +1701,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -1820,7 +1872,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -1968,7 +2025,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isEmpty(assistantMessages(harness.events));
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -2175,7 +2237,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.lengthOf(requests(), 4);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -2253,7 +2320,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.terminalEvents()[0]?.status, "completed");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -2333,7 +2405,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.terminalEvents()[0]?.status, "completed");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -2470,7 +2547,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           }
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -2581,7 +2663,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
   );
@@ -2689,7 +2776,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.deepEqual(resumeThreadEnvs, [harness.threadId, undefined, explicitThreadId]);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -2817,7 +2909,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(DateTime.toEpochMillis(resumed.updatedAt), 1782622450000);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -3247,7 +3344,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         }
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -3399,7 +3501,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isAbove(terminalIndex, resumedCommandIndex);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -3567,7 +3674,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           assert.deepEqual(assistantMessages(harness.events), []);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -3700,7 +3812,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           );
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -3782,7 +3899,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -3905,7 +4027,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
   );
@@ -3937,7 +4064,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         );
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -4031,6 +4163,58 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       },
     ],
   });
+
+  it.effect("wakes with well-formed text when the cuts split an emoji", () =>
+    Effect.scoped(
+      Effect.gen(function* () {
+        const harness = yield* makeCodexReplayHarness(
+          makeCodexReplayTranscript({
+            scenario: "codex-bg-wake-surrogate",
+            entries: [
+              ...backgroundExecTranscript.entries.slice(0, -1),
+              {
+                type: "emit_inbound",
+                label: "item/completed/command-late",
+                frame: {
+                  method: "item/completed",
+                  params: {
+                    item: {
+                      ...backgroundCommandItem("completed"),
+                      command: `${"c".repeat(199)}🚀`,
+                      aggregatedOutput: `🚀${"x".repeat(999)}\n`,
+                    },
+                    threadId: BG_NATIVE_THREAD,
+                    turnId: BG_NATIVE_TURN,
+                    completedAtMs: 1782622465500,
+                  },
+                },
+              },
+            ],
+          }),
+        );
+        yield* harness.runtime.startTurn(
+          makeCodexTestTurnInput({
+            threadId: harness.threadId,
+            providerThread: harness.providerThread,
+            now: yield* DateTime.now,
+            attemptId: RunAttemptId.make("attempt-codex-bg-wake-surrogate"),
+            text: BG_PROMPT,
+          }),
+        );
+        yield* harness.until(() => harness.continuationRequests.length > 0);
+        assert.isTrue(harness.continuationRequests[0]?.detail?.isWellFormed());
+      }).pipe(
+        Effect.provide(
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
+        ),
+      ),
+    ),
+  );
 
   it.effect.each([false, true])(
     "keeps commands interrupted after native thread closure (persistent tool: %s)",
@@ -4155,7 +4339,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
   );
@@ -4311,7 +4500,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           assert.lengthOf(harness.continuationRequests, 0);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       );
@@ -4441,7 +4635,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
             ),
           ),
         );
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))),
     );
   });
 
@@ -4557,7 +4751,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
             ),
           ),
         );
-      }).pipe(Effect.provide(NodeServices.layer)),
+      }).pipe(Effect.provide(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))),
     ),
   );
 
@@ -4840,7 +5034,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(commandUpdates[commandUpdates.length - 1]?.turnItem.status, "interrupted");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -5070,7 +5269,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isFalse(yield* harness.hasPendingBackgroundWork);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -5181,7 +5385,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isFalse(yield* harness.hasPendingBackgroundWork);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -5307,7 +5516,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           );
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -5555,7 +5769,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         }
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -5666,10 +5885,104 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           if (willRetry) assert.equal(terminal.retry?.attempt, 1);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
+  );
+
+  // regression: #28032 an unlisted codexErrorInfo dropped the failed turn/completed
+  it.effect("fails the turn when Codex reports an error info the schema does not list", () =>
+    Effect.scoped(
+      Effect.gen(function* () {
+        const nativeThreadId = "native-unlisted-error-info";
+        const nativeTurnId = "turn-unlisted-error-info";
+        const message =
+          "The 'gpt-5-codex' model is not supported when using Codex with a ChatGPT account.";
+        const error = { message, codexErrorInfo: "modelNotFound", additionalDetails: null };
+        const usage = {
+          totalTokens: 1,
+          inputTokens: 1,
+          cachedInputTokens: 0,
+          outputTokens: 0,
+          reasoningOutputTokens: 0,
+        };
+        const transcript = makeCodexReplayTranscript({
+          scenario: "codex-unlisted-error-info",
+          entries: [
+            ...codexReplayPreamble({ nativeThreadId, nativeTurnId, prompt: "say hi" }),
+            {
+              type: "emit_inbound",
+              label: "error",
+              frame: {
+                method: "error",
+                params: { threadId: nativeThreadId, turnId: nativeTurnId, willRetry: false, error },
+              },
+            },
+            {
+              type: "emit_inbound",
+              label: "turn/completed",
+              frame: {
+                method: "turn/completed",
+                params: {
+                  threadId: nativeThreadId,
+                  turn: { ...makeCodexReplayTurn({ id: nativeTurnId, status: "failed" }), error },
+                },
+              },
+            },
+            // Notifications dispatch in order, so this marks turn/completed as handled.
+            {
+              type: "emit_inbound",
+              label: "usage",
+              frame: {
+                method: "thread/tokenUsage/updated",
+                params: {
+                  threadId: nativeThreadId,
+                  turnId: nativeTurnId,
+                  tokenUsage: { total: usage, last: usage, modelContextWindow: 200_000 },
+                },
+              },
+            },
+          ],
+        });
+        const harness = yield* makeCodexReplayHarness(transcript);
+        yield* harness.runtime.startTurn(
+          makeCodexTestTurnInput({
+            threadId: harness.threadId,
+            providerThread: harness.providerThread,
+            now: yield* DateTime.now,
+            text: "say hi",
+            attemptId: RunAttemptId.make("attempt-unlisted-error-info"),
+          }),
+        );
+        yield* harness.until(
+          () =>
+            harness.terminalEvents().length > 0 ||
+            harness.events.some(
+              (event) =>
+                event.type === "provider_turn.updated" && event.providerTurn.tokenUsage != null,
+            ),
+        );
+        const terminal = harness.terminalEvents()[0];
+        assert.equal(terminal?.status, "failed");
+        if (terminal?.status !== "failed") return;
+        assert.equal(terminal.failure.message, message);
+      }).pipe(
+        Effect.provide(
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
+        ),
+      ),
+    ),
   );
 
   const FAILED_SCENARIO = "codex-failed-mid-command";
@@ -5768,7 +6081,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.lengthOf(harness.continuationRequests, 0);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -5931,7 +6249,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isFalse(yield* harness.hasPendingBackgroundWork);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -5998,7 +6321,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.isFalse(yield* harness.hasPendingBackgroundWork);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -6244,7 +6572,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           assert.isFalse(yield* harness.hasPendingBackgroundWork);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -6459,7 +6792,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.continuationRequests[0]?.delivery, "message_text");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -6612,7 +6950,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
             assert.include(harness.continuationRequests[0]?.detail, "CAPACITY_CHILD_DONE");
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -6729,7 +7072,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.equal(harness.subagentUpdates().at(-1)?.subagent.status, "interrupted");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -6801,7 +7149,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         );
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -6915,7 +7268,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.include(harness.continuationRequests[0]?.detail, "CHILD_AFTER_GRANDCHILD");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -6993,7 +7351,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.lengthOf(harness.continuationRequests, 0);
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -7080,7 +7443,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           ]);
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -7175,7 +7543,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           }
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -7238,7 +7611,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.include(harness.continuationRequests[0]?.detail, "CODEX_RESUME_DONE");
       }).pipe(
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     ),
@@ -7397,7 +7775,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
           }
         }).pipe(
           Effect.provide(
-            Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
       ),
@@ -7550,7 +7933,127 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     }).pipe(
       Effect.scoped,
       Effect.provide(
-        Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
+      ),
+    ),
+  );
+
+  it.effect("unarchives an unloaded Codex thread before rolling it back", () =>
+    Effect.gen(function* () {
+      const nativeThreadId = "archived-rollback-thread";
+      const resumeParams = {
+        threadId: nativeThreadId,
+        excludeTurns: true,
+        cwd: CODEX_TEST_RUNTIME_POLICY.cwd,
+        model: CODEX_TEST_MODEL_SELECTION.model,
+        config: CodexAdapterV2.CODEX_THREAD_CONFIG,
+      };
+      const thread = codexReplayThreadResult({ nativeThreadId, forkedFromId: null });
+      const exchange = (
+        id: number,
+        method: string,
+        params: unknown,
+        reply: { readonly result: unknown } | { readonly error: unknown },
+      ): Array<CodexReplay.CodexAppServerReplayEntry> => [
+        { type: "expect_outbound", label: method, frame: { id, method, params } },
+        { type: "emit_inbound", label: method, frame: { id, ...reply } },
+      ];
+      const transcript = makeCodexReplayTranscript({
+        scenario: "codex-archived-rollback",
+        entries: [
+          ...codexReplayPreamble({
+            nativeThreadId,
+            nativeTurnId: "archived-rollback-turn",
+            prompt: "unused",
+          }).slice(0, 5),
+          ...exchange(
+            3,
+            "thread/read",
+            { threadId: nativeThreadId, includeTurns: false },
+            {
+              result: {
+                thread: {
+                  id: nativeThreadId,
+                  historyMode: "paginated",
+                  status: { type: "notLoaded" },
+                },
+              },
+            },
+          ),
+          ...exchange(4, "thread/resume", resumeParams, {
+            error: { code: -32600, message: `session ${nativeThreadId} is archived` },
+          }),
+          ...exchange(5, "thread/unarchive", { threadId: nativeThreadId }, { result: thread }),
+          ...exchange(6, "thread/resume", resumeParams, { result: thread }),
+          ...exchange(
+            7,
+            "thread/turns/list",
+            {
+              threadId: nativeThreadId,
+              cursor: null,
+              limit: 1,
+              sortDirection: "desc",
+              itemsView: "summary",
+            },
+            {
+              result: {
+                data: [{ id: "native-turn-second", items: [], status: "completed", error: null }],
+                nextCursor: null,
+              },
+            },
+          ),
+          ...exchange(
+            8,
+            "thread/revert",
+            { threadId: nativeThreadId, beforeTurnId: "native-turn-second" },
+            { result: thread },
+          ),
+        ],
+      });
+      const harness = yield* makeCodexReplayHarness(transcript);
+      const now = yield* DateTime.now;
+      const firstTurn = codexReplaySourceTurn({
+        id: "provider-turn-first",
+        ordinal: 1,
+        nativeId: "native-turn-first",
+        providerThreadId: harness.providerThread.id,
+        now,
+      });
+      const secondTurn = codexReplaySourceTurn({
+        id: "provider-turn-second",
+        ordinal: 2,
+        nativeId: "native-turn-second",
+        providerThreadId: harness.providerThread.id,
+        now,
+      });
+
+      const snapshot = yield* harness.runtime.rollbackThread({
+        providerThread: harness.providerThread,
+        target: {
+          type: "provider_turn",
+          checkpointId: CheckpointId.make("checkpoint-archived-rollback"),
+          appRunOrdinal: 1,
+          providerTurn: firstTurn,
+        },
+        providerThreadTurns: [firstTurn, secondTurn],
+      });
+
+      assert.equal(snapshot.providerThread.nativeThreadRef?.nativeId, nativeThreadId);
+      assert.deepEqual(snapshot.providerThread.nativeConversationHeadRef, firstTurn.nativeTurnRef);
+    }).pipe(
+      Effect.scoped,
+      Effect.provide(
+        Layer.mergeAll(
+          IdAllocator.layer,
+          McpProviderSessions.layer,
+          NodeServices.layer,
+          NodeCrypto.layer,
+        ),
       ),
     ),
   );
@@ -7697,7 +8200,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
   );
@@ -7855,7 +8363,113 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
+        ),
+      ),
+    );
+
+    it.effect("rejects an oversized /goal objective before any goal request", () =>
+      Effect.gen(function* () {
+        const oversized = "x".repeat(4001);
+        const requests: string[] = [];
+        const harness = yield* makeCodexReplayHarness(
+          makeCodexReplayTranscript({ scenario: "goal-oversized", entries: sessionStart }),
+          () => Effect.void,
+          (method) =>
+            Effect.sync(() => {
+              requests.push(method);
+            }),
+        );
+        const start = yield* harness.runtime
+          .startTurn(yield* goalTurnInput(harness, `/goal ${oversized}`))
+          .pipe(Effect.result);
+
+        assert.deepEqual(
+          requests.filter((method) => method.startsWith("thread/goal/") || method === "turn/start"),
+          [],
+        );
+        assert.equal(start._tag, "Failure");
+        if (start._tag === "Failure") {
+          const { message } = makeProviderFailure({ cause: start.failure });
+          assert.match(message, /4,?001/u);
+          assert.match(message, /4,?000/u);
+        }
+      }).pipe(
+        Effect.scoped,
+        Effect.provide(
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
+        ),
+      ),
+    );
+
+    it.effect("sends a /goal objective at the 4000 character limit unchanged", () =>
+      Effect.gen(function* () {
+        const atLimit = "y".repeat(4000);
+        const goal = (status: string) => ({ ...codexGoal(status, 0), objective: atLimit });
+        const transcript = makeCodexReplayTranscript({
+          scenario: "goal-at-limit",
+          entries: [
+            ...sessionStart,
+            ...request(3, "thread/goal/get", { threadId: nativeThreadId }, { goal: null }),
+            ...request(
+              4,
+              "thread/goal/set",
+              { threadId: nativeThreadId, objective: atLimit, status: "paused" },
+              { goal: goal("paused") },
+            ),
+            ...withReplayRequestId(
+              codexReplayPreamble({
+                nativeThreadId,
+                nativeTurnId: "goal-turn-limit",
+                prompt: atLimit,
+                sentPrompt: `Start working toward this goal: ${atLimit}`,
+              }).slice(5),
+              5,
+            ),
+            ...request(
+              6,
+              "thread/goal/set",
+              { threadId: nativeThreadId, status: "active" },
+              { goal: goal("active") },
+            ),
+            notification("goal complete", "thread/goal/updated", {
+              threadId: nativeThreadId,
+              turnId: "goal-turn-limit",
+              goal: goal("complete"),
+            }),
+            notification("turn done", "turn/completed", {
+              threadId: nativeThreadId,
+              turn: makeCodexReplayTurn({ id: "goal-turn-limit", status: "completed" }),
+            }),
+          ],
+        });
+        const harness = yield* makeCodexReplayHarness(transcript);
+        yield* harness.runtime.startTurn(yield* goalTurnInput(harness, `/goal ${atLimit}`));
+        yield* harness.firstTerminal;
+
+        assert.deepEqual(
+          harness.terminalEvents().map((event) => event.status),
+          ["completed"],
+        );
+      }).pipe(
+        Effect.scoped,
+        Effect.provide(
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -7947,7 +8561,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8028,7 +8647,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8091,7 +8715,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8190,7 +8819,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8255,7 +8889,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8345,7 +8984,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8411,7 +9055,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8584,7 +9233,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8621,7 +9275,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8650,7 +9309,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
@@ -8711,7 +9375,12 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       }).pipe(
         Effect.scoped,
         Effect.provide(
-          Layer.mergeAll(IdAllocator.layer, McpProviderSessions.layer, NodeServices.layer),
+          Layer.mergeAll(
+            IdAllocator.layer,
+            McpProviderSessions.layer,
+            NodeServices.layer,
+            NodeCrypto.layer,
+          ),
         ),
       ),
     );
