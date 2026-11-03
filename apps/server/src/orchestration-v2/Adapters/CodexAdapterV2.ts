@@ -123,6 +123,7 @@ import * as ProviderEventLoggers from "@t3tools/provider-core/server/ProviderEve
 import { codexAppServerArgs, resolveCodexLaunchArgs } from "../../provider/codexLaunchArgs.ts";
 import { mergeProviderInstanceEnvironment } from "@t3tools/provider-core/server/instanceEnvironment";
 import * as McpProviderSessions from "@t3tools/provider-core/server/McpProviderSessions";
+import type { McpProviderSessionConfig } from "@t3tools/provider-core/server/mcpSession";
 import {
   MCP_APP_EXTENSION_ID,
   MCP_APP_MIME_TYPE,
@@ -1344,6 +1345,7 @@ class BundledMcpConfigurationError extends Schema.TaggedError<BundledMcpConfigur
 
 function codexThreadRuntimeParams(input: {
   readonly threadId: ThreadId | null;
+  readonly mcpSession?: McpProviderSessionConfig;
   readonly bundledMcpConfig?: Readonly<Record<string, Schema.Json>>;
   readonly modelSelection?: { readonly model: string };
   readonly runtimePolicy?: ProviderAdapter.ProviderAdapterV2RuntimePolicy;
@@ -1358,6 +1360,16 @@ function codexThreadRuntimeParams(input: {
     config: {
       ...CODEX_THREAD_CONFIG,
       ...input.bundledMcpConfig,
+      ...(input.mcpSession === undefined
+        ? {}
+        : {
+            "mcp_servers.t3-code": {
+              url: input.mcpSession.endpoint,
+              // T3 waits can block for an hour.
+              tool_timeout_sec: 65 * 60,
+              http_headers: { Authorization: input.mcpSession.authorizationHeader },
+            },
+          }),
       // One app-server serves many threads, so the id goes in per-thread shell config, not its env.
       ...(input.threadId === null
         ? {}
@@ -1634,6 +1646,7 @@ export interface CodexAdapterV2Options {
 export const makeCodexAdapterV2 = Effect.fn("makeCodexAdapterV2")(function* (
   adapterOptions: CodexAdapterV2Options,
 ) {
+  const mcpSessions = yield* McpProviderSessions.McpProviderSessions;
   const { clientFactory, crypto, fileSystem, idAllocator, serverConfig } = adapterOptions;
   const continuationRequests = adapterOptions.continuationRequests;
 
@@ -1758,10 +1771,18 @@ export const makeCodexAdapterV2 = Effect.fn("makeCodexAdapterV2")(function* (
           function* (
             threadInput: Omit<Parameters<typeof codexThreadRuntimeParams>[0], "bundledMcpConfig">,
           ) {
+            const mcpSession =
+              threadInput.threadId === null
+                ? undefined
+                : yield* mcpSessions.read(threadInput.threadId);
+            const runtimeInput = {
+              ...threadInput,
+              ...(mcpSession === undefined ? {} : { mcpSession }),
+            };
             const manifestPath = (resolvedRuntime?.environment ?? adapterOptions.environment)
               .ATQOR_BUNDLED_MCP_PATH;
             if (!manifestPath || !(yield* fileSystem.exists(manifestPath))) {
-              return codexThreadRuntimeParams(threadInput);
+              return codexThreadRuntimeParams(runtimeInput);
             }
             const contents = yield* fileSystem.readFileString(manifestPath);
             const document = yield* decodeBundledMcpJson(contents).pipe(
@@ -1772,7 +1793,7 @@ export const makeCodexAdapterV2 = Effect.fn("makeCodexAdapterV2")(function* (
               catch: () => new BundledMcpConfigurationError(),
             });
             if (Object.keys(manifest.mcpServers).length === 0) {
-              return codexThreadRuntimeParams(threadInput);
+              return codexThreadRuntimeParams(runtimeInput);
             }
             yield* ensureInitialized;
             const effective = yield* client.request("config/read", {
@@ -1780,7 +1801,7 @@ export const makeCodexAdapterV2 = Effect.fn("makeCodexAdapterV2")(function* (
               includeLayers: false,
             });
             return codexThreadRuntimeParams({
-              ...threadInput,
+              ...runtimeInput,
               bundledMcpConfig: bundledMcpOverrides(manifest, effective.config),
             });
           },
@@ -6711,14 +6732,15 @@ export const makeCodexAdapterV2 = Effect.fn("makeCodexAdapterV2")(function* (
             codexInput: ReadonlyArray<CodexSchema.V2TurnStartParams__UserInput>,
           ) {
             const threadId = yield* getNativeThreadId(turnInput.providerThread);
+            const mcpSession = yield* mcpSessions.read(turnInput.threadId);
             const turnStartParams = yield* buildCodexTurnStartParams({
               nativeThreadId: threadId,
               codexInput,
               runtimePolicy: turnInput.runtimePolicy,
               modelSelection: turnInput.modelSelection,
-              hasT3Mcp: false,
-              browserToolsAvailable: false,
-              deviceToolsAvailable: false,
+              hasT3Mcp: mcpSession !== undefined,
+              browserToolsAvailable: mcpSession?.browserToolsAvailable ?? false,
+              deviceToolsAvailable: mcpSession?.capabilities?.has("device") ?? false,
               omitServiceTier: adapterOptions.resolveRuntime !== undefined,
               ...(turnInput.appContext === undefined ? {} : { appContext: turnInput.appContext }),
             });
