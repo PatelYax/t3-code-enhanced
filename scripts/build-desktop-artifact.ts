@@ -2952,6 +2952,8 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
   if (platform === "win") {
     buildConfig.npmRebuild = false;
     buildConfig.nsis = {
+      oneClick: false,
+      allowToChangeInstallationDirectory: true,
       differentialPackage: true,
       include: "apps/desktop/resources/installer.nsh",
     };

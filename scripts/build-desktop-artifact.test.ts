@@ -551,6 +551,8 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
         undefined,
       );
       assert.nestedPropertyVal(windows, "win.executableName", "atQor AI Hub");
+      assert.nestedPropertyVal(windows, "nsis.oneClick", false);
+      assert.nestedPropertyVal(windows, "nsis.allowToChangeInstallationDirectory", true);
       assert.deepStrictEqual(release.publish, [
         {
           provider: "github",
