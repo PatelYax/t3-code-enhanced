@@ -16,7 +16,7 @@ export interface PrimaryEnvironmentHttpClient {
 export const PrimaryEnvironmentHttpClient: Context.Service<
   PrimaryEnvironmentHttpClient,
   PrimaryEnvironmentHttpApiClient
-> = Context.Service("@t3tools/web/environments/primary/httpClient/PrimaryEnvironmentHttpClient");
+> = Context.Service("@ai-hub/web/environments/primary/httpClient/PrimaryEnvironmentHttpClient");
 
 const make = Effect.suspend(() =>
   makeEnvironmentHttpApiClient(resolvePrimaryEnvironmentHttpUrl("/")),

@@ -28,7 +28,7 @@ const writeExecutable = (path: string, content: string) => {
 
 const writeShim = (root: string, target: CliShimTarget) => {
   const shim = NodePath.join(root, "bin", "t3");
-  writeExecutable(shim, renderCliShim({ target, shimPath: shim, t3Home: `${root}/home` }));
+  writeExecutable(shim, renderCliShim({ target, shimPath: shim, AI_HUBHome: `${root}/home` }));
   return shim;
 };
 
@@ -44,7 +44,7 @@ const REPORTER =
 const fakeAppImage = (canMount = true) => {
   const root = tempRoot();
   const image = NodePath.join(root, "image");
-  writeExecutable(NodePath.join(image, "t3code"), REPORTER);
+  writeExecutable(NodePath.join(image, "ai-hub"), REPORTER);
   const appImage = NodePath.join(root, "atQor AI Hub.AppImage");
   writeExecutable(
     appImage,
@@ -59,7 +59,7 @@ const fakeAppImage = (canMount = true) => {
       "",
     ].join("\n"),
   );
-  const shim = writeShim(root, { kind: "appimage", appImage, executableName: "t3code" });
+  const shim = writeShim(root, { kind: "appimage", appImage, executableName: "ai-hub" });
   return { root, image, appImage, shim };
 };
 
@@ -73,7 +73,7 @@ describe("renderCliShim", () => {
     );
   });
 
-  it("keeps the install's T3 home under sudo, unless one is set", () => {
+  it("keeps the install's AI Hub home under sudo, unless one is set", () => {
     const root = tempRoot();
     writeExecutable(NodePath.join(root, "app"), REPORTER);
     const shim = writeShim(root, {
@@ -89,7 +89,7 @@ describe("renderCliShim", () => {
 
   it("runs an installed app's server directly", () => {
     const root = tempRoot();
-    const executable = NodePath.join(root, "opt", "atQor AI Hub", "t3code");
+    const executable = NodePath.join(root, "opt", "atQor AI Hub", "ai-hub");
     writeExecutable(executable, REPORTER);
     const shim = writeShim(root, {
       kind: "direct",
@@ -109,7 +109,7 @@ describe("renderCliShim", () => {
     const script = renderCliShim({
       target: { kind: "windows", executable, entry: "C:\\Apps\\server.asar\\bin.mjs" },
       shimPath: "C:\\Users\\José\\.t3\\bin\\t3.cmd",
-      t3Home: "C:\\Users\\José\\.t3",
+      AI_HUBHome: "C:\\Users\\José\\.t3",
     });
     const lines = script.split("\r\n");
     expect(lines).toContain("setlocal EnableExtensions DisableDelayedExpansion");

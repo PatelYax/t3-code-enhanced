@@ -11,7 +11,7 @@ const STARTUP_LAZY_ENTRIES = [
   "src/lib/lucideIconByName.ts",
 ];
 
-const WARMUP_CLIENT_ID = "t3code-startup-warmup";
+const WARMUP_CLIENT_ID = "ai-hub-startup-warmup";
 
 // Bundled dev keeps these private and untyped. A Vite upgrade that moves them
 // skips the warmup or logs a warning, never breaks dev; bundledDev.test.ts
@@ -95,7 +95,7 @@ async function warmLazyEntries(
 // Warm them on listening to avoid serial compilation before first paint.
 export function warmBundledDevPlugin(): Plugin {
   return {
-    name: "t3code:warm-bundled-dev",
+    name: "ai-hub:warm-bundled-dev",
     apply: "serve",
     configureServer(server) {
       if (!server.config.experimental.bundledDev) return;

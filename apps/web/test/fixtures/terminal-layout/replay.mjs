@@ -184,7 +184,7 @@ export async function replay(driver, { mode, width, shellPath, threadRef, thread
   await checkpoint("E-last-close");
   if (mode === "RP") {
     const open = await read(
-      `JSON.parse(localStorage.getItem('t3code:right-panel-state:v2')).state.byThreadKey[driverThreadKey]?.isOpen === true`,
+      `JSON.parse(localStorage.getItem('ai-hub:right-panel-state:v2')).state.byThreadKey[driverThreadKey]?.isOpen === true`,
     );
     if (!open) await click('button[aria-label="Toggle right panel"]:visible');
     await click('role=button[name="Terminal T"]');

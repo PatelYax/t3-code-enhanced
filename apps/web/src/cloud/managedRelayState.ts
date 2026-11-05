@@ -1,12 +1,12 @@
 import { useAtomValue } from "@effect/atom-react";
 import {
   createManagedRelayQueryManager,
-  createManagedRelayT3ChatLinkRequest,
+  createManagedRelayT3ChatLinkRequest as createManagedRelayAI_HUBChatLinkRequest,
   deregisterManagedRelayEnvironment,
   ManagedRelay,
   managedRelaySessionAtom,
   readManagedRelaySnapshotState,
-  unlinkManagedRelayT3Chat,
+  unlinkManagedRelayT3Chat as unlinkManagedRelayAI_HUBChat,
 } from "@t3tools/client-runtime/relay";
 import {
   createAtomCommandScheduler,
@@ -17,7 +17,7 @@ import {
   T3CHAT_PLAN_TUNNEL_LIMITS,
   type RelayClientDeviceRecord,
   type RelayClientEnvironmentRecord,
-  type RelayT3ChatLinkResponse,
+  type RelayT3ChatLinkResponse as RelayAI_HUBChatLinkResponse,
 } from "@t3tools/contracts/relay";
 import type { EnvironmentId } from "@t3tools/contracts";
 import * as Context from "effect/Context";
@@ -60,30 +60,30 @@ const accountSerial = {
   key: (input: { readonly accountId: string }) => input.accountId,
 } as const;
 
-export const createManagedRelayT3ChatLinkRequestCommand = createRuntimeCommand(
+export const createManagedRelayAI_HUBChatLinkRequestCommand = createRuntimeCommand(
   managedRelayAtomRuntime,
   {
     label: "web:managed-relay:create-t3chat-link-request",
     scheduler: managedRelayMutationScheduler,
     concurrency: accountSerial,
     execute: (input: { readonly accountId: string }, registry) =>
-      createManagedRelayT3ChatLinkRequest(registry, input),
+      createManagedRelayAI_HUBChatLinkRequest(registry, input),
   },
 );
 
-export const unlinkManagedRelayT3ChatCommand = createRuntimeCommand(managedRelayAtomRuntime, {
+export const unlinkManagedRelayAI_HUBChatCommand = createRuntimeCommand(managedRelayAtomRuntime, {
   label: "web:managed-relay:unlink-t3chat",
   scheduler: managedRelayMutationScheduler,
   concurrency: accountSerial,
   execute: (input: { readonly accountId: string }, registry) =>
-    unlinkManagedRelayT3Chat(registry, input),
+    unlinkManagedRelayAI_HUBChat(registry, input),
 });
 
 const EMPTY_T3CHAT_LINK_ATOM = Atom.make(
-  AsyncResult.success<RelayT3ChatLinkResponse>({ available: false, link: null }),
+  AsyncResult.success<RelayAI_HUBChatLinkResponse>({ available: false, link: null }),
 ).pipe(Atom.keepAlive, Atom.withLabel("managed-relay:web:t3chat-link:null"));
 
-export function useManagedRelayT3ChatLink() {
+export function useManagedRelayAI_HUBChatLink() {
   const session = useAtomValue(managedRelaySessionAtom);
   const accountId = session?.accountId ?? null;
   const atom = accountId
@@ -151,7 +151,7 @@ export function useManagedRelayDevices() {
 export type ManagedTunnelUpgrade = "link" | "pro" | "premier" | null;
 
 // Mirrors the relay's cap: a manual override is exact, otherwise the T3 Chat plan raises the default.
-function managedTunnelCap(t3Chat: RelayT3ChatLinkResponse): {
+function managedTunnelCap(t3Chat: RelayAI_HUBChatLinkResponse): {
   readonly limit: number;
   readonly upgrade: ManagedTunnelUpgrade;
 } {
@@ -182,7 +182,7 @@ export function refreshManagedTunnelUsage() {
 /** Managed tunnels on this account and its cap. Null fields are still loading or failed. */
 export function useManagedTunnelUsage() {
   const environments = useManagedRelayEnvironments();
-  const t3Chat = useManagedRelayT3ChatLink();
+  const t3Chat = useManagedRelayAI_HUBChatLink();
   const used =
     environments.accountId === null
       ? null

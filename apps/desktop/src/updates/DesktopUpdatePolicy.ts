@@ -26,7 +26,7 @@ export interface UpdatePolicy {
 }
 
 export class DesktopUpdatePolicy extends Context.Service<DesktopUpdatePolicy, UpdatePolicy>()(
-  "@t3tools/desktop/updates/DesktopUpdatePolicy",
+  "@ai-hub/desktop/updates/DesktopUpdatePolicy",
 ) {}
 
 export const unmanagedUpdatePolicy: UpdatePolicy = {
@@ -76,7 +76,7 @@ const make = Effect.gen(function* () {
             mode: "off",
             feedUrl: undefined,
             allowNightly: false,
-            message: `Updates are off because T3 Code cannot use the managed policy at ${error.path}. Contact your administrator.`,
+            message: `Updates are off because atQor AI Hub cannot use the managed policy at ${error.path}. Contact your administrator.`,
           }),
         ),
     }),

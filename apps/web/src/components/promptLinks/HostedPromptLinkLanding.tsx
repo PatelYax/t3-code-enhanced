@@ -19,7 +19,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { StandalonePage, StandalonePageHeader } from "../ui/standalone-page";
 
-const OPENER_STORAGE_KEY = "t3code:prompt-link-opener";
+const OPENER_STORAGE_KEY = "ai-hub:prompt-link-opener";
 const Opener = Schema.NullOr(Schema.Literals(["app", "browser"]));
 
 interface LinkSummary {
@@ -34,7 +34,13 @@ function summarize(
   if (url.pathname !== "/new") {
     const prompt = parseThreadLinkPrompt(url.search);
     return prompt.ok
-      ? { ok: true, value: { prompt: prompt.value, details: ["Opens one of your threads."] } }
+      ? {
+          ok: true,
+          value: {
+            prompt: prompt.value,
+            details: ["Opens one of your threads."],
+          },
+        }
       : prompt;
   }
   const link = parseNewThreadLink(url.search);
@@ -43,7 +49,10 @@ function summarize(
     const { owner, name, number } = link.value.pullRequest;
     return {
       ok: true,
-      value: { prompt: link.value.prompt, details: [`Pull request ${owner}/${name}#${number}`] },
+      value: {
+        prompt: link.value.prompt,
+        details: [`Pull request ${owner}/${name}#${number}`],
+      },
     };
   }
   const { repository, provider, model } = link.value;
@@ -100,7 +109,7 @@ function HostedPromptLinkLanding({
 }) {
   const summary = summarize(appPath);
   const [remember, setRemember] = useState(false);
-  const deepLink = promptLinkDeepLink(appPath);
+  const deepLink = promptLinkDeepLink(appPath, "ai-hub");
   const onPhone = /android|iphone|ipad/i.test(navigator.userAgent);
   const autoOpenedRef = useRef(false);
 

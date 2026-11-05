@@ -64,7 +64,7 @@ export class DesktopBackendOutputLogFactory extends Context.Service<
   {
     readonly forInstance: (id: string) => Effect.Effect<DesktopBackendOutputLogShape>;
   }
->()("@t3tools/desktop/app/DesktopObservability/DesktopBackendOutputLogFactory") {}
+>()("@ai-hub/desktop/app/DesktopObservability/DesktopBackendOutputLogFactory") {}
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -606,10 +606,10 @@ const layerTelemetry = Layer.unwrap(
       ? environment.appVersion
       : desktopPackageJson.version;
     const resource = {
-      serviceName: "t3code-desktop",
+      serviceName: "ai-hub-desktop",
       serviceVersion,
       attributes: {
-        "service.namespace": "t3code",
+        "service.namespace": "ai-hub",
         "service.runtime": "desktop",
         "t3code.desktop.mode": environment.isDevelopment ? "development" : "packaged",
         "service.instance.id": processServiceInstanceId(endpoints.resourceAttributes),

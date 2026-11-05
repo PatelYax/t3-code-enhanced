@@ -963,7 +963,7 @@ interface StagePackageJson {
   readonly name: string;
   readonly version: string;
   readonly buildVersion: string;
-  readonly t3codeCommitHash: string;
+  readonly AI_HUBCommitHash: string;
   readonly t3codeWebAuthn?: MacWebAuthnEntitlements;
   readonly private: true;
   readonly packageManager: string;
@@ -2696,10 +2696,12 @@ export const resolveGitHubPublishConfig = Effect.fn("resolveGitHubPublishConfig"
   fallbackRepository = "",
 ) {
   const env = yield* Config.all({
+    aiHubUpdateRepository: Config.String("AI_HUB_DESKTOP_UPDATE_REPOSITORY").pipe(Config.option),
     updateRepository: Config.String("T3CODE_DESKTOP_UPDATE_REPOSITORY").pipe(Config.option),
     githubRepository: Config.String("GITHUB_REPOSITORY").pipe(Config.option),
   });
   const rawRepo = (
+    Option.getOrUndefined(env.aiHubUpdateRepository)?.trim() ||
     Option.getOrUndefined(env.updateRepository)?.trim() ||
     Option.getOrUndefined(env.githubRepository)?.trim() ||
     fallbackRepository
@@ -3908,7 +3910,7 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
     name: "atqor-ai-hub",
     version: appVersion,
     buildVersion: appVersion,
-    t3codeCommitHash: commitHash,
+    AI_HUBCommitHash: commitHash,
     // Read by apps/desktop/src/preview/Passkeys.ts; must match the signed entitlements.
     ...(macWebAuthn ? { t3codeWebAuthn: macWebAuthn } : {}),
     private: true,
@@ -4088,7 +4090,7 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
   const builderArgs = [
     "exec",
     "--filter",
-    "@t3tools/desktop",
+    "@ai-hub/desktop",
     "--",
     "electron-builder",
     "--projectDir",
@@ -4106,7 +4108,7 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
       shell: builderCommand.shell,
     }),
     {
-      label: `vp exec --filter @t3tools/desktop -- electron-builder --projectDir ${stageAppDir} ${platformConfig.cliFlag} --${options.arch} --publish never`,
+      label: `vp exec --filter @ai-hub/desktop -- electron-builder --projectDir ${stageAppDir} ${platformConfig.cliFlag} --${options.arch} --publish never`,
       verbose: options.verbose,
     },
   );

@@ -24,7 +24,7 @@ import * as DesktopEnvironment from "./DesktopEnvironment.ts";
 import { openClerkTokenStorage } from "./ClerkTokenStore.ts";
 import * as DesktopWebLinks from "./DesktopWebLinks.ts";
 
-declare const __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__: string | undefined;
+declare const __AI_HUB_BUILD_CLERK_PUBLISHABLE_KEY__: string | undefined;
 
 export class DesktopClerkBridgeInitializationError extends Schema.TaggedError<DesktopClerkBridgeInitializationError>()(
   "DesktopClerkBridgeInitializationError",
@@ -64,7 +64,7 @@ export class DesktopClerk extends Context.Service<
       | Scope.Scope
     >;
   }
->()("@t3tools/desktop/app/DesktopClerk") {}
+>()("@ai-hub/desktop/app/DesktopClerk") {}
 
 function resolveDesktopClerkFrontendApiHostname(
   publishableKey: string | undefined,
@@ -80,9 +80,9 @@ function resolveDesktopClerkFrontendApiHostname(
 }
 
 export const desktopClerkFrontendApiHostname = resolveDesktopClerkFrontendApiHostname(
-  typeof __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__ === "undefined"
+  typeof __AI_HUB_BUILD_CLERK_PUBLISHABLE_KEY__ === "undefined"
     ? undefined
-    : __T3CODE_BUILD_CLERK_PUBLISHABLE_KEY__,
+    : __AI_HUB_BUILD_CLERK_PUBLISHABLE_KEY__,
 );
 
 function createDesktopClerkBridge(stateDir: string, isDevelopment: boolean, userDataPath: string) {

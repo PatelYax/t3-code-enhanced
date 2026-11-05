@@ -19,7 +19,7 @@ function project(
   return {
     id: ProjectId.make(id),
     environmentId,
-    title: "t3code",
+    title: "ai-hub",
     workspaceRoot: `/work/${id}`,
     repositoryIdentity: canonicalKey === null ? null : { canonicalKey },
     faviconPath: `${id}/favicon.png`,

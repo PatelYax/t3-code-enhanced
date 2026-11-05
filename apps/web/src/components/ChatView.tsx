@@ -1663,7 +1663,7 @@ export default function ChatView(props: ChatViewProps) {
   });
   const [resumeCompactionPermanentlyDismissed, setResumeCompactionPermanentlyDismissed] =
     useLocalStorage(
-      `t3code:resume-compaction-dismissed:${environmentId}:${activeProviderInstanceId ?? "claudeAgent"}`,
+      `ai-hub:resume-compaction-dismissed:${environmentId}:${activeProviderInstanceId ?? "claudeAgent"}`,
       false,
       Schema.Boolean,
     );
@@ -1686,7 +1686,7 @@ export default function ChatView(props: ChatViewProps) {
     setResumeCompactionPermanentlyDismissed,
   ]);
   const [dismissedFallbackWindow, setDismissedFallbackWindow] = useLocalStorage(
-    `t3code:fallback-notice-dismissed:${environmentId}`,
+    `ai-hub:fallback-notice-dismissed:${environmentId}`,
     null,
     DismissedFallbackWindowSchema,
   );
@@ -2792,7 +2792,7 @@ export default function ChatView(props: ChatViewProps) {
         : serverConfig === null
           ? "Side chats are not ready yet. Try again in a moment."
           : serverConfig.environment.capabilities.sideChats !== true
-            ? "Update this environment's T3 Code server to use side chats."
+            ? "Update this environment's atQor AI Hub server to use side chats."
             : sideChatsOffered && !isServerThread
               ? "Side chats start after the first message."
               : sideChat.available &&
@@ -3976,7 +3976,7 @@ export default function ChatView(props: ChatViewProps) {
         <ChatRightPanel
           sheet={shouldUsePlanSidebarSheet}
           workspaceLayoutElement={workspaceLayoutElement}
-          widthStorageKey={`t3code:preview-panel-width:${activeThreadKey}`}
+          widthStorageKey={`ai-hub:preview-panel-width:${activeThreadKey}`}
           sheetAnimationDurationMs={panelAnimationsActive ? panelAnimationDurationMs : 0}
           onCloseSheet={closePreviewPanelStable}
           open={rightPanelOpen}

@@ -207,7 +207,7 @@ export class DesktopSnapShot extends Context.Service<
     readonly dismissAnimation: (id: string) => Effect.Effect<void>;
     readonly acknowledge: (id: string) => Effect.Effect<void, DesktopSnapShotError>;
   }
->()("@t3tools/desktop/snapShot/DesktopSnapShot") {}
+>()("@ai-hub/desktop/snapShot/DesktopSnapShot") {}
 
 export class DesktopSnapShotSetupError extends Schema.TaggedError<DesktopSnapShotSetupError>()(
   "DesktopSnapShotSetupError",

@@ -86,8 +86,12 @@ export function codexCallbackUrl(value: string, redirectUri: string, state: stri
   return callback;
 }
 
-export function codexAuthHandoffUrl(input: CodexAuthHandoff, development = false) {
-  const url = new URL(`${development ? "t3code-dev" : "t3code"}://auth/codex`);
+export function codexAuthHandoffUrl(
+  input: CodexAuthHandoff,
+  development = false,
+  scheme: "t3code" | "ai-hub" = "t3code",
+) {
+  const url = new URL(`${scheme}${development ? "-dev" : ""}://auth/codex`);
   url.searchParams.set("request", encodeHandoff(input));
   return url.toString();
 }
@@ -97,7 +101,9 @@ export function readCodexAuthHandoff(value: string, development: boolean) {
     const url = new URL(value);
     if (
       value.length > 32_768 ||
-      url.protocol !== (development ? "t3code-dev:" : "t3code:") ||
+      ![development ? "ai-hub-dev:" : "ai-hub:", development ? "t3code-dev:" : "t3code:"].includes(
+        url.protocol,
+      ) ||
       url.host !== "auth" ||
       url.pathname !== "/codex" ||
       url.username ||

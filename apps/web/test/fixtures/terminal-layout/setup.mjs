@@ -9,8 +9,8 @@ export async function setup(driver, { width, theme, mode, shellPath, projectName
     capture.freezeClock();
     const settings=await import('/src/hooks/useSettings.ts');
     await settings.updateClientSettings({fontSizeTerminal:12});
-    localStorage.setItem('t3code:theme',${JSON.stringify(theme)});
-    window.dispatchEvent(new StorageEvent('storage',{key:'t3code:theme',newValue:${JSON.stringify(theme)}}));
+    localStorage.setItem('ai-hub:theme',${JSON.stringify(theme)});
+    window.dispatchEvent(new StorageEvent('storage',{key:'ai-hub:theme',newValue:${JSON.stringify(theme)}}));
   })()`);
   await call("click", {
     locator: `button[aria-label=${JSON.stringify(`New thread in ${projectName}`)}]`,
@@ -18,7 +18,7 @@ export async function setup(driver, { width, theme, mode, shellPath, projectName
   await call("wait_for", { locator: '[role="textbox"][contenteditable="true"]' });
   const context = await evaluate(`(()=>{
     const draftId=location.pathname.split('/').at(-1);
-    const draft=JSON.parse(localStorage['t3code:composer-drafts:v1']).state.draftThreadsByThreadKey[draftId];
+    const draft=JSON.parse(localStorage['ai-hub:composer-drafts:v1']).state.draftThreadsByThreadKey[draftId];
     if(!draft) throw Error('Expected a newly created draft');
     const threadRef={environmentId:draft.environmentId,threadId:draft.threadId};
     return {route:location.pathname,threadRef,threadKey:draft.environmentId+':'+draft.threadId};

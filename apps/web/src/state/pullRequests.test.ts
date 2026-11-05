@@ -217,7 +217,7 @@ describe("pull request list answers across a reload", () => {
       provider: SourceControlProviderKind.make("github"),
       host: "github.com",
       projectId: ProjectId.make("project-1"),
-      projectTitle: "t3code",
+      projectTitle: "ai-hub",
       repository: "pingdotgg/t3code",
       number,
       title: `Pull request ${number}`,
@@ -249,7 +249,7 @@ describe("pull request list answers across a reload", () => {
           detail: null,
         },
       ],
-      errors: [{ projectId: ProjectId.make("project-1"), projectTitle: "t3code", message: "boom" }],
+      errors: [{ projectId: ProjectId.make("project-1"), projectTitle: "ai-hub", message: "boom" }],
       truncated: true,
       nextCursors: { "pingdotgg/t3code": "cursor-1" },
     }) as PullRequestListResult;

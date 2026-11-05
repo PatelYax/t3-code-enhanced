@@ -48,7 +48,7 @@ export function TunnelUsageMeter({
       </div>
       <div
         role="meter"
-        aria-label="T3 Connect tunnels in use"
+        aria-label="atQor AI Hub Connect tunnels in use"
         aria-valuemin={0}
         aria-valuemax={limit}
         aria-valuenow={used}
@@ -77,16 +77,16 @@ export function TunnelUsageMeter({
 /** Shown when the relay refuses a new tunnel because the account is at its cap. */
 export function TunnelLimitAlert({
   upgrade,
-  onLinkT3Chat,
+  onLinkAI_HUBChat,
   onManageTunnels,
 }: {
   readonly upgrade: ManagedTunnelUpgrade;
-  readonly onLinkT3Chat: (() => void) | null;
+  readonly onLinkAI_HUBChat: (() => void) | null;
   readonly onManageTunnels: (() => void) | null;
 }) {
   const action =
-    upgrade === "link" && onLinkT3Chat ? (
-      <Button size="sm" onClick={onLinkT3Chat}>
+    upgrade === "link" && onLinkAI_HUBChat ? (
+      <Button size="sm" onClick={onLinkAI_HUBChat}>
         Link T3 Chat
       </Button>
     ) : upgrade === "pro" || upgrade === "premier" ? (

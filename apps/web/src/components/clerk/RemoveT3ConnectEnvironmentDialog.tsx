@@ -13,9 +13,9 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { Button, InlineButton } from "../ui/button";
-import { useT3ConnectAccountPage } from "./T3ConnectAccountPages";
+import { useAI_HUBConnectAccountPage } from "./T3ConnectAccountPages";
 
-export function RemoveT3ConnectEnvironmentDialog({
+export function RemoveAI_HUBConnectEnvironmentDialog({
   environmentLabel,
   environmentId,
   onCancel,
@@ -26,7 +26,7 @@ export function RemoveT3ConnectEnvironmentDialog({
   readonly onCancel: () => void;
   readonly onConfirm: () => void;
 }) {
-  const accountPage = useT3ConnectAccountPage();
+  const accountPage = useAI_HUBConnectAccountPage();
   const discovery = useRelayEnvironmentDiscovery();
   const registration = environmentId
     ? Discovery.relayEnvironmentRegistration(discovery, environmentId)
@@ -46,10 +46,10 @@ export function RemoveT3ConnectEnvironmentDialog({
         openAccountPage();
       }}
     >
-      T3 Connect settings
+      atQor AI Hub Connect settings
     </InlineButton>
   ) : (
-    "T3 Connect settings"
+    "atQor AI Hub Connect settings"
   );
 
   return (
@@ -69,14 +69,14 @@ export function RemoveT3ConnectEnvironmentDialog({
             <AlertDialogDescription>
               {shown.registration === "registered" ? (
                 <>
-                  It stays on your T3 Connect account and keeps its host space. Deregister it in{" "}
-                  {accountPageLink} to free it.
+                  It stays on your atQor AI Hub Connect account and keeps its host space. Deregister
+                  it in {accountPageLink} to free it.
                 </>
               ) : shown.registration === "unregistered" ? (
-                "It's no longer on your T3 Connect account."
+                "It's no longer on your atQor AI Hub Connect account."
               ) : (
                 <>
-                  This doesn't change your T3 Connect account. To deregister it there, use{" "}
+                  This doesn't change your atQor AI Hub Connect account. To deregister it there, use{" "}
                   {accountPageLink}.
                 </>
               )}

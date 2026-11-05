@@ -210,7 +210,7 @@ const devProxyTarget = resolveDevProxyTarget(process.env.T3CODE_PORT, configured
 // Brotli quality 5 encodes in hundreds of ms; default quality 11 would replace transfer stalls with encode stalls.
 function devCompressionPlugin(): Plugin {
   return {
-    name: "t3code:dev-compression",
+    name: "ai-hub:dev-compression",
     apply: "serve",
     configureServer(server) {
       server.middlewares.use(
@@ -226,7 +226,7 @@ function devCompressionPlugin(): Plugin {
 // which blanks the app at boot. Fail the build instead of shipping it.
 function chunkCycleGuardPlugin(): Plugin {
   return {
-    name: "t3code:chunk-cycle-guard",
+    name: "ai-hub:chunk-cycle-guard",
     apply: "build",
     generateBundle(_options, bundle) {
       const done = new Set<string>();

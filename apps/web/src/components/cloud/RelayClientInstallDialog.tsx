@@ -69,8 +69,8 @@ export function RelayClientInstallDialog() {
           </DialogTitle>
           <DialogDescription>
             {isInstalling
-              ? "atQor AI Hub is preparing this environment for secure access through T3 Connect."
-              : "atQor AI Hub needs the relay client to make this environment available through T3 Connect."}
+              ? "atQor AI Hub is preparing this environment for secure access through atQor AI Hub Connect."
+              : "atQor AI Hub needs the relay client to make this environment available through atQor AI Hub Connect."}
           </DialogDescription>
         </DialogHeader>
         <DialogPanel scrollFade={false}>

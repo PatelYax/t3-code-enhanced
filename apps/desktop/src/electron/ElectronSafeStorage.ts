@@ -63,7 +63,7 @@ export class ElectronSafeStorage extends Context.Service<
     ) => Effect.Effect<string, ElectronSafeStorageDecryptError>;
     readonly selectedStorageBackend: Effect.Effect<Option.Option<string>>;
   }
->()("@t3tools/desktop/electron/ElectronSafeStorage") {}
+>()("@ai-hub/desktop/electron/ElectronSafeStorage") {}
 
 /** @public */
 export const make = Effect.gen(function* () {

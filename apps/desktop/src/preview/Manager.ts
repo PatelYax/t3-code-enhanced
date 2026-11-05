@@ -3563,7 +3563,7 @@ export class PreviewManager extends Context.Service<
       listener: RecordingInputListener,
     ) => Effect.Effect<void, never, Scope.Scope>;
   }
->()("@t3tools/desktop/preview/Manager/PreviewManager") {}
+>()("@ai-hub/desktop/preview/Manager/PreviewManager") {}
 
 /** @public */
 export const make = Effect.gen(function* PreviewManagerMake() {

@@ -4,8 +4,8 @@ import { type ReactNode, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { MobileClientsUserProfilePage } from "./MobileClientsUserProfilePage";
-import { T3ChatUserProfilePage } from "./T3ChatUserProfilePage";
-import { T3ConnectUserProfilePage } from "./T3ConnectUserProfilePage";
+import { AI_HUBChatUserProfilePage } from "./T3ChatUserProfilePage";
+import { AI_HUBConnectUserProfilePage } from "./T3ConnectUserProfilePage";
 
 export const T3_CONNECT_ACCOUNT_PAGES = [
   {
@@ -15,33 +15,33 @@ export const T3_CONNECT_ACCOUNT_PAGES = [
     content: <MobileClientsUserProfilePage />,
   },
   {
-    label: "T3 Connect",
+    label: "atQor AI Hub Connect",
     url: "t3-connect",
     icon: <ServerIcon className="size-4" />,
-    content: <T3ConnectUserProfilePage />,
+    content: <AI_HUBConnectUserProfilePage />,
   },
   {
     label: "T3 Chat",
     url: "t3-chat",
     icon: <MessageSquareIcon className="size-4" />,
-    content: <T3ChatUserProfilePage />,
+    content: <AI_HUBChatUserProfilePage />,
   },
 ] as const;
 
-export type T3ConnectAccountPageUrl = (typeof T3_CONNECT_ACCOUNT_PAGES)[number]["url"];
+export type AI_HUBConnectAccountPageUrl = (typeof T3_CONNECT_ACCOUNT_PAGES)[number]["url"];
 
 type PortalTargets = Readonly<Record<string, HTMLDivElement | undefined>>;
 
 /** Keep portals rendered while the modal can open; Clerk owns the custom-page DOM nodes. */
-export function useT3ConnectAccountPage(): {
-  readonly open: ((page?: T3ConnectAccountPageUrl) => void) | null;
+export function useAI_HUBConnectAccountPage(): {
+  readonly open: ((page?: AI_HUBConnectAccountPageUrl) => void) | null;
   readonly portals: ReactNode;
 } {
   const clerk = useClerk();
   const { isSignedIn } = useAuth();
   const [targets, setTargets] = useState<PortalTargets>({});
 
-  const open = (page: T3ConnectAccountPageUrl = "t3-connect") => {
+  const open = (page: AI_HUBConnectAccountPageUrl = "t3-connect") => {
     const setTarget = (key: string, element: HTMLDivElement | undefined) =>
       setTargets((current) => ({ ...current, [key]: element }));
     clerk.openUserProfile({

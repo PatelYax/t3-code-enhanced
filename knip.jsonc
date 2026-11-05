@@ -65,7 +65,7 @@
       // CLI archive and desktop sidecar stage them from this manifest.
       "ignoreDependencies": [
         "@effect/platform-node-shared",
-        "@t3tools/web",
+        "@ai-hub/web",
         "@napi-rs/keyring",
         "ffi-rs",
       ],
@@ -100,6 +100,7 @@
       // named subcomponents even before they have callers; the file audit still
       // reports an entire component module when nothing imports it.
       "ignoreIssues": { "src/components/ui/*.tsx": ["exports", "nsExports", "duplicates"] },
+      "ignore": ["src/components/settings/MobileAppSettingsRow.tsx"],
     },
     "apps/marketing": {
       // `astro check` runs from the typecheck task in vite.config.ts, which knip does not read.

@@ -288,7 +288,7 @@ export class DesktopServerExposure extends Context.Service<
     }) => Effect.Effect<DesktopServerExposureChange, DesktopTailscaleServePersistenceError>;
     readonly getAdvertisedEndpoints: Effect.Effect<readonly AdvertisedEndpoint[]>;
   }
->()("@t3tools/desktop/backend/DesktopServerExposure") {}
+>()("@ai-hub/desktop/backend/DesktopServerExposure") {}
 
 interface RuntimeState {
   readonly requestedMode: DesktopServerExposureMode;

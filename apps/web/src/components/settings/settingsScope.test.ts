@@ -59,7 +59,7 @@ function group(
   };
 }
 
-const groups = [group("t3code", [first, second, third]), group("other", [other])];
+const groups = [group("ai-hub", [first, second, third]), group("other", [other])];
 
 describe("settings scope search", () => {
   it("retains an orphan checkout so it cannot turn into all environments", () => {
@@ -76,7 +76,7 @@ describe("settings scope search", () => {
 
 describe("settings scope resolution", () => {
   it("keeps all physical members in a project aggregate, including several on one environment", () => {
-    expect(resolveSettingsScope({ project: "t3code" }, groups, environments)).toMatchObject({
+    expect(resolveSettingsScope({ project: "ai-hub" }, groups, environments)).toMatchObject({
       kind: "project",
       environmentId: null,
       members: [first, second, third],
@@ -87,7 +87,7 @@ describe("settings scope resolution", () => {
   it("narrows a checkout target to exactly one member, deriving its environment when omitted", () => {
     expect(
       resolveSettingsScope(
-        { project: "t3code", checkout: second.physicalProjectKey },
+        { project: "ai-hub", checkout: second.physicalProjectKey },
         groups,
         environments,
       ),
@@ -104,11 +104,11 @@ describe("settings scope resolution", () => {
   it.each([
     { project: "missing" },
     { machine: "removed" },
-    { project: "t3code", machine: "removed" },
-    { project: "t3code", checkout: "deleted" },
+    { project: "ai-hub", machine: "removed" },
+    { project: "ai-hub", checkout: "deleted" },
     { project: "other", machine: laptopId },
     { project: "other", checkout: first.physicalProjectKey },
-    { project: "t3code", machine: serverId, checkout: first.physicalProjectKey },
+    { project: "ai-hub", machine: serverId, checkout: first.physicalProjectKey },
   ])("never widens an invalid or stale target: %j", (search) => {
     expect(resolveSettingsScope(search, groups, environments)).toMatchObject({
       kind: "unavailable",
@@ -119,7 +119,7 @@ describe("settings scope resolution", () => {
 
   it("leaves a removed checkout unavailable while sibling checkouts remain", () => {
     const search = {
-      project: "t3code",
+      project: "ai-hub",
       machine: laptopId,
       checkout: first.physicalProjectKey,
     };
@@ -128,17 +128,17 @@ describe("settings scope resolution", () => {
       members: [first],
     });
     expect(
-      resolveSettingsScope(search, [group("t3code", [second, third])], environments),
+      resolveSettingsScope(search, [group("ai-hub", [second, third])], environments),
     ).toMatchObject({ kind: "unavailable", members: [], environmentIds: [] });
   });
 
   it("does not select another environment after removing a project's last local checkout", () => {
-    const search = { project: "t3code", machine: laptopId };
+    const search = { project: "ai-hub", machine: laptopId };
     expect(resolveSettingsScope(search, groups, environments)).toMatchObject({
       kind: "project",
       members: [first, second],
     });
-    expect(resolveSettingsScope(search, [group("t3code", [third])], environments)).toMatchObject({
+    expect(resolveSettingsScope(search, [group("ai-hub", [third])], environments)).toMatchObject({
       kind: "unavailable",
       members: [],
       environmentIds: [],
@@ -148,7 +148,7 @@ describe("settings scope resolution", () => {
   it("rejects a cached checkout whose environment was removed", () => {
     expect(
       resolveSettingsScope(
-        { project: "t3code", checkout: third.physicalProjectKey },
+        { project: "ai-hub", checkout: third.physicalProjectKey },
         groups,
         environments.slice(0, 1),
       ),

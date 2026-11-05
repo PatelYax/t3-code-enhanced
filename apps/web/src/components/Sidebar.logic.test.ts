@@ -1523,8 +1523,8 @@ describe("sidebarFolderExpansionKeys", () => {
 describe("groupSidebarThreadsByProject", () => {
   it("puts each thread in its project's folder and drops empty projects unless kept", () => {
     const remoteEnvironmentId = EnvironmentId.make("environment-remote");
-    const t3code = ProjectId.make("t3code");
-    const t3codeRemote = ProjectId.make("t3code-remote");
+    const t3code = ProjectId.make("ai-hub");
+    const t3codeRemote = ProjectId.make("ai-hub-remote");
     const fleet = ProjectId.make("fleet");
     const thread = (id: string, environmentId: EnvironmentId, projectId: ProjectId) => ({
       id,
@@ -1533,7 +1533,7 @@ describe("groupSidebarThreadsByProject", () => {
     });
     const groups = [
       {
-        projectKey: "t3code",
+        projectKey: "ai-hub",
         memberProjectRefs: [
           { environmentId: localEnvironmentId, projectId: t3code },
           { environmentId: remoteEnvironmentId, projectId: t3codeRemote },
@@ -1563,14 +1563,14 @@ describe("groupSidebarThreadsByProject", () => {
       }));
 
     expect(summarize(() => true)).toEqual([
-      { projectKey: "t3code", threads: ["a", "b"] },
+      { projectKey: "ai-hub", threads: ["a", "b"] },
       { projectKey: "fleet", threads: [] },
       { projectKey: "notes", threads: [] },
     ]);
-    expect(summarize(() => false)).toEqual([{ projectKey: "t3code", threads: ["a", "b"] }]);
+    expect(summarize(() => false)).toEqual([{ projectKey: "ai-hub", threads: ["a", "b"] }]);
     // A pinned project keeps its empty folder while other empty projects drop out.
     expect(summarize((group) => group.projectKey === "fleet")).toEqual([
-      { projectKey: "t3code", threads: ["a", "b"] },
+      { projectKey: "ai-hub", threads: ["a", "b"] },
       { projectKey: "fleet", threads: [] },
     ]);
   });

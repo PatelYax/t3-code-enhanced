@@ -21,12 +21,12 @@ const RUNS_EVERYTHING = [
 // Includes cross-package reads absent from package.json dependencies.
 const EXTRA_OWNERS = [
   // Vite configs and tsconfigs of these apps import scripts/lib directly.
-  [/^scripts\/lib\//, ["@t3tools/desktop", "@t3tools/mobile", "@t3tools/web", "t3"]],
+  [/^scripts\/lib\//, ["@ai-hub/desktop", "@t3tools/mobile", "@ai-hub/web", "t3"]],
   // scripts/build-desktop-artifact.ts reads the GNOME extension manifest.
   [/^apps\/desktop\/gnome-extension\//, ["@t3tools/scripts"]],
-  [/^native\/browser-secret\//, ["@t3tools/desktop"]],
-  [/^native\/kde-snap-shot\//, ["@t3tools/desktop"]],
-  [/^native\/libghostty-vt\//, ["@t3tools/web"]],
+  [/^native\/browser-secret\//, ["@ai-hub/desktop"]],
+  [/^native\/kde-snap-shot\//, ["@ai-hub/desktop"]],
+  [/^native\/libghostty-vt\//, ["@ai-hub/web"]],
   // apps/server/src/cloud/ConnectReachability.test.ts checks the guide's headings.
   [/^docs\/user\/t3-connect-troubleshooting\.md$/, ["t3"]],
 ];
@@ -38,20 +38,20 @@ const TEST_ONLY_DEPS = {
   "@t3tools/evals": ["t3"],
   "@t3tools/provider-pi": ["@t3tools/client-runtime"],
   "@t3tools/scripts": [
-    "@t3tools/desktop",
+    "@ai-hub/desktop",
     "@t3tools/mobile",
-    "@t3tools/web",
+    "@ai-hub/web",
     "t3",
     "@t3tools/provider-cursor",
   ],
 };
 // The server bundles the web build without importing it.
-const BUILD_ONLY_DEPS = { t3: ["@t3tools/web"] };
+const BUILD_ONLY_DEPS = { t3: ["@ai-hub/web"] };
 
 const MOBILE_NATIVE =
   /^apps\/mobile\/.*\.(swift|kt|kts)$|^apps\/mobile\/(\.swiftlint\.yml|detekt\.yml|\.editorconfig|Brewfile)$|^scripts\/mobile-native-static-check\.ts$|^package\.json$|^\.github\/workflows\/ci\.yml$|^\.github\/scripts\/ci-changes\.cjs$|^\.github\/actions\/ci-changes\//;
 
-const OWN_TEST_JOB = new Set(["t3", "@t3tools/web", "@t3tools/monorepo"]);
+const OWN_TEST_JOB = new Set(["t3", "@ai-hub/web", "@t3tools/monorepo"]);
 
 function readWorkspace() {
   const patterns = [];
@@ -156,11 +156,11 @@ function decide(files, packages, full) {
     affected: [...affected].sort(),
     outputs: {
       typecheck: affected.size > 0,
-      build: has("@t3tools/desktop") || has("t3") || has("@t3tools/web"),
+      build: has("@ai-hub/desktop") || has("t3") || has("@ai-hub/web"),
       test: tested.length > 0,
       // Empty means every package the Test job covers.
       test_packages: everything ? "" : tested.map((pkg) => pkg.name).join(" "),
-      test_web: has("@t3tools/web"),
+      test_web: has("@ai-hub/web"),
       test_server: has("t3"),
       rust: everything || rust,
       release_smoke: scriptsChanged,

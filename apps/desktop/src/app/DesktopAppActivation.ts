@@ -293,7 +293,7 @@ export class DesktopAppActivation extends Context.Service<
     readonly setRendererReady: (ready: boolean) => Effect.Effect<void>;
     readonly complete: (response: DesktopAppActivationResponse) => Effect.Effect<void>;
   }
->()("@t3tools/desktop/app/DesktopAppActivation") {}
+>()("@ai-hub/desktop/app/DesktopAppActivation") {}
 
 const { logWarning } = makeComponentLogger("desktop-app-activation");
 

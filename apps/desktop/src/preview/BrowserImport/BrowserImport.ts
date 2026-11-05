@@ -116,7 +116,7 @@ export class BrowserImport extends Context.Service<
       readonly namespace?: BrowserSession.BrowserSessionPartitionNamespace;
     }) => Effect.Effect<BrowserImportResult, BrowserImportFailedError | BrowserImportPolicyError>;
   }
->()("@t3tools/desktop/preview/BrowserImport/BrowserImport") {}
+>()("@ai-hub/desktop/preview/BrowserImport/BrowserImport") {}
 
 const unavailableReason = Effect.fn("BrowserImport.unavailableReason")(function* (
   definition: BrowserImportSourceDefinition,

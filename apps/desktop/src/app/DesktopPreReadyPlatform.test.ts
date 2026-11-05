@@ -127,17 +127,17 @@ describe("DesktopPreReadyPlatform", () => {
     vi.stubEnv("XDG_DATA_HOME", "/xdg");
     vi.stubEnv("APPIMAGE", "/Applications/current.AppImage");
     getSwitchValueMock.mockReturnValue("");
-    let desktopName = "t3code.desktop";
+    let desktopName = "com.atqor.aihub.desktop";
     let desktopEntry = previousEntry;
     let iconInstalled = false;
     copyFileSyncMock.mockImplementation((_source: string, destination: string) => {
-      iconInstalled = destination === "/xdg/icons/com.t3tools.T3Code.desktop.png";
+      iconInstalled = destination === "/xdg/icons/com.atqor.aihub.desktop.png";
     });
     setDesktopNameMock.mockImplementation((name: string) => {
       desktopName = name;
     });
     writeFileSyncMock.mockImplementation((path: string, contents: string) => {
-      if (path === "/xdg/applications/com.t3tools.T3Code.desktop") desktopEntry = contents;
+      if (path === "/xdg/applications/com.atqor.aihub.desktop") desktopEntry = contents;
     });
 
     return Effect.scoped(
@@ -153,14 +153,11 @@ describe("DesktopPreReadyPlatform", () => {
           ),
         );
         const identity = yield* Effect.promise(() => portalIdentity);
-        assert.equal(identity.desktopName, "com.t3tools.T3Code.desktop");
+        assert.equal(identity.desktopName, "com.atqor.aihub.desktop");
         assert.include(identity.desktopEntry ?? "", "Exec=/Applications/current.AppImage %U");
-        assert.include(identity.desktopEntry ?? "", "Name=atQor AI Hub (Alpha)");
-        assert.include(identity.desktopEntry ?? "", "MimeType=x-scheme-handler/t3code;");
-        assert.include(
-          identity.desktopEntry ?? "",
-          "Icon=/xdg/icons/com.t3tools.T3Code.desktop.png",
-        );
+        assert.include(identity.desktopEntry ?? "", "Name=atQor AI Hub (Beta)");
+        assert.include(identity.desktopEntry ?? "", "MimeType=x-scheme-handler/ai-hub;");
+        assert.include(identity.desktopEntry ?? "", "Icon=/xdg/icons/com.atqor.aihub.desktop.png");
         assert.isTrue(identity.iconInstalled);
       }),
     ).pipe(Effect.ensuring(Effect.sync(() => vi.unstubAllEnvs())));
@@ -181,7 +178,7 @@ describe("DesktopPreReadyPlatform", () => {
           ),
         );
         const entry = writeFileSyncMock.mock.calls.find(
-          ([path]) => path === "/xdg/applications/com.t3tools.T3Code.desktop",
+          ([path]) => path === "/xdg/applications/com.atqor.aihub.desktop",
         )?.[1];
         assert.include(entry, 'Exec="/opt/atQor AI Hub/t3code" %U');
       }),
@@ -193,7 +190,7 @@ describe("DesktopPreReadyPlatform", () => {
     () =>
       Effect.gen(function* () {
         class ClerkShaped extends Context.Service<ClerkShaped, { readonly ready: true }>()(
-          "@t3tools/desktop/app/DesktopPreReadyPlatform.test/ClerkShaped",
+          "@ai-hub/desktop/app/DesktopPreReadyPlatform.test/ClerkShaped",
         ) {}
 
         const events: Array<string> = [];

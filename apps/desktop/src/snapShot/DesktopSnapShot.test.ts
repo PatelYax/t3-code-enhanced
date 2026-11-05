@@ -495,7 +495,7 @@ const layerTest = (
             platform,
             displayName: "atQor AI Hub (Dev)",
             stateDir: "/state",
-            linuxDesktopEntryName: "com.t3tools.T3Code.desktop",
+            linuxDesktopEntryName: "com.atqor.aihub.desktop",
             appRoot: "/repo",
             linuxApplicationsDir: "/test-data/applications",
           } as DesktopEnvironment.DesktopEnvironment["Service"]),

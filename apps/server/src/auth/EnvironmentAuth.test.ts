@@ -643,6 +643,8 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodePlatformCrypto.layer))(
           "x-forwarded-host": "box.tail1234.ts.net",
         });
         yield* upgrade({ origin: "t3code://app" });
+        yield* upgrade({ origin: "ai-hub://app" });
+        yield* upgrade({ origin: "ai-hub-dev://app" });
         yield* upgrade({ origin: "http://localhost:5733" });
         yield* upgrade({});
 

@@ -228,7 +228,7 @@ describe("buildThreadActionItems", () => {
       icon: null,
       run: async () => undefined,
     });
-    const projects = [action("new-thread-in:t3code", "t3code"), action("new-thread-in:web", "web")];
+    const projects = [action("new-thread-in:t3code", "ai-hub"), action("new-thread-in:web", "web")];
     const newThreadIn = {
       kind: "submenu" as const,
       value: "action:new-thread-in",
@@ -265,7 +265,7 @@ describe("buildThreadActionItems", () => {
       ["New thread in t3code"],
     ]);
     expect(search("new thread", false).map(([label]) => label)).not.toContain("Suggestions");
-    expect(search("t3", true)).toEqual([["Projects", ["t3code"]]]);
+    expect(search("t3", true)).toEqual([["Projects", ["ai-hub"]]]);
     expect(search("add project", true)).toEqual([["Actions", ["Add project"]]]);
   });
 
@@ -559,7 +559,7 @@ describe("buildThreadActionItems", () => {
               value: "action:new-thread",
               searchTerms: ["new thread", "chat"],
               // Styled: not a string, so only `searchTitle` holds its words.
-              title: ["New thread in ", "t3code"],
+              title: ["New thread in ", "ai-hub"],
               searchTitle: "New thread in t3code",
               icon: null,
               run: async () => undefined,

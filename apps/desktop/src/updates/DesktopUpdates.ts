@@ -214,7 +214,7 @@ export class DesktopUpdates extends Context.Service<
       expectedVersion: string,
     ) => Effect.Effect<DesktopPreparedUpdateInstallResult>;
   }
->()("@t3tools/desktop/updates/DesktopUpdates") {}
+>()("@ai-hub/desktop/updates/DesktopUpdates") {}
 
 const {
   logInfo: logUpdaterInfo,
@@ -1201,7 +1201,7 @@ export const make = Effect.gen(function* () {
       if (Option.isSome(channelBlockedReason(nextChannel))) {
         return yield* new DesktopUpdateChannelManagedError({
           channel: nextChannel,
-          policyMessage: policy.message ?? "Your administrator manages T3 Code updates.",
+          policyMessage: policy.message ?? "Your administrator manages atQor AI Hub updates.",
         });
       }
       // A background check holds the updater only briefly, so wait it out instead of refusing.

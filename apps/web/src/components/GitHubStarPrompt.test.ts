@@ -24,7 +24,7 @@ function setup({ sent = 0, writable = true, alreadyStarred = false } = {}) {
   starred.value = alreadyStarred;
   starred.failed = false;
   starred.duringCheck = () => {};
-  const store = new Map([["t3code:github-star-prompt:sent", String(sent)]]);
+  const store = new Map([["ai-hub:github-star-prompt:sent", String(sent)]]);
   vi.stubGlobal("window", {
     localStorage: {
       getItem: (key: string) => store.get(key) ?? null,
@@ -87,7 +87,7 @@ describe("recordPromptSent", () => {
     starred.failed = true;
     await (await startSession()).send();
     expect(add).not.toHaveBeenCalled();
-    expect(store.has("t3code:github-star-prompt:dismissed")).toBe(false);
+    expect(store.has("ai-hub:github-star-prompt:dismissed")).toBe(false);
     starred.failed = false;
     await (await startSession()).send();
     expect(add).toHaveBeenCalledOnce();
@@ -96,7 +96,7 @@ describe("recordPromptSent", () => {
 
   it("never asks when another tab dismisses it during the star check", async () => {
     const store = setup({ sent: 5 });
-    starred.duringCheck = () => store.set("t3code:github-star-prompt:dismissed", "true");
+    starred.duringCheck = () => store.set("ai-hub:github-star-prompt:dismissed", "true");
     await (await startSession()).send();
     expect(add).not.toHaveBeenCalled();
     vi.unstubAllGlobals();

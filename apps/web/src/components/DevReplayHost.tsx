@@ -21,7 +21,7 @@ const DEV_REPLAY_INSTANCE_ID = ProviderInstanceId.make("devReplay");
 
 /**
  * Starts free replay threads on the primary environment in dev builds. Ctrl+Alt+Shift+R
- * opens a picker, and `window.t3dev.replay(scenario)` does the same from the console.
+ * opens a picker, and `window.AI_HUBDev.replay(scenario)` does the same from the console.
  */
 export function DevReplayHost() {
   const [open, setOpen] = useState(false);
@@ -90,7 +90,7 @@ export function DevReplayHost() {
 
   // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- exposes the console API on window and listens for the hidden window hotkey
   useEffect(() => {
-    window.t3dev = {
+    window.AI_HUBDev = {
       replayScenarios: () => listScenarios(),
       replay: (scenario) => replayFromConsole(scenario),
     };
@@ -103,7 +103,7 @@ export function DevReplayHost() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      delete window.t3dev;
+      delete window.AI_HUBDev;
       window.removeEventListener("keydown", onKeyDown);
     };
   }, []);

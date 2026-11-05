@@ -25,7 +25,7 @@ import {
   ClerkUserProfileRefreshButton,
   ClerkUserProfileRow,
 } from "./ClerkUserProfilePage";
-import { useT3ChatLink } from "./useT3ChatLink";
+import { useAI_HUBChatLink } from "./useT3ChatLink";
 
 const linkedAtFormatter = new Intl.DateTimeFormat(undefined, { dateStyle: "medium" });
 
@@ -42,7 +42,7 @@ function endpointLabel(environment: RelayClientEnvironmentRecord): string {
     : "Activity publishing only";
 }
 
-function T3ConnectEnvironmentRow(props: {
+function AI_HUBConnectEnvironmentRow(props: {
   readonly environment: RelayClientEnvironmentRecord;
   readonly confirmationOpen: boolean;
   readonly mutationPending: boolean;
@@ -85,8 +85,9 @@ function T3ConnectEnvironmentRow(props: {
                 “{environment.label}” will be removed from this account.
               </p>
               <p className="mt-4 max-w-xl text-xs leading-4.5 text-muted-foreground">
-                T3 Connect access will be revoked, any managed tunnel will be removed, and a host
-                space will become available. Local connections on your devices are not changed.
+                atQor AI Hub Connect access will be revoked, any managed tunnel will be removed, and
+                a host space will become available. Local connections on your devices are not
+                changed.
               </p>
               <div className="mt-4 flex justify-end gap-2">
                 <Button
@@ -114,9 +115,9 @@ function T3ConnectEnvironmentRow(props: {
   );
 }
 
-function T3ConnectTunnelUsage() {
+function AI_HUBConnectTunnelUsage() {
   const usage = useManagedTunnelUsage();
-  const t3Chat = useT3ChatLink();
+  const t3Chat = useAI_HUBChatLink();
   if (usage.used === null || usage.limit === null) return null;
   return (
     <div className="border-t py-4">
@@ -161,7 +162,7 @@ function T3ConnectTunnelUsage() {
   );
 }
 
-export function T3ConnectUserProfilePage() {
+export function AI_HUBConnectUserProfilePage() {
   const environmentsState = useManagedRelayEnvironments();
   const deregisterEnvironment = useAtomCommand(deregisterManagedRelayEnvironmentCommand, {
     reportFailure: false,
@@ -205,7 +206,7 @@ export function T3ConnectUserProfilePage() {
       toastManager.add({
         type: "success",
         title: "Server deregistered",
-        description: "T3 Connect access was revoked and a host space is now available.",
+        description: "atQor AI Hub Connect access was revoked and a host space is now available.",
       });
       return;
     }
@@ -250,7 +251,7 @@ export function T3ConnectUserProfilePage() {
 
   return (
     <ClerkUserProfilePage
-      title="T3 Connect"
+      title="atQor AI Hub Connect"
       description="Environments registered to your account. Connections on this device are managed in Settings."
       action={
         <ClerkUserProfileRefreshButton
@@ -261,11 +262,11 @@ export function T3ConnectUserProfilePage() {
       }
     >
       <div>
-        <T3ConnectTunnelUsage />
+        <AI_HUBConnectTunnelUsage />
         {environmentsState.error ? (
           <div className="mb-4 border-t border-destructive/35 py-3 text-xs" role="alert">
             <p className="font-medium text-destructive-foreground">
-              Could not load T3 Connect environments
+              Could not load atQor AI Hub Connect environments
             </p>
             <p className="mt-1 text-xs text-muted-foreground">{environmentsState.error}</p>
           </div>
@@ -278,7 +279,7 @@ export function T3ConnectUserProfilePage() {
         ) : environments.length > 0 ? (
           <ul className="border-t">
             {environments.map((environment) => (
-              <T3ConnectEnvironmentRow
+              <AI_HUBConnectEnvironmentRow
                 key={environment.environmentId}
                 environment={environment}
                 confirmationOpen={confirmingEnvironmentId === environment.environmentId}
@@ -297,7 +298,7 @@ export function T3ConnectUserProfilePage() {
                 <ServerIcon />
               </EmptyMedia>
               <EmptyHeader>
-                <EmptyTitle>No T3 Connect environments</EmptyTitle>
+                <EmptyTitle>No atQor AI Hub Connect environments</EmptyTitle>
                 <EmptyDescription>
                   Link an environment from its local Settings to make it available through T3
                   Connect.

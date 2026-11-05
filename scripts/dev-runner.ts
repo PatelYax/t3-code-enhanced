@@ -67,21 +67,21 @@ const MODE_ARGS = {
   dev: [
     "run",
     "--filter=@t3tools/contracts",
-    "--filter=@t3tools/web",
+    "--filter=@ai-hub/web",
     "--filter=t3",
     "--parallel",
     "dev",
   ],
   "dev:server": ["run", "--filter=t3", "dev"],
-  "dev:web": ["run", "--filter=@t3tools/web", "dev"],
-  "dev:desktop": ["run", "--filter=@t3tools/desktop", "--filter=@t3tools/web", "dev"],
+  "dev:web": ["run", "--filter=@ai-hub/web", "dev"],
+  "dev:desktop": ["run", "--filter=@ai-hub/desktop", "--filter=@ai-hub/web", "dev"],
 } as const satisfies Record<string, ReadonlyArray<string>>;
 
 // `--built`: the web package rebuilds into apps/web/dist and the backend serves
 // it, so no Vite dev server runs.
 const BUILT_DEV_ARGS = [
   "run",
-  "--filter=@t3tools/web",
+  "--filter=@ai-hub/web",
   "--filter=t3",
   "--parallel",
   "dev:built",

@@ -30,8 +30,6 @@ import * as Equal from "effect/Equal";
 import * as Schema from "effect/Schema";
 import { APP_VERSION, HOSTED_APP_CHANNEL, HOSTED_APP_CHANNEL_LABEL } from "../../branding";
 import { AboutVersionTitle } from "./AboutVersionTitle";
-import { CliCommandSettingsRow } from "./CliCommandSettingsRow";
-import { MobileAppSettingsRow } from "./MobileAppSettingsRow";
 import {
   canCheckForUpdate,
   getDesktopUpdateButtonTooltip,
@@ -418,7 +416,7 @@ function AboutVersionSection() {
           }
         />
       ) : null}
-      {hasDesktopBridge ? <CliCommandSettingsRow /> : null}
+      {/* {hasDesktopBridge ? <CliCommandSettingsRow /> : null} */}
       {switchChannel === null ? null : (
         <UpdateTrackSwitchDialog channel={switchChannel} onClose={() => setSwitchChannel(null)} />
       )}
@@ -2063,7 +2061,7 @@ export function AboutSettingsPanel() {
             />
           </>
         )}
-        <MobileAppSettingsRow />
+        {/* <MobileAppSettingsRow /> */}
       </SettingsSection>
 
       <SettingsSection id="legal" title="Legal">

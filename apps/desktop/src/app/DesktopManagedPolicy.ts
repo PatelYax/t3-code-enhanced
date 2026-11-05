@@ -29,7 +29,7 @@ export class DesktopManagedPolicy extends Context.Service<
     /** The policy on this machine, undefined without one; fails when it cannot be used. */
     readonly read: Effect.Effect<FoundPolicy, ManagedPolicyFileError>;
   }
->()("@t3tools/desktop/app/DesktopManagedPolicy") {}
+>()("@ai-hub/desktop/app/DesktopManagedPolicy") {}
 
 export const layer = Layer.effect(
   DesktopManagedPolicy,

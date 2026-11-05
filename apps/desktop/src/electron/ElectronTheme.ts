@@ -29,7 +29,7 @@ export class ElectronTheme extends Context.Service<
     readonly setSource: (theme: DesktopTheme) => Effect.Effect<void, ElectronThemeSetSourceError>;
     readonly onUpdated: (listener: () => void) => Effect.Effect<void, never, Scope.Scope>;
   }
->()("@t3tools/desktop/electron/ElectronTheme") {}
+>()("@ai-hub/desktop/electron/ElectronTheme") {}
 
 type WatchSystemColorScheme = (onChange: (scheme: LinuxColorScheme) => void) => {
   readonly stop: () => void;

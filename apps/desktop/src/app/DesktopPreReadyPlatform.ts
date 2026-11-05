@@ -47,7 +47,7 @@ export class DesktopPreReadyElectronOptions extends Context.Service<
     readonly linux: DesktopEarlyElectronStartup.EarlyLinuxElectronOptions | null;
     readonly linuxPasswordStoreCommandLine: string | null;
   }
->()("@t3tools/desktop/app/DesktopPreReadyPlatform/DesktopPreReadyElectronOptions") {}
+>()("@ai-hub/desktop/app/DesktopPreReadyPlatform/DesktopPreReadyElectronOptions") {}
 
 /** @public */
 export const make = Effect.gen(function* () {

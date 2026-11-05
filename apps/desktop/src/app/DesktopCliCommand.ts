@@ -59,7 +59,7 @@ export class DesktopCliCommand extends Context.Service<
     readonly install: Effect.Effect<DesktopCliCommandState, DesktopCliCommandError>;
     readonly uninstall: Effect.Effect<DesktopCliCommandState, DesktopCliCommandError>;
   }
->()("@t3tools/desktop/app/DesktopCliCommand") {}
+>()("@ai-hub/desktop/app/DesktopCliCommand") {}
 
 /** @public */
 export const make = Effect.gen(function* () {

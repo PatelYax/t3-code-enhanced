@@ -61,7 +61,7 @@ export class DesktopLocalEnvironmentAuth extends Context.Service<
   {
     readonly getBearerToken: Effect.Effect<string, DesktopLocalEnvironmentAuthError>;
   }
->()("@t3tools/desktop/backend/DesktopLocalEnvironmentAuth") {}
+>()("@ai-hub/desktop/backend/DesktopLocalEnvironmentAuth") {}
 
 /** @public */
 export const make = Effect.gen(function* () {

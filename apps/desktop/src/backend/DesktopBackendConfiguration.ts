@@ -55,7 +55,7 @@ export class DesktopBackendConfiguration extends Context.Service<
     readonly resolvePrimaryLabel: Effect.Effect<string>;
     readonly currentBootstrapToken: Effect.Effect<string, PlatformError.PlatformError>;
   }
->()("@t3tools/desktop/backend/DesktopBackendConfiguration") {}
+>()("@ai-hub/desktop/backend/DesktopBackendConfiguration") {}
 
 interface BackendObservabilitySettings {
   readonly otlpTracesUrl: Option.Option<string>;

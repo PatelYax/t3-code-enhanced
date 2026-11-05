@@ -72,14 +72,14 @@ const SnapShotIcon = createLucideIcon("snap-shot", [
   ["circle", { cx: "12", cy: "12", r: "1.5", key: "lens" }],
 ]);
 
-const T3ConnectSidebarSignIn = lazy(() =>
+const AI_HUBConnectSidebarSignIn = lazy(() =>
   import("../clerk/T3ConnectSidebarSignIn").then((module) => ({
-    default: module.T3ConnectSidebarSignIn,
+    default: module.AI_HUBConnectSidebarSignIn,
   })),
 );
-const T3ConnectSidebarAvatar = lazy(() =>
+const AI_HUBConnectSidebarAvatar = lazy(() =>
   import("../clerk/T3ConnectSidebarSignIn").then((module) => ({
-    default: module.T3ConnectSidebarAvatar,
+    default: module.AI_HUBConnectSidebarAvatar,
   })),
 );
 
@@ -145,7 +145,6 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
         to !== "/settings/archived" &&
         to !== "/settings/devices" &&
         to !== "/settings/labs" &&
-        to !== "/settings/about" &&
         to !== "/settings/scheduled-tasks",
     ),
   })).filter((group) => group.paths.length > 0);
@@ -453,10 +452,10 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
       </SidebarContent>
       <SidebarFooter className="max-md:hidden">
         <Suspense fallback={null}>
-          <T3ConnectSidebarSignIn />
+          <AI_HUBConnectSidebarSignIn />
         </Suspense>
         <Suspense fallback={null}>
-          <T3ConnectSidebarAvatar />
+          <AI_HUBConnectSidebarAvatar />
         </Suspense>
       </SidebarFooter>
     </nav>

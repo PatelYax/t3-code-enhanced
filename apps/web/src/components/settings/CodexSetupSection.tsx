@@ -443,7 +443,12 @@ function ManagedCodexSetup({
       setHandoff(null);
       return Promise.resolve();
     }
-    return run(() => cancelAuth({ environmentId, input: { instanceId, flowId: auth!.flowId! } }));
+    return run(() =>
+      cancelAuth({
+        environmentId,
+        input: { instanceId, flowId: auth!.flowId! },
+      }),
+    );
   };
 
   const receivingCallback = useRef<string | null>(null);
@@ -464,7 +469,10 @@ function ManagedCodexSetup({
         if (receivingCallback.current !== authorizationUrl) return;
         receivingCallback.current = null;
         await run(() =>
-          completeAuth({ environmentId, input: { instanceId, flowId, callbackUrl } }),
+          completeAuth({
+            environmentId,
+            input: { instanceId, flowId, callbackUrl },
+          }),
         );
       } else {
         await ensureLocalApi().shell.openExternal(authorizationUrl);
@@ -648,6 +656,7 @@ function ManagedCodexSetup({
             flowId: auth.flowId,
           },
           import.meta.env.DEV,
+          "ai-hub",
         )
       : null;
   const waitingControl = (
@@ -697,7 +706,11 @@ function ManagedCodexSetup({
             void run(() =>
               completeAuth({
                 environmentId,
-                input: { instanceId, flowId: submittedFlowId, callbackUrl: value },
+                input: {
+                  instanceId,
+                  flowId: submittedFlowId,
+                  callbackUrl: value,
+                },
               }),
             ).then((connected) => {
               if (connected) setCallbackDraft({ flowId: submittedFlowId, value: "" });
@@ -714,7 +727,10 @@ function ManagedCodexSetup({
               maxLength={16_384}
               disabled={pending || readOnly}
               onChange={(event) =>
-                setCallbackDraft({ flowId: auth.flowId ?? "", value: event.target.value })
+                setCallbackDraft({
+                  flowId: auth.flowId ?? "",
+                  value: event.target.value,
+                })
               }
             />
           </div>
@@ -880,7 +896,10 @@ function ManagedCodexSetup({
                     void run(() =>
                       cancelInstall({
                         environmentId,
-                        input: { instanceId, operationId: installation.operationId! },
+                        input: {
+                          instanceId,
+                          operationId: installation.operationId!,
+                        },
                       }),
                     );
                 }}
@@ -957,7 +976,10 @@ function ManagedCodexSetup({
                   void run(() =>
                     cancelInstall({
                       environmentId,
-                      input: { instanceId, operationId: installation.operationId! },
+                      input: {
+                        instanceId,
+                        operationId: installation.operationId!,
+                      },
                     }),
                   );
                 }}

@@ -164,7 +164,7 @@ export class DesktopConnectionCatalogStore extends Context.Service<
       DesktopConnectionCatalogStoreWriteError | DesktopConnectionCatalogStoreProtectionError
     >;
   }
->()("@t3tools/desktop/app/DesktopConnectionCatalogStore") {}
+>()("@ai-hub/desktop/app/DesktopConnectionCatalogStore") {}
 
 function decodeSecretBytes(
   catalogPath: string,

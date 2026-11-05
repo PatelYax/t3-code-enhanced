@@ -127,7 +127,7 @@ export class ElectronWindow extends Context.Service<
       sync: (window: Electron.BrowserWindow) => Effect.Effect<void, E, R>,
     ) => Effect.Effect<void, E, R>;
   }
->()("@t3tools/desktop/electron/ElectronWindow") {}
+>()("@ai-hub/desktop/electron/ElectronWindow") {}
 
 /** @public */
 export const make = Effect.gen(function* () {

@@ -4,21 +4,21 @@ import { LogInIcon } from "lucide-react";
 import { hasCloudPublicConfig } from "../../cloud/publicConfig";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { T3_CONNECT_ACCOUNT_PAGES } from "./T3ConnectAccountPages";
-import { useT3ConnectAuthPrompt } from "./useT3ConnectAuthPrompt";
+import { useAI_HUBConnectAuthPrompt } from "./useT3ConnectAuthPrompt";
 
-export function T3ConnectSidebarSignIn() {
+export function AI_HUBConnectSidebarSignIn() {
   if (!hasCloudPublicConfig()) return null;
 
-  return <ConfiguredT3ConnectSidebarSignIn />;
+  return <ConfiguredAI_HUBConnectSidebarSignIn />;
 }
 
-export function T3ConnectSidebarAvatar() {
+export function AI_HUBConnectSidebarAvatar() {
   if (!hasCloudPublicConfig()) return null;
 
-  return <ConfiguredT3ConnectSidebarAvatar />;
+  return <ConfiguredAI_HUBConnectSidebarAvatar />;
 }
 
-function ConfiguredT3ConnectSidebarAvatar() {
+function ConfiguredAI_HUBConnectSidebarAvatar() {
   const { isLoaded, isSignedIn } = useAuth();
 
   if (!isLoaded || !isSignedIn) return null;
@@ -47,9 +47,9 @@ function ConfiguredT3ConnectSidebarAvatar() {
   );
 }
 
-function ConfiguredT3ConnectSidebarSignIn() {
+function ConfiguredAI_HUBConnectSidebarSignIn() {
   const { isLoaded, isSignedIn } = useAuth();
-  const { openAuthPrompt } = useT3ConnectAuthPrompt();
+  const { openAuthPrompt } = useAI_HUBConnectAuthPrompt();
 
   if (!isLoaded || isSignedIn) return null;
 
@@ -58,7 +58,7 @@ function ConfiguredT3ConnectSidebarSignIn() {
       <SidebarMenuItem>
         <SidebarMenuButton onClick={openAuthPrompt}>
           <LogInIcon />
-          <span>Sign in to T3 Connect</span>
+          <span>Sign in to atQor AI Hub Connect</span>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

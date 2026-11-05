@@ -77,7 +77,7 @@ describe("groupOnboardingProjects", () => {
       threadCount: 79,
       lastActiveAt: "2026-08-21T12:00:00.000Z",
     });
-    const clone = candidate("/code/clones/t3code-2", {
+    const clone = candidate("/code/clones/ai-hub-2", {
       git: github("pingdotgg/t3code"),
       threadCount: 13,
       lastActiveAt: "2026-08-10T12:00:00.000Z",
@@ -109,7 +109,7 @@ describe("groupOnboardingProjects", () => {
       },
       {
         label: "pingdotgg/t3code",
-        paths: ["/code/t3code", "/code/clones/t3code-2"],
+        paths: ["/code/t3code", "/code/clones/ai-hub-2"],
         threadCount: 92,
         lastActiveAt: "2026-08-21T12:00:00.000Z",
       },

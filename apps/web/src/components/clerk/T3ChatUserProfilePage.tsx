@@ -1,4 +1,7 @@
-import { T3CHAT_PLAN_TUNNEL_LIMITS, type RelayT3ChatLink } from "@t3tools/contracts/relay";
+import {
+  T3CHAT_PLAN_TUNNEL_LIMITS,
+  type RelayT3ChatLink as RelayAI_HUBChatLink,
+} from "@t3tools/contracts/relay";
 import { MessageSquareIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -10,7 +13,7 @@ import {
   ClerkUserProfileRefreshButton,
   ClerkUserProfileRow,
 } from "./ClerkUserProfilePage";
-import { useT3ChatLink } from "./useT3ChatLink";
+import { useAI_HUBChatLink } from "./useT3ChatLink";
 
 const upgradeLink = (
   <a className="underline" href={T3CHAT_SUBSCRIPTION_URL} target="_blank" rel="noopener noreferrer">
@@ -18,7 +21,7 @@ const upgradeLink = (
   </a>
 );
 
-function planLabel(link: RelayT3ChatLink): ReactNode {
+function planLabel(link: RelayAI_HUBChatLink): ReactNode {
   switch (link.plan) {
     case "premier":
       return `Premier · up to ${T3CHAT_PLAN_TUNNEL_LIMITS.premier} tunnels`;
@@ -35,8 +38,14 @@ function planLabel(link: RelayT3ChatLink): ReactNode {
 }
 
 /** Links a T3 Chat account so paid subscribers get more tunnels. */
-export function T3ChatUserProfilePage() {
-  const { linkState, pending, linkUrl, link: handleLink, unlink: handleUnlink } = useT3ChatLink();
+export function AI_HUBChatUserProfilePage() {
+  const {
+    linkState,
+    pending,
+    linkUrl,
+    link: handleLink,
+    unlink: handleUnlink,
+  } = useAI_HUBChatLink();
   const usage = useManagedTunnelUsage();
 
   const data = linkState.data;
@@ -45,7 +54,7 @@ export function T3ChatUserProfilePage() {
   return (
     <ClerkUserProfilePage
       title="T3 Chat"
-      description={`Link a paid T3 Chat account for more T3 Connect tunnels: up to ${T3CHAT_PLAN_TUNNEL_LIMITS.pro} with Pro, ${T3CHAT_PLAN_TUNNEL_LIMITS.premier} with Premier.`}
+      description={`Link a paid T3 Chat account for more atQor AI Hub Connect tunnels: up to ${T3CHAT_PLAN_TUNNEL_LIMITS.pro} with Pro, ${T3CHAT_PLAN_TUNNEL_LIMITS.premier} with Premier.`}
       action={
         <ClerkUserProfileRefreshButton
           disabled={pending !== null}
@@ -61,7 +70,7 @@ export function T3ChatUserProfilePage() {
         </div>
       ) : data === null ? null : !data.available ? (
         <p className="border-t py-4 text-xs text-muted-foreground">
-          This T3 Connect server does not support T3 Chat linking.
+          This atQor AI Hub Connect server does not support T3 Chat linking.
         </p>
       ) : (
         <ul className="border-t">

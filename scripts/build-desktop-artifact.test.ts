@@ -507,6 +507,20 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
       owner: "PatelYax",
       repo: "t3-code-enhanced",
     },
+    {
+      env: { AI_HUB_DESKTOP_UPDATE_REPOSITORY: "example/ai-hub" },
+      owner: "example",
+      repo: "ai-hub",
+    },
+    {
+      env: {
+        AI_HUB_DESKTOP_UPDATE_REPOSITORY: "example/ai-hub",
+        T3CODE_DESKTOP_UPDATE_REPOSITORY: "legacy/repository",
+        GITHUB_REPOSITORY: "fallback/repository",
+      },
+      owner: "example",
+      repo: "ai-hub",
+    },
   ])("resolves release feeds and omits preview feeds ($owner/$repo)", ({ env, owner, repo }) =>
     Effect.gen(function* () {
       const preview = yield* createBuildConfig(
@@ -1557,7 +1571,7 @@ it.layer(NodeServices.layer)("build-desktop-artifact", (it) => {
     );
     assert.match(
       entitlements,
-      /<key>keychain-access-groups<\/key>\s*<array>\s*<string>ABC1234567\.com\.t3tools\.t3code\.webauthn<\/string>\s*<\/array>/u,
+      /<key>keychain-access-groups<\/key>\s*<array>\s*<string>ABC1234567\.com\.atqor\.aihub\.webauthn<\/string>\s*<\/array>/u,
     );
     assert.match(
       entitlements,
