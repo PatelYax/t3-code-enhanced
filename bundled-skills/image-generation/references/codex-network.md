@@ -13,6 +13,11 @@ Success on one path does not prove that the others work. For example, the
 server may upload through private networking while the chat renderer cannot
 fetch the private blob.
 
+Editing reads 1-16 inputs through the configured Blob credentials. Inputs need
+not be public, but must be HTTPS URLs in the configured account and container,
+each smaller than 50 MiB. Arbitrary external image fetching is not supported.
+The offline configuration check cannot verify read permissions or edit support.
+
 ## MCP unavailable
 
 Discover the mounted image tools using their actual runtime names. If they
@@ -26,7 +31,7 @@ The configuration tool is offline; it cannot validate network connectivity,
 deployment access, model support, or storage permissions. Report the safe error
 returned by generation rather than exposing raw service responses or secrets.
 
-Do not automatically retry timed-out generation. A timeout can happen after
+Do not automatically retry timed-out generation or editing. A timeout can happen after
 Azure processes and charges the request. Upload can also fail after generation;
 calling the tool again generates another paid image, not merely an upload retry.
 

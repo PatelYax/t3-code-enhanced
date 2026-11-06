@@ -1,6 +1,6 @@
 # atQor image MCP contract
 
-The image app performs text-to-image generation through Azure OpenAI and
+The image app performs text-to-image generation and image editing through Azure OpenAI and
 uploads a single PNG to Azure Blob Storage. Use the MCP tool, not a raw API
 request. The configured deployment is selected by the server's settings.
 
@@ -34,9 +34,39 @@ Example tool arguments:
 }
 ```
 
+## Edit tool
+
+Discover `image_generation_edit_image` on the combined host, or `edit_image`
+on the child server. It accepts the same prompt and output options as generation,
+plus required `image_urls`: an ordered array with `minItems: 1` and `maxItems: 16`.
+Both the schema and tool runtime reject 0 or more than 16 inputs before I/O.
+
+Each input must be a PNG, JPEG, or WebP smaller than 50 MiB. Only HTTPS URLs in
+the configured storage account and container are accepted. The server downloads
+through its Blob credentials, ignores URL query credentials, bounds each read,
+and passes the files to Azure's edit API in input order. Other accounts,
+containers, arbitrary remote URLs, local paths, and base64 inputs are unsupported.
+Storage credentials need read permission as well as upload permission.
+
+Example edit arguments; replace the illustrative URL with an actual input URL:
+
+```json
+{
+  "prompt": "Change only the background of Image 1 to a sunset sky; preserve the subject and its pose.",
+  "image_urls": ["https://example.blob.core.windows.net/generated-images/source.png"],
+  "size": "1536x1024",
+  "quality": "medium",
+  "background": "auto"
+}
+```
+
+For multiple inputs, name their roles by index in the prompt. One edit produces
+one output PNG, regardless of the number of inputs. It creates a new blob and
+never overwrites the source images. Edit support depends on the deployment.
+
 ## Response
 
-Example response shape; the illustrative URL is not a generated asset:
+Both tools use this response shape; the illustrative URL is not a real asset:
 
 ```json
 {
@@ -55,7 +85,7 @@ or a reported quality decision. The response contains no local file path.
 
 The server decodes the returned PNG in memory, uploads with
 `Content-Type: image/png` and `overwrite=False`, and closes its SDK clients.
-An existence check happens before the paid generation call; the upload also
+An existence check happens before the paid generation or edit call; the upload also
 guards against concurrent creation of the same blob.
 
 ## Required chat output
@@ -86,10 +116,11 @@ Do not use this check as proof that the URL is publicly accessible.
 
 ## Errors and capabilities
 
-Only text-to-image is supported. Edits, image references, masks, native vector
-output, and guaranteed transparency are not implemented by this MCP.
-Issue one generation call per requested image; batching uses separate calls,
-not a batch parameter. Avoid extra paid variants for connection testing.
+Generation and image-conditioned edits are supported. Masks, native vector
+output, input-fidelity controls, and guaranteed transparency are not exposed.
+Issue one call per requested output image; batching uses separate calls, not a
+batch parameter. Up to 16 inputs in one edit are references, not 16 output jobs.
+Avoid extra paid variants for connection testing.
 
 Never automatically retry a timeout or upload failure. The image may already
 have been generated and charged, even when no URL was returned. Report the

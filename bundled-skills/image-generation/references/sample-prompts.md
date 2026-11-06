@@ -1,7 +1,7 @@
 # Sample prompts (copy/paste)
 
 These prompt recipes target the atQor MCP `image_generation_generate_image`
-operation. Send the adapted recipe as the single `prompt` argument. Every
+and `image_generation_edit_image` operations. Send the adapted recipe as the `prompt` argument. Every
 successful response returns a Blob image URL, not a local file.
 
 Use these as starting points. They are intentionally complete prompt recipes, not the default amount of augmentation to add to every user request.
@@ -13,8 +13,9 @@ When adapting a user's prompt:
 - do not treat every example below as permission to invent extra story elements
 
 The labeled lines are prompt scaffolding, not additional tool arguments.
-`Asset type` describes intent; it is not a dedicated parameter. The current
-MCP accepts no input or reference images and cannot perform edits.
+`Asset type` describes intent; it is not a dedicated parameter. For edits,
+provide `image_urls` separately: 1-16 ordered Blob URLs from the configured
+account/container, each a PNG, JPEG, or WebP smaller than 50 MiB.
 
 Execution notes:
 
@@ -387,12 +388,53 @@ Constraints: no gradients; no mockups; no 3D; no watermark
 
 ## Follow-up requests
 
-Rework the text prompt and issue a new generation call only when the user
-requests another variant or accepts a needed correction. The MCP does not edit
-the previous PNG or consume its URL as a reference. For text localization,
-identity-preserving edits, compositing, style transfer from an image, or
-sketch-to-render requests, explain that image input is unsupported before
-discussing a user-approved alternative.
+For a change to the previous result, call `edit_image` with its `blob_url` as
+an input. For new text-only variants, use `generate_image`. Preserve critical
+constraints and never issue extra paid calls merely to test tool wiring.
+
+## Edit recipes
+
+Pass ordered input URLs separately in `image_urls`. The labels below describe
+those actual inputs; do not invent URLs or imply that local attachments are read.
+
+### Background replacement (one image)
+
+```text
+Input roles: Image 1 is the original image.
+Primary request: replace only the background with a soft sunset sky.
+Constraints: preserve the subject, face, clothing, pose, scale, and composition;
+match the background lighting naturally; no additional objects or text.
+```
+
+### Compositing (two images)
+
+```text
+Input roles: Image 1 is the base scene. Image 2 is the subject to insert.
+Primary request: place the subject from Image 2 naturally in Image 1.
+Constraints: preserve the base composition; match perspective, lighting, scale,
+and shadows; retain the subject's key details; no extra objects or text.
+```
+
+### Text correction (one image)
+
+```text
+Input roles: Image 1 is the original infographic.
+Primary request: replace the title with exactly "Annual Results".
+Constraints: change only the title; preserve diagrams, colors, layout, and all
+other text; render the replacement verbatim with no additional words.
+```
+
+### Reference-guided restyling (multiple images)
+
+```text
+Input roles: Image 1 is the image to restyle. Images 2 onward are style references.
+Primary request: restyle Image 1 using the references' palette and visual texture.
+Constraints: preserve Image 1's subject, layout, and proportions; do not import
+unrelated objects or reference text. Keep the total input count between 1 and 16.
+```
+
+Exact identity, text, or pixel preservation is not guaranteed. Inspect the
+returned image when supported before claiming those requirements are met.
 
 ## Display the result
 

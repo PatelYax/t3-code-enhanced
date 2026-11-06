@@ -1,7 +1,7 @@
 # Prompting for the atQor image MCP
 
-These principles apply to the text-only `image_generation_generate_image`
-operation. Prompt structure does not extend its tool schema. The output is a
+These principles apply to `image_generation_generate_image` and
+`image_generation_edit_image`. Prompt structure does not extend their schemas. The output is a
 PNG uploaded to Blob Storage and must be embedded using its returned `blob_url`.
 
 ## Structure
@@ -43,15 +43,24 @@ it is correct without inspecting the image with a supported remote-image tool.
 - `background`: auto or opaque; transparent only with confirmed deployment support.
 - `filename`: optional simple `.png` blob basename, never a local output path.
 
-Do not pass model names, 4K dimensions, images, masks, batch counts, output
+Editing also requires `image_urls`: an ordered list of 1-16 URLs in the configured
+Blob account and container. Each image must be PNG, JPEG, or WebP smaller than 50 MiB.
+
+Do not pass model names, 4K dimensions, raw image bytes, masks, batch counts, output
 formats, or output directories. See [image-api.md](image-api.md) for the contract.
 
 ## References, edits, and transparency
 
-This MCP has no image-input or editing endpoint. If the user supplies a reference
-or asks to preserve an existing image, explain the limitation. A text description
-can guide a new image only when the user accepts an approximation; it is not
-identity-preserving editing, compositing, or reference-conditioned generation.
+Use `edit_image` when the user supplies images to change, combine, or use as
+references. Supply 1-16 valid Blob URLs in order and name each role in the prompt:
+"Image 1: base scene; Image 2: subject; Image 3: style reference." State the exact
+change and invariants, such as "change only the background; preserve the face,
+pose, clothing, and composition." Preservation is prompt-guided, not guaranteed.
+
+The tool reads private inputs using storage credentials. If references are local
+attachments or external URLs, ask for URLs in the configured account/container
+or a separately authorized upload workflow. Do not claim to edit an image that
+was not supplied to the tool. Masks and input-fidelity controls are unavailable.
 
 Do not promise an alpha channel based on prompt wording. Confirm deployment
 support before using `background="transparent"`; otherwise discuss the limitation
@@ -59,8 +68,9 @@ without silently selecting a different model or inventing a removal workflow.
 
 ## Iteration
 
-Each follow-up generates a new image from text, not an edit of the previous PNG.
-Carry forward important constraints and change only the requested prompt details.
+For changes to an existing result, use its returned `blob_url` as an input to
+`edit_image`, not a fresh generation call. Each operation uploads a new PNG.
+Carry forward important constraints and change only the requested details.
 Explain preservation limits where relevant and avoid unnecessary paid variants.
 Never automatically retry generation or upload failures.
 
@@ -83,4 +93,4 @@ final response, outside code fences. Do not save to an output directory, use
 local-path image markup, or replace the image with a text link. Private storage
 can prevent rendering; see [codex-network.md](codex-network.md).
 
-For adaptable text-to-image recipes, see [sample-prompts.md](sample-prompts.md).
+For generation and edit recipes, see [sample-prompts.md](sample-prompts.md).

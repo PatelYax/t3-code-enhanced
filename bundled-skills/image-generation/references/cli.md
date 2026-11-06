@@ -9,6 +9,7 @@ separate CLI. All generation requests use the configured image MCP tool.
 - `atQor_mcp/image_generation/server.py`: image tool registration.
 - `atQor_mcp/image_generation/settings.py`: image and storage Pydantic settings.
 - `atQor_mcp/image_generation/tools/generate_image.py`: generation and upload.
+- `atQor_mcp/image_generation/tools/edit_image.py`: ordered 1-16-image edits.
 - `atQor_mcp/utils/blob_storage.py`: shared asynchronous Blob utility.
 
 ## Startup
@@ -31,6 +32,7 @@ Do not start another server when the configured one is already available.
 The combined host mounts the image app with `prefix="image_generation"`:
 
 - `image_generation_generate_image`
+- `image_generation_edit_image`
 - `image_generation_check_configuration`
 
 The same host also mounts `ai_search`; its tools are not image generators.
@@ -51,7 +53,10 @@ The image app uses these configuration names:
 
 Do not read or print `.env` values or request credentials in chat. Ask the user
 to configure missing values privately. The container must already exist and
-credentials must permit blob existence checks and uploads.
+credentials must permit blob existence checks and uploads, plus downloads for editing.
+
+Edits accept 1-16 PNG, JPEG, or WebP URLs from this configured account and
+container, each smaller than 50 MiB. The deployment must support image edits.
 
 The configuration tool checks values offline without contacting Azure. A
 successful check is not proof of network access, deployment support, storage
@@ -64,5 +69,5 @@ SDK runner as an automatic fallback. They are not the atQor Blob-upload route.
 If MCP is unavailable, report the connection problem. Use an alternative only
 when the user explicitly chooses it.
 
-After successful generation, use the exact `blob_url` in an unfenced Markdown
+After successful generation or editing, use the exact `blob_url` in an unfenced Markdown
 image. See [image-api.md](image-api.md) for the contract and output example.
