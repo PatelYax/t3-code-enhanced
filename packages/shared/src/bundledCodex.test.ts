@@ -1,4 +1,5 @@
 import { assert, describe, it } from "@effect/vitest";
+import * as NodeFSP from "node:fs/promises";
 
 import { parseBundledCodexProfile, renderBundledCodexConfig } from "./bundledCodex.ts";
 
@@ -9,12 +10,17 @@ describe("bundled Codex Azure profile", () => {
     apiKey: "test-key-not-a-real-credential",
   };
 
-  it("normalizes the endpoint and keeps credentials out of TOML", () => {
+  it("normalizes the endpoint and keeps credentials out of TOML", async () => {
     const parsed = parseBundledCodexProfile(profile);
     assert.equal(parsed.endpoint, "https://example.openai.azure.com/openai/v1");
-    const config = renderBundledCodexConfig(parsed);
+    const defaults = await NodeFSP.readFile(
+      new URL("../../../bundled-codex.toml", import.meta.url),
+      "utf8",
+    );
+    const config = renderBundledCodexConfig(parsed, defaults);
     assert.include(config, 'model = "company-codex"');
     assert.include(config, '"api-key" = "AZURE_OPENAI_API_KEY"');
+    assert.include(config, '[[skills.config]]\nname = "imagegen"\nenabled = false\n');
     assert.notInclude(config, profile.apiKey);
   });
 
@@ -46,13 +52,18 @@ describe("bundled Codex Azure profile", () => {
 
   it.each(["http://localhost:8080", "http://127.0.0.1:8080/", "http://[::1]:8080/"])(
     "supports a loopback OpenAI proxy: %s",
-    (endpoint) => {
+    async (endpoint) => {
       const parsed = parseBundledCodexProfile({ ...profile, endpoint });
       assert.equal(parsed.provider, "openai");
       assert.equal(new URL(parsed.endpoint).pathname, "/v1");
-      const config = renderBundledCodexConfig(parsed);
+      const defaults = await NodeFSP.readFile(
+        new URL("../../../bundled-codex.toml", import.meta.url),
+        "utf8",
+      );
+      const config = renderBundledCodexConfig(parsed, defaults);
       assert.include(config, 'model_provider = "openai_proxy"');
       assert.include(config, 'env_key = "OPENAI_API_KEY"');
+      assert.include(config, '[[skills.config]]\nname = "imagegen"\nenabled = false\n');
       assert.notInclude(config, "env_http_headers");
       assert.notInclude(config, profile.apiKey);
     },

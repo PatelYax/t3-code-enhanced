@@ -3996,6 +3996,10 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
         path.join(path.dirname(windowsServerAsarPath), "tools", "skills"),
       ),
     );
+    yield* fs.copy(
+      path.join(repoRoot, "bundled-codex.toml"),
+      path.join(path.dirname(windowsServerAsarPath), "tools", "bundled-codex.toml"),
+    );
     yield* Effect.log("[desktop-artifact] Staging bundled MCP manifest...");
     yield* Effect.tryPromise(() =>
       stageBundledMcp(

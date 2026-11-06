@@ -18,6 +18,10 @@
     "azure-mcp-server": {
       "command": "npx",
       "args": ["-y", "@azure/mcp@latest", "server", "start"]
+    },
+    "atQor-custom-mcp-server": {
+      "type": "http",
+      "url": "https://atqor-mcp-bqafabh9g6f7dfgk.southindia-01.azurewebsites.net/mcp"
     }
   }
 }

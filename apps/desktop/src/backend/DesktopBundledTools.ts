@@ -140,7 +140,14 @@ export const prepare = Effect.fn("desktop.bundledTools.prepare")(function* () {
   }
 
   const encodedProfile = yield* encodeDocument(profile).pipe(Effect.orDie);
-  const revision = NodeCrypto.createHash("sha256").update(encodedProfile).digest("hex");
+  const bundledDefaultsPath = path.join(toolsDirectory, "bundled-codex.toml");
+  const bundledDefaults = (yield* fileSystem.exists(bundledDefaultsPath))
+    ? yield* fileSystem.readFileString(bundledDefaultsPath)
+    : "";
+  const revision = NodeCrypto.createHash("sha256")
+    .update(encodedProfile)
+    .update(bundledDefaults)
+    .digest("hex");
   const revisionPath = path.join(homePath, ".bundled-profile.sha256");
   const previousRevision = (yield* fileSystem.exists(revisionPath))
     ? (yield* fileSystem.readFileString(revisionPath)).trim()
@@ -153,9 +160,11 @@ export const prepare = Effect.fn("desktop.bundledTools.prepare")(function* () {
   const configPath = path.join(homePath, "config.toml");
   if (profileChanged || !(yield* fileSystem.exists(configPath))) {
     const temporaryConfig = `${configPath}.atqor-bootstrap.tmp`;
-    yield* fileSystem.writeFileString(temporaryConfig, renderBundledCodexConfig(profile), {
-      mode: 0o600,
-    });
+    yield* fileSystem.writeFileString(
+      temporaryConfig,
+      renderBundledCodexConfig(profile, bundledDefaults),
+      { mode: 0o600 },
+    );
     yield* fileSystem.rename(temporaryConfig, configPath);
   }
   const selection = { instanceId: "codex", model: profile.deployment };

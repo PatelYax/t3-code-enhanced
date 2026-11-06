@@ -61,7 +61,10 @@ export function parseBundledCodexProfile(value: unknown): BundledCodexProfile {
   };
 }
 
-export function renderBundledCodexConfig(profile: BundledCodexProfile): string {
+export function renderBundledCodexConfig(
+  profile: BundledCodexProfile,
+  bundledDefaults = "",
+): string {
   const azure = profile.provider !== "openai";
   const provider = azure ? "azure" : "openai_proxy";
   return [
@@ -78,6 +81,8 @@ export function renderBundledCodexConfig(profile: BundledCodexProfile): string {
     azure
       ? 'env_http_headers = { "api-key" = "AZURE_OPENAI_API_KEY" }'
       : 'env_key = "OPENAI_API_KEY"',
+    "",
+    bundledDefaults.replaceAll("\r\n", "\n").trimEnd(),
     "",
   ].join("\n");
 }
