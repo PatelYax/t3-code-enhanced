@@ -43,8 +43,10 @@ it is correct without inspecting the image with a supported remote-image tool.
 - `background`: auto or opaque; transparent only with confirmed deployment support.
 - `filename`: optional simple `.png` blob basename, never a local output path.
 
-Editing also requires `image_urls`: an ordered list of 1-16 URLs in the configured
-Blob account and container. Each image must be PNG, JPEG, or WebP smaller than 50 MiB.
+Editing requires 1-16 total inputs via `image_urls` and/or `image_uploads`.
+URL entries belong to the configured Blob account/container. Upload entries
+contain a filename and the actual base64 file bytes. All inputs must be PNG,
+JPEG, or WebP smaller than 50 MiB. URLs come first, then uploads, in list order.
 
 Do not pass model names, 4K dimensions, raw image bytes, masks, batch counts, output
 formats, or output directories. See [image-api.md](image-api.md) for the contract.
@@ -52,15 +54,18 @@ formats, or output directories. See [image-api.md](image-api.md) for the contrac
 ## References, edits, and transparency
 
 Use `edit_image` when the user supplies images to change, combine, or use as
-references. Supply 1-16 valid Blob URLs in order and name each role in the prompt:
+references. Supply 1-16 Blob URLs and/or direct file uploads, and name each role in the prompt:
 "Image 1: base scene; Image 2: subject; Image 3: style reference." State the exact
 change and invariants, such as "change only the background; preserve the face,
 pose, clothing, and composition." Preservation is prompt-guided, not guaranteed.
 
-The tool reads private inputs using storage credentials. If references are local
-attachments or external URLs, ask for URLs in the configured account/container
-or a separately authorized upload workflow. Do not claim to edit an image that
-was not supplied to the tool. Masks and input-fidelity controls are unavailable.
+For user attachments, forward actual file bytes through `image_uploads` using
+the client's supported upload mechanism; no preliminary Blob upload is needed.
+Do not print base64 or imply that the server can read a client filesystem path.
+If attachment bytes are unavailable, explain the client limitation. For prior
+tool results, use their Blob URLs; the server reads private blobs with its credentials.
+Do not claim to edit an image that was not supplied. Arbitrary external URL
+fetching, masks, and input-fidelity controls remain unavailable.
 
 Do not promise an alpha channel based on prompt wording. Confirm deployment
 support before using `background="transparent"`; otherwise discuss the limitation

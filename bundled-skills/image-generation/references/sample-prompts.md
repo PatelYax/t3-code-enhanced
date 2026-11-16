@@ -14,8 +14,9 @@ When adapting a user's prompt:
 
 The labeled lines are prompt scaffolding, not additional tool arguments.
 `Asset type` describes intent; it is not a dedicated parameter. For edits,
-provide `image_urls` separately: 1-16 ordered Blob URLs from the configured
-account/container, each a PNG, JPEG, or WebP smaller than 50 MiB.
+provide `image_urls` and/or `image_uploads` separately: 1-16 total inputs,
+each a PNG, JPEG, or WebP smaller than 50 MiB. URLs belong to the configured
+account/container; uploads contain filename and the actual base64 file bytes.
 
 Execution notes:
 
@@ -394,8 +395,10 @@ constraints and never issue extra paid calls merely to test tool wiring.
 
 ## Edit recipes
 
-Pass ordered input URLs separately in `image_urls`. The labels below describe
-those actual inputs; do not invent URLs or imply that local attachments are read.
+Pass actual input URLs in `image_urls` and/or client-uploaded file contents in
+`image_uploads`. The order is all URLs first, then all uploads. The labels below
+describe those actual inputs. Do not invent URLs or base64, print file bytes,
+or imply that a client path alone forwards an attachment to the server.
 
 ### Background replacement (one image)
 

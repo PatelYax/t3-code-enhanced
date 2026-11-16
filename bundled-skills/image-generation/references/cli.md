@@ -55,8 +55,11 @@ Do not read or print `.env` values or request credentials in chat. Ask the user
 to configure missing values privately. The container must already exist and
 credentials must permit blob existence checks and uploads, plus downloads for editing.
 
-Edits accept 1-16 PNG, JPEG, or WebP URLs from this configured account and
-container, each smaller than 50 MiB. The deployment must support image edits.
+Edits accept 1-16 PNG, JPEG, or WebP images total from `image_urls` and/or
+`image_uploads`, each smaller than 50 MiB. URL inputs must belong to the configured
+account/container. Direct file uploads contain filename and base64 bytes in MCP
+JSON; they need no input Blob upload. The client must forward attachment bytes,
+not a local path. The deployment must support image edits.
 
 The configuration tool checks values offline without contacting Azure. A
 successful check is not proof of network access, deployment support, storage

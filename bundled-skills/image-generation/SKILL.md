@@ -1,6 +1,6 @@
 ---
 name: "image-generation"
-description: "Use when asked to generate, create, edit, modify, combine, or restyle images, illustrations, photos, textures, sprites, mockups, website assets, or visual variants, or explicitly invoke $imagegen. Use the atQor MCP image_generation tools; edits accept 1-16 Blob image URLs per call. Both operations upload one PNG to Azure Blob Storage and return blob_url for Markdown image display in chat."
+description: "Use when asked to generate, create, edit, modify, combine, or restyle images, illustrations, photos, textures, sprites, mockups, website assets, or visual variants, including directly uploaded files or attachments, or explicitly invoke $imagegen. Use the atQor MCP image_generation tools; edits accept 1-16 total images as Blob URLs and/or base64 file uploads. Both operations upload one PNG to Azure Blob Storage and return blob_url for Markdown image display in chat."
 ---
 
 # Image Generation
@@ -11,7 +11,7 @@ Use the image-generation app in `atQor_mcp/image_generation`, mounted by `atQor_
 
 1. Discover the configured atQor MCP tools and inspect their actual schemas. The combined server exposes `image_generation_generate_image`, `image_generation_edit_image`, and `image_generation_check_configuration`. Runtime names may add a server prefix; match the operation rather than hardcoding a client-specific name. A directly connected child server exposes `generate_image`, `edit_image`, and `check_configuration` without the mount prefix.
 2. If configuration is uncertain, call the image app's configuration tool. It checks configuration offline and returns `configured`, `blob_container`, and `message`; it does not prove deployment or storage access.
-3. Use `generate_image` for new text-only images. Use `edit_image` for changes to existing images, image-based references, or combining images, supplying 1-16 input URLs in the intended order. Do not substitute generation for an edit without the user's agreement. Do not call `ai_search` for image operations or bypass MCP with the old CLI, a new SDK runner, or another provider.
+3. Use `generate_image` for new text-only images. Use `edit_image` for changes to existing images, image-based references, or combining images, supplying 1-16 total inputs through `image_urls` and/or `image_uploads`. Prefer direct file uploads for user attachments and Blob URLs for previous tool results. Do not substitute generation for an edit without the user's agreement. Do not call `ai_search` for image operations or bypass MCP with the old CLI, a new SDK runner, or another provider.
 4. If the tool is unavailable, explain that the atQor server must be connected. For server setup only, consult [references/cli.md](references/cli.md). This skill does not register an MCP server automatically.
 5. If generation or storage fails, report the safe tool error. Never automatically retry a timed-out generation or an upload failure: generation may already have incurred a charge. Do not ask for secrets in chat, read `.env`, print credentials, or change storage access policies.
 6. Use another tool, model, or provider only when the user explicitly chooses an alternative for unsupported capabilities.
@@ -34,11 +34,16 @@ Issue one call per requested asset or distinct variant. Do not generate extra pa
 
 ### Edit contract
 
-`edit_image` accepts the same `prompt`, `size`, `quality`, `background`, and `filename` options, plus required `image_urls`: an ordered list of **at least 1 and at most 16 URLs per call**. It returns the same Blob response fields as generation and produces one output image, not one output per input.
+`edit_image` accepts the same `prompt`, `size`, `quality`, `background`, and `filename` options, plus optional `image_urls` and `image_uploads`. Provide **at least 1 and at most 16 images total across both lists per call**. Omit an unused list rather than sending an empty list. It returns the same Blob response fields as generation and produces one output image, not one output per input.
 
-Inputs must be PNG, JPEG, or WebP images, each smaller than 50 MiB, at HTTPS Blob URLs in the configured storage account and container. Previously returned `blob_url` values can be used directly. The server reads inputs through its storage credentials; it ignores URL query credentials and does not require public access. It rejects arbitrary external URLs, other accounts or containers, local paths, and base64 strings. Do not invent an input URL or silently upload external user images; ask for usable URLs or a separately authorized upload workflow.
+Inputs must be PNG, JPEG, or WebP images, each smaller than 50 MiB. Choose either or both input types:
 
-Preserve input order and describe roles in the prompt, such as "Image 1 is the base scene; Image 2 is the subject to insert." State what should change and what must remain unchanged. For a follow-up edit, use the prior result URL as an input. If more than 16 references are supplied, ask the user to select the needed subset; do not silently discard inputs or split a single edit into extra paid calls.
+- `image_urls`: ordered HTTPS Blob URLs in the configured account/container. Previous `blob_url` values work directly. The server reads through its own credentials and ignores URL query credentials; public access is not required. Arbitrary external URLs and other accounts/containers remain unsupported.
+- `image_uploads`: ordered objects with `filename` and `data_base64`. Each object's base64 is the actual file bytes, without a data-URL prefix. The filename is metadata, not a server path. The server decodes inputs in memory and sends them directly to the edit API; it does not save or first upload the input files to Blob.
+
+MCP uses JSON rather than multipart file objects. Use the client's attachment/file-byte mechanism to encode the actual user-uploaded bytes and send them in `image_uploads`; do not print base64 in chat or terminal output. Do not invent file contents, pass a client path to the server, or claim an attachment was forwarded when only its name is available. If the runtime cannot obtain or forward attachment bytes, explain that client limitation and ask for a supported direct upload or an existing usable Blob URL. A separate pre-upload to Blob is not required for direct-upload inputs.
+
+The API input order is all `image_urls` first, then all `image_uploads`, preserving each list's order. Describe roles accordingly, such as "Image 1 is the base scene; Image 2 is the subject to insert." Use one input type when arbitrary interleaving would be needed. State what should change and what must remain unchanged. For a follow-up edit, use the prior result URL as an input. If more than 16 references are supplied, ask the user to select the needed subset; do not silently discard inputs or split a single edit into extra paid calls.
 
 ## Capability boundaries
 

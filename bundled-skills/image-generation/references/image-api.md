@@ -38,15 +38,27 @@ Example tool arguments:
 
 Discover `image_generation_edit_image` on the combined host, or `edit_image`
 on the child server. It accepts the same prompt and output options as generation,
-plus required `image_urls`: an ordered array with `minItems: 1` and `maxItems: 16`.
-Both the schema and tool runtime reject 0 or more than 16 inputs before I/O.
+plus optional `image_urls` and `image_uploads`. Each supplied list has `minItems: 1`
+and `maxItems: 16`; omit unused lists. Runtime checks enforce 1-16 total inputs
+across both lists before I/O, including rejection when neither is provided.
 
-Each input must be a PNG, JPEG, or WebP smaller than 50 MiB. Only HTTPS URLs in
-the configured storage account and container are accepted. The server downloads
-through its Blob credentials, ignores URL query credentials, bounds each read,
-and passes the files to Azure's edit API in input order. Other accounts,
-containers, arbitrary remote URLs, local paths, and base64 inputs are unsupported.
-Storage credentials need read permission as well as upload permission.
+Each input must be a PNG, JPEG, or WebP smaller than 50 MiB.
+
+`image_urls` entries must be HTTPS URLs in the configured account/container.
+The server downloads through its Blob credentials and ignores URL query
+credentials. Other accounts/containers and arbitrary remote URLs are unsupported.
+Storage credentials need read permission for URL inputs.
+
+`image_uploads` entries are objects containing exactly `filename` (1-255 characters)
+and `data_base64` (base64 file bytes without a data-URL prefix). Original filenames
+are metadata, never server paths. MIME type is inferred from the decoded file
+signature, not the filename. Encoded and decoded size limits are checked. Direct
+uploads are processed in memory without local files or a preliminary Blob upload.
+MCP carries JSON, so the client must encode actual attachment bytes into this
+field. No server filesystem path or multipart upload argument is exposed.
+
+Inputs reach Azure in URL-list order followed by upload-list order. One call
+still produces one output image. Never print file base64 in chat or logs.
 
 Example edit arguments; replace the illustrative URL with an actual input URL:
 
@@ -60,6 +72,23 @@ Example edit arguments; replace the illustrative URL with an actual input URL:
 }
 ```
 
+Example direct-upload arguments using an illustrative one-pixel PNG; replace
+the sample data with the actual file bytes supplied by the client:
+
+```json
+{
+  "prompt": "Change only the background of Image 1 to a sunset sky.",
+  "image_uploads": [
+    {
+      "filename": "photo.png",
+      "data_base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZ1sAAAAASUVORK5CYII="
+    }
+  ],
+  "quality": "medium"
+}
+```
+
+Both input lists can be present, provided their combined count is 1-16.
 For multiple inputs, name their roles by index in the prompt. One edit produces
 one output PNG, regardless of the number of inputs. It creates a new blob and
 never overwrites the source images. Edit support depends on the deployment.

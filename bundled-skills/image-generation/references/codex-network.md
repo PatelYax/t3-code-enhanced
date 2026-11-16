@@ -13,10 +13,15 @@ Success on one path does not prove that the others work. For example, the
 server may upload through private networking while the chat renderer cannot
 fetch the private blob.
 
-Editing reads 1-16 inputs through the configured Blob credentials. Inputs need
-not be public, but must be HTTPS URLs in the configured account and container,
-each smaller than 50 MiB. Arbitrary external image fetching is not supported.
-The offline configuration check cannot verify read permissions or edit support.
+Editing accepts 1-16 total inputs via `image_urls` and/or `image_uploads`.
+URL inputs are read through configured Blob credentials and must be HTTPS URLs
+in that account/container. Direct uploads carry filename and base64 bytes in
+the MCP request and are decoded in memory, without an input Blob upload.
+Every input must be smaller than 50 MiB. Base64 expands request size; client,
+proxy, or server message limits can be lower than the tool's per-file limit.
+Report transport-size errors without automatically retrying paid operations.
+Arbitrary external URL fetching is not supported. The offline configuration
+check cannot verify attachment forwarding, read permissions, or edit support.
 
 ## MCP unavailable
 
