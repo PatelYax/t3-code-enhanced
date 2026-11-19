@@ -68,7 +68,10 @@ const SnapShotIcon = createLucideIcon("snap-shot", [
       key: "capture-frame",
     },
   ],
-  ["rect", { width: "10", height: "8", x: "7", y: "8", rx: "2", key: "window" }],
+  [
+    "rect",
+    { width: "10", height: "8", x: "7", y: "8", rx: "2", key: "window" },
+  ],
   ["circle", { cx: "12", cy: "12", r: "1.5", key: "lens" }],
 ]);
 
@@ -145,12 +148,18 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
         to !== "/settings/archived" &&
         to !== "/settings/devices" &&
         to !== "/settings/labs" &&
+        to !== "/settings/worktrees" &&
+        to !== "/settings/maintenance" &&
+        to !== "/settings/keybindings" &&
+        to !== "/settings/projects" &&
         to !== "/settings/scheduled-tasks",
     ),
   })).filter((group) => group.paths.length > 0);
   const navPaths = navGroups.flatMap((group) => group.paths);
   const sectionNavigation = useSettingsSectionNavigation(
-    navPaths.find((to) => activePath === to || activePath.startsWith(`${to}/`)) ??
+    navPaths.find(
+      (to) => activePath === to || activePath.startsWith(`${to}/`),
+    ) ??
       navPaths[0] ??
       "",
   );
@@ -257,7 +266,9 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
     }
     if (event.key === "ArrowUp") {
       event.preventDefault();
-      setActiveResultIndex((activeResultIndex - 1 + results.length) % results.length);
+      setActiveResultIndex(
+        (activeResultIndex - 1 + results.length) % results.length,
+      );
       return;
     }
     if (event.key === "Enter") {
@@ -307,7 +318,11 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
                 role="combobox"
                 aria-autocomplete="list"
                 aria-expanded={isSearching && hasResults}
-                aria-controls={isSearching && hasResults ? "settings-search-results" : undefined}
+                aria-controls={
+                  isSearching && hasResults
+                    ? "settings-search-results"
+                    : undefined
+                }
                 aria-activedescendant={
                   isSearching && results[activeResultIndex]
                     ? `settings-search-result-${results[activeResultIndex].id}`
@@ -351,7 +366,11 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
                   <SidebarMenuItem
                     key={item.id}
                     role="presentation"
-                    ref={index === activeResultIndex ? scrollResultIntoView : undefined}
+                    ref={
+                      index === activeResultIndex
+                        ? scrollResultIntoView
+                        : undefined
+                    }
                   >
                     <SidebarMenuButton
                       id={`settings-search-result-${item.id}`}
@@ -419,7 +438,9 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
                       <SidebarMenu role="presentation">
                         {group.paths.map((to) => {
                           const Icon = SETTINGS_SECTION_ICONS[to];
-                          const isActive = activePath === to || activePath.startsWith(`${to}/`);
+                          const isActive =
+                            activePath === to ||
+                            activePath.startsWith(`${to}/`);
                           return (
                             <SidebarMenuItem key={to} role="presentation">
                               <SidebarMenuButton
@@ -433,7 +454,10 @@ export function SettingsSidebarNav({ pathname }: { pathname: string }) {
                               >
                                 <Icon />
                                 <span
-                                  className={cn("truncate", !compactSearchOpen && "max-md:sr-only")}
+                                  className={cn(
+                                    "truncate",
+                                    !compactSearchOpen && "max-md:sr-only",
+                                  )}
                                 >
                                   {SETTINGS_SECTION_LABELS[to]}
                                 </span>

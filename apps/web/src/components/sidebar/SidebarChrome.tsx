@@ -1,4 +1,9 @@
-import { ArrowLeftIcon, ArrowRightIcon, ChartNoAxesColumnIcon, SettingsIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ChartNoAxesColumnIcon,
+  SettingsIcon,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import { memo } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
@@ -34,7 +39,10 @@ import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
 import { isSidebarUtilityPage, useNavigateToMainApp } from "./mainAppLocation";
 import { SidebarThreadUndoNotice } from "./SidebarThreadUndoNotice";
 import { SidebarProviderUpdatePill } from "./SidebarProviderUpdatePill";
-import { SidebarUpdateArchitectureWarning, SidebarUpdatePill } from "./SidebarUpdatePill";
+import {
+  SidebarUpdateArchitectureWarning,
+  SidebarUpdatePill,
+} from "./SidebarUpdatePill";
 import { observeResize } from "~/lib/observeResize";
 
 export const SidebarChromeHeader = memo(function SidebarChromeHeader({
@@ -60,7 +68,9 @@ export const SidebarChromeHeader = memo(function SidebarChromeHeader({
         isElectron && "drag-region",
       )}
     >
-      {backdropVariant ? <SidebarStageBackdrop variant={backdropVariant} /> : null}
+      {backdropVariant ? (
+        <SidebarStageBackdrop variant={backdropVariant} />
+      ) : null}
       <div className="relative top-[calc(var(--workspace-controls-top)-env(safe-area-inset-top))] z-10 ml-[calc(var(--workspace-controls-left)+1px-env(safe-area-inset-left))] flex shrink-0 items-center md:hidden">
         <SidebarTrigger
           variant={backdropVariant ? "media-navigation" : "ghost"}
@@ -68,21 +78,31 @@ export const SidebarChromeHeader = memo(function SidebarChromeHeader({
           aria-label="Toggle main sidebar"
         />
       </div>
-      <div className="relative z-10 flex h-8 min-w-0 flex-1 flex-wrap content-start items-center gap-x-2 overflow-hidden py-0.5">
-        <div className="flex shrink-0 items-center gap-1">
+      <div className="relative z-10 flex h-8 min-w-0 flex-1 items-center justify-center overflow-hidden">
+        <div className="flex h-8 shrink-0 items-center justify-center gap-2">
           <SidebarBrand onBackdrop={backdropVariant !== null} />
-          {isElectron ? (
-            <div className="hidden items-center md:flex">
-              <HistoryNavigationButton direction="back" onBackdrop={backdropVariant !== null} />
-              <HistoryNavigationButton direction="forward" onBackdrop={backdropVariant !== null} />
+          {pillLabel ? (
+            <div className="flex h-7 shrink-0 items-center">
+              <Badge
+                data-environment-identification="pill"
+                size="sm"
+                variant="secondary"
+              >
+                {pillLabel}
+              </Badge>
             </div>
           ) : null}
         </div>
-        {pillLabel ? (
-          <div className="ml-1 flex h-7 items-center">
-            <Badge data-environment-identification="pill" size="sm" variant="secondary">
-              {pillLabel}
-            </Badge>
+        {isElectron ? (
+          <div className="absolute right-0 hidden h-8 items-center md:flex">
+            <HistoryNavigationButton
+              direction="back"
+              onBackdrop={backdropVariant !== null}
+            />
+            <HistoryNavigationButton
+              direction="forward"
+              onBackdrop={backdropVariant !== null}
+            />
           </div>
         ) : null}
       </div>
@@ -99,7 +119,8 @@ export function SidebarBrandWidthProbe({
 }) {
   const observeWidth = (probe: HTMLDivElement) => {
     return observeResize(probe, ([entry]) => {
-      if (entry) onWidthChange(entry.borderBoxSize[0]?.inlineSize ?? probe.offsetWidth);
+      if (entry)
+        onWidthChange(entry.borderBoxSize[0]?.inlineSize ?? probe.offsetWidth);
     });
   };
 
@@ -109,9 +130,11 @@ export function SidebarBrandWidthProbe({
       className="pointer-events-none invisible fixed top-0 left-0 flex w-max border-r border-transparent pr-3"
       ref={observeWidth}
     >
-      <div className="ml-[var(--workspace-titlebar-content-left)] flex gap-1">
+      <div className="ml-[var(--workspace-titlebar-content-left)] flex h-8 items-center gap-2">
         <SidebarBrandMark onBackdrop={false} />
-        {isElectron ? <div className="w-[calc(2*var(--workspace-titlebar-control-size))]" /> : null}
+        {isElectron ? (
+          <div className="w-[calc(2*var(--workspace-titlebar-control-size))]" />
+        ) : null}
       </div>
     </div>
   );
@@ -164,7 +187,7 @@ function SidebarBrand({ onBackdrop }: { onBackdrop: boolean }) {
     <Link
       aria-label="atQor AI Hub home"
       className={cn(
-        "relative z-10 ml-[var(--workspace-titlebar-content-left)] hidden h-11 w-fit min-w-0 shrink-0 items-center overflow-hidden rounded-md outline-hidden ring-ring focus-visible:ring-2 focus-visible:ring-inset md:flex",
+        "relative z-10 hidden h-8 w-fit min-w-0 shrink-0 items-center overflow-hidden rounded-md outline-hidden ring-ring focus-visible:ring-2 focus-visible:ring-inset md:flex",
         onBackdrop ? "text-white" : "text-foreground",
       )}
       to="/"
@@ -178,14 +201,14 @@ function SidebarBrandMark({ onBackdrop }: { onBackdrop: boolean }) {
   return (
     <span className="inline-flex min-w-0 flex-col items-center gap-0.5 text-sm font-medium tracking-tight">
       <AI_HUBWordmark aria-label="atQor" className="h-5 w-auto shrink-0" />
-      <span
+      {/* <span
         className={cn(
           "truncate [text-box:trim-both_cap_alphabetic] supports-[text-box:trim-both_cap_alphabetic]:py-1",
           onBackdrop ? "text-white/70" : "text-muted-foreground",
         )}
       >
         AI Hub
-      </span>
+      </span> */}
     </span>
   );
 }

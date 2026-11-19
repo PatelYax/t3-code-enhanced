@@ -429,14 +429,56 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 96px;
-        height: 96px;
+        min-width: 220px;
+        height: 64px;
       }
 
       #boot-shell-logo {
-        width: 64px;
-        height: 64px;
-        object-fit: contain;
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        color: inherit;
+        -webkit-text-fill-color: color-mix(in srgb, currentColor 28%, transparent);
+        font-size: clamp(24px, 5vw, 32px);
+        font-weight: 650;
+        letter-spacing: -0.04em;
+        line-height: 1.25;
+        white-space: nowrap;
+      }
+
+      #boot-shell-logo::after {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            90deg,
+            transparent 32%,
+            currentColor 50%,
+            transparent 68%
+          )
+          150% 0 / 200% 100%;
+        color: inherit;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        content: attr(data-text);
+        animation: boot-shell-shimmer 1.5s ease-in-out infinite;
+      }
+
+      @keyframes boot-shell-shimmer {
+        to {
+          background-position: -150% 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #boot-shell-logo {
+          -webkit-text-fill-color: color-mix(in srgb, currentColor 55%, transparent);
+        }
+
+        #boot-shell-logo::after {
+          display: none;
+        }
       }
 
       /* App CSS locks body and #root scrolling once main loads, so the error screen scrolls itself. */
@@ -673,8 +715,14 @@
   <body>
     <div id="root">
       <div id="boot-shell">
-        <div id="boot-shell-card" aria-label="atQor AI Hub splash screen">
-          <img id="boot-shell-logo" src="/apple-touch-icon.png" alt="atQor AI Hub" />
+        <div
+          id="boot-shell-card"
+          role="status"
+          aria-label="Loading atQor AI Hub"
+        >
+          <span id="boot-shell-logo" data-text="atQor AI Hub" aria-hidden="true"
+            >atQor AI Hub</span
+          >
         </div>
       </div>
     </div>
