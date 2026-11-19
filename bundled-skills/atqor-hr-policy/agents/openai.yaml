@@ -1,0 +1,6 @@
+interface:
+  display_name: "atQor HR Policy"
+  short_description: "Answer atQor employee policy and workplace procedure questions using the atQor Custom MCP"
+
+policy:
+  allow_implicit_invocation: true

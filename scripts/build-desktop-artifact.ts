@@ -3915,8 +3915,7 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
     ...(macWebAuthn ? { t3codeWebAuthn: macWebAuthn } : {}),
     private: true,
     packageManager: rootPackageJson.packageManager,
-    description:
-      "atQor AI Hub is an open-source desktop app for coding agents. Work with your existing agent subscriptions, review code changes, and run commands in your projects. Connect from desktop, web, or mobile to continue working remotely.",
+    description: "atQor AI Hub is a desktop app for coding agents.",
     license: "MIT",
     homepage: "https://github.com/PatelYax/t3-code-enhanced",
     author: "atQor AI Hub",
