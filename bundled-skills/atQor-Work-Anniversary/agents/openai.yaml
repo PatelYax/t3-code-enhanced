@@ -1,0 +1,4 @@
+interface:
+  display_name: "atQor Work Anniversary"
+  short_description: "Create anniversary cards from the atQor reference"
+  default_prompt: "Use $atQor-Work-Anniversary to create a work anniversary card with the supplied name, service years, and photo."

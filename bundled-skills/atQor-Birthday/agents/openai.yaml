@@ -1,0 +1,4 @@
+interface:
+  display_name: "atQor Birthday"
+  short_description: "Create birthday cards with enhanced employee photos"
+  default_prompt: "Use $atQor-Birthday to create a birthday card with the supplied employee name and photo, enhancing the photo if needed."

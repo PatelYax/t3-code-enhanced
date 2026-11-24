@@ -1,0 +1,7 @@
+{
+  "name": "Employee Name",
+  "years": 4,
+  "photo": "employee.jpg",
+  "photo_focus": [0.5, 0.4],
+  "photo_zoom": 1
+}
